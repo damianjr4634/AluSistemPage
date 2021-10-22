@@ -1,5 +1,0 @@
-﻿<StaticWebAssets Version="1.0">
-  <ContentRoot BasePath="_content/Blazored.Toast" Path="/home/damian/.nuget/packages/blazored.toast/3.1.2/build/../staticwebassets/" />
-  <ContentRoot BasePath="_content/Radzen.Blazor" Path="/home/damian/.nuget/packages/radzen.blazor/3.11.9/build/../staticwebassets/" />
-  <ContentRoot BasePath="/" Path="/home/damian/Proyectos/EsbaBlazorApp/obj/Debug/net5.0/scopedcss/bundle/" />
-</StaticWebAssets>
