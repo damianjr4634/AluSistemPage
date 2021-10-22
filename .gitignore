@@ -1,4 +1,4 @@
-bin/
-obj/
-.vs/
-*.db
+EsbaBlazorApp/bin/
+EsbaBlazorApp/obj/
+EsbaBlazorApp/.vs/
+EsbaBlazorApp/*.db
