@@ -1,19 +1,60 @@
 ﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">ESBA</a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
     </button>
 </div>
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <div>
+        <img class="sidebar-img" style="width: 100%;height: 6rem;" src="/img/esbalogo.webp" />
+    </div>
     <ul class="nav flex-column">
         @foreach (MenuOption item in MenuOptions)
         {
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="@item.Href" Match="NavLinkMatch.All">
-                    <i class="@item.Icon m-2"></i> @item.Name
-                </NavLink>
-            </li>
+            @if(item.SubMenus == null) {
+                <li class="nav-item px-2">
+                    <NavLink class="nav-link" href="@item.Href" Match="NavLinkMatch.All">
+                       @if (item.Icon != "")
+                        {
+                            <span class="@item.Icon m-2" aria-hidden="true" />
+                        } 
+                        @item.Name
+                    </NavLink>
+                </li>
+            }
+            else {
+                <li class="nav-item px-2">
+                    <NavLink class="nav-link"
+                        @onclick="@(() => { item.Expanded = !item.Expanded; } )">
+                        @if (item.Expanded) {
+                            <span class="fas fa-angle-down m-2" aria-hidden="true" /> 
+                        }
+                        else {
+                            <span class="fas fa-angle-right m-2" aria-hidden="true" />
+                        }                                                  
+                        @item.Name                                          
+                    </NavLink>
+                </li>    
+                @if (item.Expanded)
+                {
+                    @if (item.SubMenus != null) {
+                        
+                            @foreach (var option in item.SubMenus)
+                            {
+                                <li class="nav-item px-4 ml-3">
+                                <NavLink class="nav-link" href="@option.Href" Match="NavLinkMatch.All">
+                                    @if (option.Icon != "")
+                                    {
+                                        <span class="@option.Icon m-2" aria-hidden="true" />
+                                    }
+                                    @option.Name
+                                </NavLink>
+                                </li>
+                            }
+                        
+                    }
+                }
+            }
         }
         @* <li class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
@@ -41,7 +82,7 @@
         public bool Expanded { get; set; } = false;
         public string Href { get; set; } = default!;
         public string Icon { get; set; } = default!;
-        public List<SubMenuOption> SubMenus { get; set; } = new List<SubMenuOption>();
+        public List<SubMenuOption>? SubMenus { get; set; }
     }
     private class SubMenuOption
     {
@@ -62,35 +103,56 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        MenuOptions.Add(new MenuOption()
+        MenuOption menuopt;
+        List<SubMenuOption> sub_menu = new List<SubMenuOption>();
+
+        menuopt = new MenuOption()
         {
             Name = "Home",
             Expanded = false,
             Href = "",
             Icon = "fas fa-home"
-        });
-        MenuOptions.Add(new MenuOption()
+        };
+
+        MenuOptions.Add(menuopt);
+        menuopt =  new MenuOption()
         {
             Name = "Counter",
             Expanded = false,
             Href = "counter",
             Icon = "fas fa-globe"
-        });
+        };
+        MenuOptions.Add(menuopt);
 
+        menuopt =  new MenuOption()
+        {
+            Name = "Submenu",
+            Expanded = false,
+            Href = "",
+            Icon = "fas fa-globe",            
+        };
+
+        sub_menu = new List<SubMenuOption>();
+        sub_menu.Add(new SubMenuOption() {Name="Opcion1", Icon="fas fa-globe", Href = "#"});
+        sub_menu.Add(new SubMenuOption() {Name="Opcion2", Icon="fas fa-globe", Href = "#"});
+        sub_menu.Add(new SubMenuOption() {Name="Opcion3", Icon="fas fa-globe", Href = "#"});
         MenuOptions.Add(new MenuOption()
         {
             Name = "Submenu",
             Expanded = false,
             Href = "",
             Icon = "fas fa-globe",
-            SubMenus.Add(new SubMenuOption()
-            {
-                Name = "pepe",
-                Icon = "fas fa-globe"
-            })
+            SubMenus = sub_menu
         });
 
-
+        sub_menu = new List<SubMenuOption>();
+        menuopt =  new MenuOption()
+        {
+            Name = "Menu 3",
+            Expanded = false,
+            Href = "",
+            Icon = "fas fa-globe",            
+        };    
     }
 
 }

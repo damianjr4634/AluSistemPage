@@ -25,7 +25,7 @@ namespace EsbaBlazorApp.Data
         {            
         }
         
-        public DbSet<CarreraGrupos> CarreraGrupos { get; set; }
+        public DbSet<CarreraGrupos> CarreraGrupos => Set<CarreraGrupos>();
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
