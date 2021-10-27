@@ -94,13 +94,14 @@
     private List<MenuOption> MenuOptions = new List<MenuOption>();
     private bool collapseNavMenu = true;
 
+   #nullable disable
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
     }
-
+    #nullable enable
     protected override async Task OnParametersSetAsync()
     {
         MenuOption menuopt;
@@ -108,7 +109,7 @@
 
         menuopt = new MenuOption()
         {
-            Name = "Home",
+            Name = "Inicio",
             Expanded = false,
             Href = "",
             Icon = "fas fa-home"
@@ -117,9 +118,9 @@
         MenuOptions.Add(menuopt);
         menuopt =  new MenuOption()
         {
-            Name = "Counter",
+            Name = "Materias",
             Expanded = false,
-            Href = "counter",
+            Href = "/alumno/materias/ASC/DNI27222630",
             Icon = "fas fa-globe"
         };
         MenuOptions.Add(menuopt);

@@ -19,11 +19,12 @@ namespace EsbaBlazorApp.Pages
 
         private readonly ILogger<ErrorModel> _logger;
 
+        #nullable disable
         public ErrorModel(ILogger<ErrorModel> logger)
         {
             _logger = logger;
         }
-
+        #nullable enable
         public void OnGet()
         {
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
