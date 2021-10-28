@@ -7,17 +7,30 @@
 <RadzenDataGrid @ref="materiasGrid" Data="@_materiasCursadas" TItem="MateriaCursadaDto" AllowColumnResize="true"
                 CellRender="@CellRender">
     <Columns>   
-        <RadzenDataGridColumn Width="55px" TItem="MateriaCursadaDto" Property="cuatrim" Title="Cuat" TextAlign="TextAlign.Center" />                    
-        <RadzenDataGridColumn Width="55px" TItem="MateriaCursadaDto" Property="anual" Title="Anual" TextAlign="TextAlign.Center" />  
+        <RadzenDataGridColumn Width="50px" TItem="MateriaCursadaDto" Property="cuatrim" Title="Cuat" TextAlign="TextAlign.Center" />                    
+        <RadzenDataGridColumn Width="50px" TItem="MateriaCursadaDto" Property="anual" Title="Anual" TextAlign="TextAlign.Center" />
+        <RadzenDataGridColumn Width="120px" TItem="MateriaCursadaDto" Property="permiso" Title="Permiso">
+            <Template Context="data">             
+                @if (data.permiso)  {
+                  <RadzenButton ButtonStyle="ButtonStyle.Info" Click=@(() => PedirPermiso(data.codmat)) Text="Permiso" />
+                }
+            </Template>
+        </RadzenDataGridColumn>       
         <RadzenDataGridColumn Width="360px" TItem="MateriaCursadaDto" Property="descripci" Title="Materia" />          
         <RadzenDataGridColumn Width="125px" TItem="MateriaCursadaDto" Property="condicion" Title="Estado" >  
             <Template Context="data">               
-                <span style="color:#@data.fontcolor.ToString("X").PadRight(6,'0');">@data.condicion</span>                
+                <span style="color:@data.htmlfontcolor;">@data.condicion</span>                
             </Template>
         </RadzenDataGridColumn>
         <RadzenDataGridColumn Width="90px" TItem="MateriaCursadaDto" Property="cuaanio" Title="Cuatri/Año"  />  
         <RadzenDataGridColumn Width="90px" TItem="MateriaCursadaDto" Property="nota" Title="Nota" TextAlign="TextAlign.Right" FormatString="{0:N}"/>  
-        <RadzenDataGridColumn Width="120px" TItem="MateriaCursadaDto" Property="fecha" Title="Fecha" FormatString="{0:d}" />            
+        <RadzenDataGridColumn Width="120px" TItem="MateriaCursadaDto" Property="fecha" Title="Fecha">
+            <Template Context="data">             
+                @if (data.fecha != null)  {
+                  @data.fecha.Value.ToString("dd/MM/yyyy")
+                }
+            </Template>
+        </RadzenDataGridColumn>            
     </Columns>
 </RadzenDataGrid>
 

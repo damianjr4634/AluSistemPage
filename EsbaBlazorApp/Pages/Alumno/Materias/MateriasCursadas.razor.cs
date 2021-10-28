@@ -33,12 +33,13 @@ namespace EsbaBlazorApp.Pages.Alumno.Materias
             public string cuaanio { set; get; } = "";
             public double nota { set; get; }
             [DataType(DataType.Date)]
-            public DateTime fecha { set; get; }
+            public DateTime? fecha { set; get; }
             public string anual { set; get; } = "";
             public int cutuco { set; get; }
-            public int color { set; get; }
-            public int fontcolor { set; get; }
+            public string htmlcolor { set; get; } = "white";
+            public string htmlfontcolor { set; get; } = "black";
             public string vencim { set; get; } = "";
+            public bool permiso { set; get;}
         }
 
         protected async override Task OnInitializedAsync()
@@ -48,13 +49,15 @@ namespace EsbaBlazorApp.Pages.Alumno.Materias
                 using (var dbContext = new ApplicationDbContext())
                 {
                     _materiasCursadas = await dbContext.QueryAsync<MateriaCursadaDto>(@$"select cuatrim, codmat, descripci, condicion, cuaanio, 
-                                                                                        nota, fecha, anual, cutuco, vencim, color, fontcolor
+                                                                                        nota, fecha, anual, cutuco, vencim, htmlcolor, htmlfontcolor,
+                                                                                        permiso
                                                                                 from xxx_constancia_terciaria(@codalu,@carrera)",
                                                                                 new
                                                                                 {
                                                                                     codalu = AlumnoId,
                                                                                     carrera = CarreraId
                                                                                 });
+                    
                 }
             }
             catch (Exception err)
@@ -75,26 +78,13 @@ namespace EsbaBlazorApp.Pages.Alumno.Materias
             if (args.Column.Property == "condicion")
             {
                 
-                args.Attributes.Add("style", $"background-color: #{(args.Data.color.ToString("X").PadRight(6,'0'))}; color: #{(args.Data.fontcolor.ToString("X").PadRight(6,'0'))};");
-                /*    
-                if (args.Data.condicion == "FINAL")
-                {
-                    args.Attributes.Add("style", $"background-color: #{(args.Data.color.ToString("X"))}; color: #{(args.Data.fontcolor.ToString("X"))};");
-                }
-                else if (args.Data.condicion == "ADEUDA")
-                {
-                    args.Attributes.Add("style", $"background-color: #{(args.Data.color.ToString("X"))}; color: #{(args.Data.fontcolor.ToString("X"))};");
-                }
-                else if (args.Data.condicion == "CURSANDO")
-                {
-                    args.Attributes.Add("style", $"background-color: #{(args.Data.color.ToString("X"))}; color: #{(args.Data.fontcolor.ToString("X"))};");
-                }
-                else
-                {
-                    args.Attributes.Add("style", $"background-color: white; color: black;");
-                }*/
+                args.Attributes.Add("style", $"background-color: {(args.Data.htmlcolor)};");            
             }
 
+        }
+
+        void PedirPermiso(string aCodMat){
+            
         }
     }
 }
