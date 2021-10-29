@@ -5,18 +5,28 @@
 <h1>Materias</h1>
 
 <RadzenDataGrid @ref="materiasGrid" Data="@_materiasCursadas" TItem="MateriaCursadaDto" AllowColumnResize="true"
-                CellRender="@CellRender">
+                CellRender="@CellRender" Width="600px">
     <Columns>   
-        <RadzenDataGridColumn Width="50px" TItem="MateriaCursadaDto" Property="cuatrim" Title="Cuat" TextAlign="TextAlign.Center" />                    
-        <RadzenDataGridColumn Width="50px" TItem="MateriaCursadaDto" Property="anual" Title="Anual" TextAlign="TextAlign.Center" />
-        <RadzenDataGridColumn Width="120px" TItem="MateriaCursadaDto" Property="permiso" Title="Permiso">
+        <RadzenDataGridColumn Width="50px" TItem="MateriaCursadaDto" Property="cuatrim" Title="Cuat" TextAlign="TextAlign.Center" />                            
+        <RadzenDataGridColumn Width="90px" TItem="MateriaCursadaDto" Property="inscripcion" Title="Inscripcion" TextAlign="TextAlign.Center">
+            <Template Context="data">             
+                @if (data.inscripcion)  {
+                  <RadzenButton ButtonStyle="ButtonStyle.Secondary" Click=@(() => navigationManager.NavigateTo(@$"/alumno/materias/inscripcion/{CarreraId}/{AlumnoId}/{data.codmat}") )>
+                      <span style="color:white;font-size:18px"><i class="fas fa-clipboard-check"></i></span>
+                  </RadzenButton> 
+                }
+            </Template>
+        </RadzenDataGridColumn>      
+        <RadzenDataGridColumn Width="95px" TItem="MateriaCursadaDto" Property="permiso" Title="Permiso" TextAlign="TextAlign.Center">
             <Template Context="data">             
                 @if (data.permiso)  {
-                  <RadzenButton ButtonStyle="ButtonStyle.Info" Click=@(() => PedirPermiso(data.codmat)) Text="Permiso" />
+                  <RadzenButton ButtonStyle="ButtonStyle.Secondary" Click=@(() => navigationManager.NavigateTo(@$"/alumno/materias/inscripcionexamen/{CarreraId}/{AlumnoId}/{data.codmat}") )>
+                       <span style="color:white;font-size:18px"><i class="fas fa-book-open"></i></span>
+                  </RadzenButton>
                 }
             </Template>
         </RadzenDataGridColumn>       
-        <RadzenDataGridColumn Width="360px" TItem="MateriaCursadaDto" Property="descripci" Title="Materia" />          
+        <RadzenDataGridColumn TItem="MateriaCursadaDto" Property="descripci" Title="Materia" />          
         <RadzenDataGridColumn Width="125px" TItem="MateriaCursadaDto" Property="condicion" Title="Estado" >  
             <Template Context="data">               
                 <span style="color:@data.htmlfontcolor;">@data.condicion</span>                

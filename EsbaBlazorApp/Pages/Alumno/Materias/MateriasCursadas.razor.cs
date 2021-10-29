@@ -40,6 +40,7 @@ namespace EsbaBlazorApp.Pages.Alumno.Materias
             public string htmlfontcolor { set; get; } = "black";
             public string vencim { set; get; } = "";
             public bool permiso { set; get;}
+            public bool inscripcion { set; get; }
         }
 
         protected async override Task OnInitializedAsync()
@@ -50,7 +51,7 @@ namespace EsbaBlazorApp.Pages.Alumno.Materias
                 {
                     _materiasCursadas = await dbContext.QueryAsync<MateriaCursadaDto>(@$"select cuatrim, codmat, descripci, condicion, cuaanio, 
                                                                                         nota, fecha, anual, cutuco, vencim, htmlcolor, htmlfontcolor,
-                                                                                        permiso
+                                                                                        permiso, inscripcion
                                                                                 from xxx_constancia_terciaria(@codalu,@carrera)",
                                                                                 new
                                                                                 {
