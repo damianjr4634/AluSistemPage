@@ -29,9 +29,9 @@ namespace EsbaBlazorApp
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            
-            ApplicationDbContext.LoadConfig(Configuration);
-            services.AddDbContext<ApplicationDbContext>(ServiceLifetime.Transient);
+
+            /*ApplicationDbContext.LoadConfig(Configuration);
+            services.AddDbContext<ApplicationDbContext>(ServiceLifetime.Transient);*/
             services.AddBlazoredToast();
         }
 
@@ -48,7 +48,7 @@ namespace EsbaBlazorApp
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
