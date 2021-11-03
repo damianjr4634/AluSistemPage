@@ -10,28 +10,26 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Dapper;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 
 namespace EsbaBlazorApp.Data
 {
-    class ApplicationDbContext : IdentityDbContext<IdentityUser>
+    class ApplicationDbContext : DbContext
     {
         private static string _connectionString = "";
-
+        
         public static void LoadConfig(IConfiguration configuration)
         {
             _connectionString = configuration.GetValue<string>("Database:FbConnection");
-
+            
         }
 
         static readonly ILoggerFactory MyLoggerFactory = LoggerFactory.Create(builder => { builder.AddConsole(); });
 
 
         public ApplicationDbContext()
-        {
+        {            
         }
-
+        
         public async Task<List<T>> QueryAsync<T>(string sql, object? param = null) where T : class
         {
             var query = await Database.GetDbConnection().QueryAsync<T>(sql, param);
@@ -66,21 +64,21 @@ namespace EsbaBlazorApp.Data
         {
             return await Database.GetDbConnection().QuerySingleOrDefaultAsync<T>(sql, param);
         }
-
+        
         public DbSet<CarreraGrupos> CarreraGrupos => Set<CarreraGrupos>();
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
 
-            optionsBuilder
+            optionsBuilder                
                 .UseLoggerFactory(MyLoggerFactory)
                 .UseFirebird(_connectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+
         }
     }
     /*class MyContext : DbContext
@@ -93,7 +91,7 @@ namespace EsbaBlazorApp.Data
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-
+            
         }
     }*/
 }
