@@ -9,6 +9,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using EsbaBlazorAppIdentity.Data;
+using Microsoft.AspNetCore.Components.Authorization;
+using EsbaBlazorAppIdentity.Areas.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
 
 namespace EsbaBlazorAppIdentity
 {
@@ -27,7 +32,10 @@ namespace EsbaBlazorAppIdentity
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
+            
+            services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
+        
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
