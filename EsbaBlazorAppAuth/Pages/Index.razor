@@ -1,7 +1,44 @@
 @page "/"
 
-<h1>Hello, world!</h1>
+@using System.ComponentModel.DataAnnotations.Schema
 
-Welcome to your new app.
+@inherits _BasePage
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+@if(_alumno != null && _alumno.Apellido != null && _alumno.Nombre != null)
+{
+    <h1>@_alumno.Apellido, @_alumno.Nombre</h1>
+}
+else
+{
+    <h1>Sin Nombre</h1>
+}
+
+@code 
+{
+    private AlumnoDto _alumno = new AlumnoDto();
+    private class AlumnoDto
+    {
+        [Column("APELLIDO")]
+        public string Apellido {get; set;} = default!;
+        [Column("NOM_APE")]
+        public string Nombre {get; set;} = default!;
+    }
+    protected async override Task OnParametersSetAsync()
+    {
+        try
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                _alumno = await dbContext.QuerySingleOrDefaultAsync<AlumnoDto>("select apellido, nom_ape from alumnos where indice=@indice",
+                    new {
+                        indice = appSession.UserCode
+                    });
+            }
+        }
+        catch (Exception err)
+        {
+
+        
+        }
+    }
+}

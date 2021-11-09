@@ -16,6 +16,7 @@ using Microsoft.Extensions.Hosting;
 using EsbaBlazorAppAuth.Areas.Identity;
 using EsbaBlazorAppAuth.Data;
 using Blazored.Toast;
+using EsbaBlazorAppAuth.Services;
 
 namespace EsbaBlazorAppAuth
 {
@@ -43,6 +44,7 @@ namespace EsbaBlazorAppAuth
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
+            services.AddScoped<AppSession>();
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddBlazoredToast();           
         }

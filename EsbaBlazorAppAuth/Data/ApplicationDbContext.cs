@@ -79,6 +79,13 @@ namespace EsbaBlazorAppAuth.Data
             return await Database.GetDbConnection().QuerySingleOrDefaultAsync<T>(sql, param);
         }
         
+        public async Task<int> QuerySingleOrDefaultAsync(string sql, object? param = null)
+        {
+            return await Database.GetDbConnection().QuerySingleOrDefaultAsync<int>(sql, param);
+        }
+
+        
+        
         public DbSet<CarreraGrupos> CarreraGrupos => Set<CarreraGrupos>();
         
     }
