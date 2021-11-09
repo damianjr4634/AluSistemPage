@@ -26,7 +26,7 @@ namespace EsbaBlazorAppAuth.Services
         private readonly IHttpContextAccessor _contextAccessor;
         private bool _loaded;
         private string _userId = "";
-        public List<string> _carreras;
+        private List<string> _carreras;
         private int _userCode;
         private bool _userIsAdmin;
         private string _userEmail = "";
@@ -51,7 +51,7 @@ namespace EsbaBlazorAppAuth.Services
         }
 
         // properties
-        // **********************************************************************************************  
+        // **********************************************************************************************
         public bool Loaded => _loaded;
         public string UserId => _userId;
         public List<string> Carreras => _carreras;
@@ -77,26 +77,36 @@ namespace EsbaBlazorAppAuth.Services
                     _emailConfirmed = appUser.EmailConfirmed;
                     _userName = appUser.UserName;
 
-                    using (var dbContext = new ApplicationDbContext())
-                    {
-                        _userCode = await dbContext.QuerySingleOrDefaultAsync("select indice from alumnos a where a.mail=@mail and baja=@baja",
-                                                                                new
-                                                                                {
-                                                                                    mail = _userEmail,
-                                                                                    baja = "N"
-                                                                                });
-                        _carreras = await dbContext.QueryAsync<string>("select carre from alumnos a where a.mail=@mail and baja=@baja",
-                                                                                new
-                                                                                {
-                                                                                    mail = _userEmail,
-                                                                                    baja = "N"
-                                                                                });                                                                                                                                  
-                    }
-
                 }
 
                 _loaded = true;
             }
+        }
+
+        public async Task LoadInformationUser()
+        {
+            using (var dbContext = await DbContextCreate())
+            {
+                _userCode = await dbContext.QuerySingleOrDefaultAsync("select indice from alumnos a where a.mail=@mail and baja=@baja",
+                                                                        new
+                                                                        {
+                                                                            mail = _userEmail,
+                                                                            baja = "N"
+                                                                        });
+                _carreras = await dbContext.QueryAsync<string>("select carre from alumnos a where a.mail=@mail and baja=@baja",
+                                                                        new
+                                                                        {
+                                                                            mail = _userEmail,
+                                                                            baja = "N"
+                                                                        });
+            }
+        }
+        public async Task<ApplicationDbContext> DbContextCreate()
+        {
+            var dbContext = new ApplicationDbContext();
+            dbContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            await dbContext.Database.OpenConnectionAsync();
+            return dbContext;
         }
     }
 }

@@ -4,41 +4,52 @@
 
 @inherits _BasePage
 
-@if(_alumno != null && _alumno.Apellido != null && _alumno.Nombre != null)
+@if(_alumno != null)
 {
     <h1>@_alumno.Apellido, @_alumno.Nombre</h1>
 }
-else
-{
-    <h1>Sin Nombre</h1>
-}
 
-@code 
+
+@code
 {
-    private AlumnoDto _alumno = new AlumnoDto();
+    private AlumnoDto? _alumno;
     private class AlumnoDto
     {
         [Column("APELLIDO")]
         public string Apellido {get; set;} = default!;
-        [Column("NOM_APE")]
+        [Column("NOMBRE")]
         public string Nombre {get; set;} = default!;
     }
-    protected async override Task OnParametersSetAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        try
+        if (firstRender)
         {
-            using (var dbContext = new ApplicationDbContext())
+            try
             {
-                _alumno = await dbContext.QuerySingleOrDefaultAsync<AlumnoDto>("select apellido, nom_ape from alumnos where indice=@indice",
-                    new {
-                        indice = appSession.UserCode
-                    });
+                if (appSession.UserCode == 0)
+                {
+                    await appSession.LoadInformationUser();
+                }
+                using (var dbContext = await appSession.DbContextCreate())
+                {
+                    _alumno = await dbContext.QuerySingleOrDefaultAsync<AlumnoDto>("select apellido, nom_ape as nombre from alumnos where indice=@indice",
+                        new {
+                            indice = appSession.UserCode
+                        });
+                }
+                StateHasChanged();
             }
-        }
-        catch (Exception err)
-        {
-
-        
+            catch (Exception err)
+            {
+                if (err.InnerException != null && err.InnerException.Message != "")
+                {
+                    toastService.ShowError(err.InnerException.Message);
+                }
+                else
+                {
+                    toastService.ShowError(err.Message);
+                }
+            }
         }
     }
 }

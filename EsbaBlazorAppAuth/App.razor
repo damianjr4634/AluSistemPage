@@ -1,5 +1,4 @@
-﻿@inject AppSession appSession
-
+﻿@inject AppSession appSession;
 
     <CascadingAuthenticationState>
         <Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true">
@@ -28,7 +27,7 @@
     // esto también tiene la ventaja de que ejecuta una sola vez el OnInitializedAsync.
     protected override async Task OnInitializedAsync()
     {
-        await appSession.LoadStateAsync();    
+        await appSession.LoadStateAsync();
     }
 
     // si por algun motivo no podemos cambiar el "render-mode" a Server,
@@ -44,10 +43,10 @@
 
     private async Task OnSessionUpdate()
     {
-        await InvokeAsync( () => {           
+        await InvokeAsync( () => {
 
             StateHasChanged();
         });
-    }   
+    }
 }
 
