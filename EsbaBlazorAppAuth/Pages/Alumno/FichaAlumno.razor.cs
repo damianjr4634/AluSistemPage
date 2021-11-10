@@ -17,10 +17,35 @@ using Radzen;
 namespace EsbaBlazorAppAuth.Pages.Alumno
 {
     public partial class FichaAlumno : _BasePage
-    {
-        [Parameter]
-        public string CarreraId { set; get; } = "";
-        [Parameter]
-        public string AlumnoId { set; get; } = "";
+    {       
+        public string _carreraId = default!;       
+        public int _alumnoId;
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                try
+                {
+                    if (appSession.UserCode == 0)
+                    {
+                        await appSession.LoadInformationUser();
+                    }
+                    
+                    StateHasChanged();
+                }
+                catch (Exception err)
+                {
+                    if (err.InnerException != null && err.InnerException.Message != "")
+                    {
+                        toastService.ShowError(err.InnerException.Message);
+                    }
+                    else
+                    {
+                        toastService.ShowError(err.Message);
+                    }
+                }
+            }
+        }
     }
 }

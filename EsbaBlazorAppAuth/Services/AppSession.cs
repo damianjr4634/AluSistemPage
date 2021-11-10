@@ -26,7 +26,7 @@ namespace EsbaBlazorAppAuth.Services
         private readonly IHttpContextAccessor _contextAccessor;
         private bool _loaded;
         private string _userId = "";
-        private List<string> _carreras;
+        private List<Carrera> _carreras;
         private int _userCode;
         private bool _userIsAdmin;
         private string _userEmail = "";
@@ -54,7 +54,7 @@ namespace EsbaBlazorAppAuth.Services
         // **********************************************************************************************
         public bool Loaded => _loaded;
         public string UserId => _userId;
-        public List<string> Carreras => _carreras;
+        public List<Carrera> Carreras => _carreras;
         public int UserCode => _userCode;
         public string UserName => _userName;
         public bool UserIsAdmin => _userIsAdmin;
@@ -87,13 +87,16 @@ namespace EsbaBlazorAppAuth.Services
         {
             using (var dbContext = await DbContextCreate())
             {
-                _userCode = await dbContext.QuerySingleOrDefaultAsync("select indice from alumnos a where a.mail=@mail and baja=@baja",
+                _userCode = await dbContext.QuerySingleValueOrDefaultAsync<int>("select indice from alumnos a where a.mail=@mail and baja=@baja",
                                                                         new
                                                                         {
                                                                             mail = _userEmail,
                                                                             baja = "N"
                                                                         });
-                _carreras = await dbContext.QueryAsync<string>("select carre from alumnos a where a.mail=@mail and baja=@baja",
+                _carreras = await dbContext.QueryAsync<Carrera>($@"select a.carre as id, c.descarre as name
+                                                                  from alumnos a
+                                                                  join carrera c on c.carre=a.carre 
+                                                                  where a.mail=@mail and baja=@baja",
                                                                         new
                                                                         {
                                                                             mail = _userEmail,

@@ -10,11 +10,10 @@ using Radzen;
 namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
 {
     public partial class MateriasCursadas : _BasePage
-    {
-        [Parameter]
-        public string CarreraId { set; get; } = "";
-        [Parameter]
-        public string AlumnoId { set; get; } = "";
+    {      
+        public Carrera _carrera = new Carrera();      
+        public string _alumnoId = default!;
+        public string _carreraNombre = default!;
         RadzenDataGrid<MateriaCursadaDto> materiasGrid = default!;
         private List<MateriaCursadaDto> _materiasCursadas = new List<MateriaCursadaDto>();
         public class MateriaCursadaDto
@@ -40,18 +39,32 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
         {
             try
             {
-                using (var dbContext = new ApplicationDbContext())
+                using (var dbContext = await appSession.DbContextCreate())
                 {
+                    if (appSession.UserCode == 0)
+                    {
+                        await appSession.LoadInformationUser();
+                    }
+
+                    _carrera = appSession.Carreras[0];
+
+                    _alumnoId = await dbContext.QuerySingleValueOrDefaultAsync<string>(@$"select cod_alu 
+                                                                                from alumnos a                                                                             
+                                                                                where a.indice=@codalu",
+                                                                                new
+                                                                                {
+                                                                                    codalu = appSession.UserCode                                                                                   
+                                                                                });
+
                     _materiasCursadas = await dbContext.QueryAsync<MateriaCursadaDto>(@$"select cuatrim, codmat, descripci, condicion, cuaanio, 
                                                                                         nota, fecha, anual, cutuco, vencim, htmlcolor, htmlfontcolor,
                                                                                         permiso, inscripcion
                                                                                 from xxx_constancia_terciaria(@codalu,@carrera)",
                                                                                 new
                                                                                 {
-                                                                                    codalu = AlumnoId,
-                                                                                    carrera = CarreraId
-                                                                                });
-                    
+                                                                                    codalu = _alumnoId,
+                                                                                    carrera = _carrera.id
+                                                                                });                    
                 }
             }
             catch (Exception err)
