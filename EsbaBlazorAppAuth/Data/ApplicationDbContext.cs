@@ -86,7 +86,8 @@ namespace EsbaBlazorAppAuth.Data
                 
         public DbSet<CarreraGrupos> CarreraGrupos => Set<CarreraGrupos>();
 
-        public DbSet<Carrera> Carrera => Set<Carrera>();
+        public DbSet<Carrera> CarrerasWeb => Set<Carrera>();
+        public DbSet<AlumnoWeb> AlumnosWeb => Set<AlumnoWeb>(); 
         
     }
 }

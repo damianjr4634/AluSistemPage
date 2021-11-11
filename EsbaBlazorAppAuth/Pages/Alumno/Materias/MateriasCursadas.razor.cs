@@ -63,7 +63,7 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
                                                                                 new
                                                                                 {
                                                                                     codalu = _alumnoId,
-                                                                                    carrera = _carrera.id
+                                                                                    carrera = _carrera.Id
                                                                                 });                    
                 }
             }

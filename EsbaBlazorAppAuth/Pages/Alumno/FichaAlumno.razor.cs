@@ -19,7 +19,7 @@ namespace EsbaBlazorAppAuth.Pages.Alumno
     public partial class FichaAlumno : _BasePage
     {       
         public string _carreraId = default!;       
-        public int _alumnoId;
+        public AlumnoWeb _alumno = new AlumnoWeb();
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -32,6 +32,10 @@ namespace EsbaBlazorAppAuth.Pages.Alumno
                         await appSession.LoadInformationUser();
                     }
                     
+                    using (var dbContext = await appSession.DbContextCreate())
+                    {                   
+                       _alumno = await dbContext.AlumnosWeb.Where(r => r.Id == appSession.UserCode).SingleOrDefaultAsync();
+                    }
                     StateHasChanged();
                 }
                 catch (Exception err)
