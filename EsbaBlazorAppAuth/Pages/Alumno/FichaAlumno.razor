@@ -4,26 +4,133 @@
 
 <h1>Ficha Alumno</h1>
 
-<div class="row">
-    <div class="col-xl-6">
-        <h3 style="margin-top: 2rem">Tipo y Numero Documento</h3>
-        <RadzenTextBox Disabled="true" @bind-Value=@_alumno.CodigoAlumno />
-        <h3>Apellido</h3>
-        <RadzenTextBox @bind-Value=@_alumno.Apellido/>
-        <h3 style="margin-top: 2rem">Nombre</h3>
-        <RadzenTextBox Placeholder="" @bind-Value=@_alumno.Nombre/>       
-       
-        <RadzenTextBox Placeholder="" @bind-Value=@_alumno.Sexo />
-        <RadzenTextBox Placeholder="" @bind-Value=@_alumno.Nacionalidad /> 
-        <RadzenTextBox Placeholder="" @bind-Value=@_alumno.EstadoCivil />
-        <RadzenDatePicker @bind-Value=@_alumno.FechaNacimiento DateFormat="d" />
-        <RadzenTextBox Placeholder="" @bind-Value=@_alumno.LugarNacimiento/> 
-        <RadzenTextBox Placeholder="" @bind-Value=@_alumno.ProvinciaNacimiento/> 
-        <RadzenTextBox Placeholder="" @bind-Value=@_alumno.Domicilio/> 
-        <RadzenTextBox Placeholder="" @bind-Value=@_alumno.Localidad /> 
-        <RadzenTextBox Placeholder="" @bind-Value=@_alumno.CodigoPostal/> 
-        <RadzenTextBox Placeholder="" @bind-Value=@_alumno.Telefono/> 
-        <RadzenTextBox Placeholder="" @bind-Value=@_alumno.Mail /> 
-        <RadzenTextBox Placeholder="" @bind-Value=@_alumno.Celular/> 
+<EditForm Model="@_alumno" EditContext="@editContext" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    
+    <div class="row sticky">
+        <RadzenButton ButtonType="ButtonType.Submit" style="margin: 0 1rem 1rem 0; width: 200px" Icon="save" BusyText="grabando ..." IsBusy=@busy Text="Guardar" />
     </div>
-</div>
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="row m-2">
+                <div class="col-md-4 p-0">Tipo y Numero Documento</div>
+                <div class="col-md-4 p-0">
+                    <RadzenTextBox Disabled="true" @bind-Value=@_alumno.CodigoAlumno />
+                    <small><ValidationMessage For="@(() => _alumno.CodigoAlumno)" /></small>
+                </div>
+            </div>
+            <div class="row m-2">
+                <div class="col-md-4 p-0">Apellido</div>
+                <div class="col-md-4 p-0">
+                    <RadzenTextBox @bind-Value=@_alumno.Apellido Style="width:300px"/>
+                    <small><ValidationMessage For="@(() => _alumno.Apellido)" /></small>
+                </div>
+            </div>
+            <div class="row m-2">
+                <div class="col-md-4 p-0">Nombre</div>
+                <div class="col-md-4 p-0">
+                    <RadzenTextBox Placeholder="" @bind-Value=@_alumno.Nombre Style="width:300px"/>
+                    <small><ValidationMessage For="@(() => _alumno.Nombre)" /></small>
+                </div>
+
+            </div>
+            <div class="row m-2">
+                <div class="col-md-4 p-0">Sexo</div>
+                <div class="col-md-4 p-0">                    
+                    <RadzenDropDown @bind-Value=@_alumno.Sexo AllowClear="true" TValue="string" Style="width:200px"  Data=@_listSexo  TextProperty="descripcion" ValueProperty="id" />
+                    <small><ValidationMessage For="@(() => _alumno.Sexo)" /></small>
+                </div>
+
+            </div>
+            <div class="row m-2">
+                <div class="col-md-4 p-0">Nacionalidad</div>
+                <div class="col-md-4 p-0">
+                    <RadzenTextBox Placeholder="" @bind-Value=@_alumno.Nacionalidad Style="width:300px"/>
+                    <small><ValidationMessage For="@(() => _alumno.Nacionalidad)" /></small>
+                </div>
+
+            </div>
+            <div class="row m-2">
+                <div class="col-md-4 p-0">Estado Civil</div>
+                <div class="col-md-4 p-0">                    
+                    <RadzenDropDown @bind-Value=@_alumno.EstadoCivil AllowClear="true" TValue="string" Style="width:200px"  Data=@_listEstadoCivil  TextProperty="descripcion" ValueProperty="id" />
+                    <small><ValidationMessage For="@(() => _alumno.EstadoCivil)" /></small>
+                </div>
+            </div>
+            <div class="row m-2">
+                <div class="col-md-4 p-0">Fecha Nacimiento</div>
+                <div class="col-md-4 p-0">
+                    <RadzenDatePicker @bind-Value=@_alumno.FechaNacimiento DateFormat="d" />
+                    <small><ValidationMessage For="@(() => _alumno.FechaNacimiento)" /></small>
+                </div>
+
+            </div>
+            <div class="row m-2">
+                <div class="col-md-4 p-0">Lugar de nacimiento</div>
+                <div class="col-md-4 p-0">
+                    <RadzenTextBox Placeholder="" @bind-Value=@_alumno.LugarNacimiento Style="width:300px"/>
+                    <small><ValidationMessage For="@(() => _alumno.LugarNacimiento)" /></small>
+                </div>
+
+            </div>
+            <div class="row m-2">
+                <div class="col-md-4 p-0">Provincia de Nacimiento</div>
+                <div class="col-md-4 p-0">
+                    <RadzenTextBox Placeholder="" @bind-Value=@_alumno.ProvinciaNacimiento />
+                    <small><ValidationMessage For="@(() => _alumno.ProvinciaNacimiento)" /></small>
+                </div>
+
+            </div>
+            <div class="row m-2">
+                <div class="col-md-4 p-0">Domicilio</div>
+                <div class="col-md-4 p-0">
+                    <RadzenTextBox Placeholder="" @bind-Value=@_alumno.Domicilio Style="width:300px"/>
+                    <small><ValidationMessage For="@(() => _alumno.Domicilio)" /></small>
+                </div>
+
+            </div>
+            <div class="row m-2">
+                <div class="col-md-4 p-0">Localidad</div>
+                <div class="col-md-4 p-0">
+                    <RadzenTextBox Placeholder="" @bind-Value=@_alumno.Localidad Style="width:300px"/>
+                    <small><ValidationMessage For="@(() => _alumno.Localidad)" /></small>
+                </div>
+
+            </div>
+            <div class="row m-2">
+                <div class="col-md-4 p-0">Codigo Postal</div>
+                <div class="col-md-4 p-0">
+                    <RadzenTextBox Placeholder="" @bind-Value=@_alumno.CodigoPostal Style="width:200px"/>
+                    <small><ValidationMessage For="@(() => _alumno.CodigoPostal)" /></small>
+                </div>
+
+            </div>
+            <div class="row m-2">
+                <div class="col-md-4 p-0">Telefono</div>
+                <div class="col-md-4 p-0">
+                    <RadzenTextBox Placeholder="" @bind-Value=@_alumno.Telefono Style="width:300px"/>
+                    <small><ValidationMessage For="@(() => _alumno.Telefono)" /></small>
+                </div>
+
+            </div>
+            <div class="row m-2">
+                <div class="col-md-4 p-0">Numero de Celular</div>
+                <div class="col-md-4 p-0">
+                    <RadzenTextBox Placeholder="" @bind-Value=@_alumno.Celular />
+                    <small><ValidationMessage For="@(() => _alumno.Celular)" /></small>
+                </div>
+
+            </div>
+            <div class="row m-2">
+                <div class="col-md-4 p-0">Mail</div>
+                <div class="col-md-4 p-0">
+                    <RadzenTextBox Placeholder="" @bind-Value=@_alumno.Mail Style="width:300px"/>
+                    <small><ValidationMessage For="@(() => _alumno.Mail)" /></small>
+                </div>
+
+            </div>
+            
+        </div>
+    </div>
+
+</EditForm>

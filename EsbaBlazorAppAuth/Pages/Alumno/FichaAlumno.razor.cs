@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using EsbaBlazorAppAuth.Data;
+using EsbaBlazorAppAuth.Data.Tablas;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -20,11 +21,14 @@ namespace EsbaBlazorAppAuth.Pages.Alumno
     {       
         public string _carreraId = default!;       
         public AlumnoWeb _alumno = new AlumnoWeb();
-
+        public List<Sexo> _listSexo = new List<Sexo>();
+        public List<EstadoCivil> _listEstadoCivil = new List<EstadoCivil>();
+        public bool busy = false;
+        private EditContext editContext;
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
-            {
+            {    
                 try
                 {
                     if (appSession.UserCode == 0)
@@ -33,9 +37,22 @@ namespace EsbaBlazorAppAuth.Pages.Alumno
                     }
                     
                     using (var dbContext = await appSession.DbContextCreate())
-                    {                   
-                       _alumno = await dbContext.AlumnosWeb.Where(r => r.Id == appSession.UserCode).SingleOrDefaultAsync();
-                    }
+                    {    
+                        _listSexo = await dbContext.Sexo.ToListAsync();
+                        _listEstadoCivil = await dbContext.EstadoCivil.ToListAsync();               
+
+                        _alumno = await dbContext.AlumnosWeb.Where(r => r.Id == appSession.UserCode).SingleOrDefaultAsync(); 
+                        if (_alumno == null) {
+                            _alumno = await dbContext.AlumnosWeb.Where(r => r.Id == appSession.UserCode).SingleOrDefaultAsync();                             
+                            _alumno = new AlumnoWeb();
+                            _alumno.Id = appSession.UserCode; 
+                            _alumno.CodigoAlumno =  await dbContext.QuerySingleValueOrDefaultAsync<string>("select cod_alu from alumnos a where a.indice=@id",
+                                                                        new
+                                                                        {
+                                                                            id = appSession.UserCode                                                                            
+                                                                        });                      
+                        }
+                    }                                    
                     StateHasChanged();
                 }
                 catch (Exception err)
@@ -48,8 +65,36 @@ namespace EsbaBlazorAppAuth.Pages.Alumno
                     {
                         toastService.ShowError(err.Message);
                     }
+                }        
+            }
+        }
+
+        private void HandleValidSubmit()
+        {
+            busy = true;   
+     
+            try
+            {               
+                if (editContext != null && editContext.Validate())
+                {
+            
+                   
+                }
+                busy = false; 
+            }
+            catch( Exception err)
+            {
+                busy = false; 
+                if (err.InnerException != null && err.InnerException.Message != "")
+                {
+                    toastService.ShowError(err.InnerException.Message);
+                }
+                else
+                {
+                    toastService.ShowError(err.Message);
                 }
             }
+
         }
     }
 }

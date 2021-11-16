@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using EsbaBlazorAppAuth.Data.Tablas;
+
 
 namespace EsbaBlazorAppAuth.Data
 {
@@ -85,7 +87,8 @@ namespace EsbaBlazorAppAuth.Data
         }
                 
         public DbSet<CarreraGrupos> CarreraGrupos => Set<CarreraGrupos>();
-
+        public DbSet<EstadoCivil> EstadoCivil => Set<EstadoCivil>();
+        public DbSet<Sexo> Sexo => Set<Sexo>();
         public DbSet<Carrera> CarrerasWeb => Set<Carrera>();
         public DbSet<AlumnoWeb> AlumnosWeb => Set<AlumnoWeb>(); 
         
