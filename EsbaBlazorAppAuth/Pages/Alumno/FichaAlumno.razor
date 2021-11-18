@@ -2,14 +2,18 @@
 
 @inherits _BasePage
 
-<h1>Ficha Alumno</h1>
+<h2>Datos Personales</h2>
+<hr/>
 
-<EditForm Model="@_alumno" EditContext="@editContext" OnValidSubmit="@HandleValidSubmit">
+<EditForm Model="@_alumno" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
     
     <div class="row sticky">
-        <RadzenButton ButtonType="ButtonType.Submit" style="margin: 0 1rem 1rem 0; width: 200px" Icon="save" BusyText="grabando ..." IsBusy=@busy Text="Guardar" />
+        <div class="btn-toolbar" role="toolbar" style="padding-left: 15px;" >
+            <RadzenButton ButtonType="ButtonType.Submit" style="background-color: blue" Icon="save" BusyText="grabando ..." IsBusy=@busy Text="Guardar" />
+        </div>
     </div>
+    <hr/>
     <div class="row">
         <div class="col-xl-6">
             <div class="row m-2">
@@ -132,5 +136,7 @@
             
         </div>
     </div>
-
+    <br>
+    <br>
+    <br>
 </EditForm>

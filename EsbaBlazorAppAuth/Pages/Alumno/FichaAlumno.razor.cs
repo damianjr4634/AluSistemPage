@@ -23,10 +23,13 @@ namespace EsbaBlazorAppAuth.Pages.Alumno
         public AlumnoWeb _alumno = new AlumnoWeb();
         public List<Sexo> _listSexo = new List<Sexo>();
         public List<EstadoCivil> _listEstadoCivil = new List<EstadoCivil>();
-        public bool busy = false;
+        private bool busy = false;
+        private bool _add = false;
         private EditContext editContext;
-        protected override async Task OnAfterRenderAsync(bool firstRender)
+        protected override async Task OnAfterRenderAsync(bool firstRender)        
         {
+            string query = "";
+
             if (firstRender)
             {    
                 try
@@ -35,7 +38,7 @@ namespace EsbaBlazorAppAuth.Pages.Alumno
                     {
                         await appSession.LoadInformationUser();
                     }
-                    
+                    _add = false;
                     using (var dbContext = await appSession.DbContextCreate())
                     {    
                         _listSexo = await dbContext.Sexo.ToListAsync();
@@ -43,16 +46,20 @@ namespace EsbaBlazorAppAuth.Pages.Alumno
 
                         _alumno = await dbContext.AlumnosWeb.Where(r => r.Id == appSession.UserCode).SingleOrDefaultAsync(); 
                         if (_alumno == null) {
-                            _alumno = await dbContext.AlumnosWeb.Where(r => r.Id == appSession.UserCode).SingleOrDefaultAsync();                             
-                            _alumno = new AlumnoWeb();
-                            _alumno.Id = appSession.UserCode; 
-                            _alumno.CodigoAlumno =  await dbContext.QuerySingleValueOrDefaultAsync<string>("select cod_alu from alumnos a where a.indice=@id",
-                                                                        new
-                                                                        {
-                                                                            id = appSession.UserCode                                                                            
-                                                                        });                      
+                            _add = true;
+                            query = @$"select INDICE AS ID, NOM_APE AS NOMBRE, APELLIDO, COD_ALU AS CODIGOALUMNO, CARRE AS CARRERAID,
+                                              SEXO, NACIONAL AS NACIONALIDAD, EST_CIV AS ESTADOCIVIL, FEC_NAC AS FECHANACIMIENTO,
+                                              LUG_NAC AS LUGARNACIMIENTO, PCIA_NAC AS PROVINCIANACIMIENTO, DOMI AS DOMICILIO,
+                                              LOCALI AS LOCALIDAD, COD_POS AS CODIGOPOSTAL, TELE AS TELEFONO, MAIL, CELULAR,
+                                              'S' AS CAMBIO, CURRENT_TIMESTAMP AS ULTIMAACTUALIZACION
+                                       from ALUMNOS WA
+                                       WHERE INDICE = {appSession.UserCode}";
+                            
+                            _alumno = new AlumnoWeb();                             
+                            _alumno =  await dbContext.QuerySingleOrDefaultAsync<AlumnoWeb>(query);                      
                         }
-                    }                                    
+                    }  
+
                     StateHasChanged();
                 }
                 catch (Exception err)
@@ -69,17 +76,28 @@ namespace EsbaBlazorAppAuth.Pages.Alumno
             }
         }
 
-        private void HandleValidSubmit()
+        private async Task HandleValidSubmit()
         {
             busy = true;   
      
             try
             {               
-                if (editContext != null && editContext.Validate())
+                
+                using (var dbContext = await appSession.DbContextCreate())
                 {
-            
-                   
+                    if (_add) 
+                    {
+                        dbContext.AlumnosWeb.Add(_alumno);
+                    }
+                    else 
+                    {
+                        dbContext.AlumnosWeb.Update(_alumno);
+                    }
+                    
+                    await dbContext.SaveChangesAsync();
                 }
+
+                toastService.ShowSuccess("Grabado");
                 busy = false; 
             }
             catch( Exception err)

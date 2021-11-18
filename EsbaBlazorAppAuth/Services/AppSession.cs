@@ -94,7 +94,7 @@ namespace EsbaBlazorAppAuth.Services
                                                                             baja = "N"
                                                                         });
                                                                         
-                _carreras = await dbContext.QueryAsync<Carrera>($@"select a.carre as id, c.descarre as name
+                _carreras = await dbContext.QueryAsync<Carrera>($@"select a.carre as id, c.descarre as Nombre
                                                                   from alumnos a
                                                                   join carrera c on c.carre=a.carre 
                                                                   where a.mail=@mail and baja=@baja",

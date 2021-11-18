@@ -1,55 +1,94 @@
 @page "/"
 
-@using System.ComponentModel.DataAnnotations.Schema
-
 @inherits _BasePage
 
-@if(_alumno != null)
-{
-    <h1>@_alumno.Apellido, @_alumno.Nombre</h1>
-}
+<div class="row">
+    <div class="col">
+         <RadzenFieldset>
+            <HeaderTemplate>
+                <span>
+                    <RadzenIcon Icon="account_box" /><b style="font-size:20px">Alumno</b>
+                </span>
+            </HeaderTemplate>
+            <ChildContent>
+                @if(_alumno != null)
+                {
+                    <span>@_alumno.Apellido, @_alumno.Nombre</span>
+                }
+            </ChildContent>
+        </RadzenFieldset>    
+    </div>
+    <div class="col">
+        <RadzenFieldset>
+            <HeaderTemplate>
+                <span>
+                    <RadzenIcon Icon="account_box" /><b style="font-size:20px">Carrera</b>
+                </span>
+            </HeaderTemplate>
+            <ChildContent>
+                @if(_carrera != null)
+                {
+                    <span>@_carrera.Nombre</span>
+                }
+            </ChildContent>
+        </RadzenFieldset>    
+    </div>        
+</div>
+<div class="row">
+    <div class="col">
+        <RadzenFieldset>
+            <HeaderTemplate>
+                <span>
+                    <RadzenIcon Icon="account_box" /><b style="font-size:20px">Documentacion presentada</b>
+                </span>
+            </HeaderTemplate>
+            <ChildContent>
+                <div class="row">
+                    <div class="col">    
+                        <span>Fotocopia DNI</span>
+                    </div>
+                    <div class="col">    
+                        <RadzenBadge BadgeStyle="BadgeStyle.Success" IsPill="true" Text="Presentado" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">    
+                        <span>Foto</span>
+                    </div>
+                    <div class="col">    
+                        <RadzenBadge BadgeStyle="BadgeStyle.Success" IsPill="true" Text="Presentado" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">    
+                        <span>Analitico</span>
+                    </div>
+                    <div class="col">    
+                        <RadzenBadge BadgeStyle="BadgeStyle.Success" IsPill="true" Text="Presentado" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">    
+                        <span>Constancia Titulo en tramite</span>
+                    </div>
+                    <div class="col">    
+                        <RadzenBadge BadgeStyle="BadgeStyle.Success" IsPill="true" Text="Presentado" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">    
+                        <span>Apto fisico</span>
+                    </div>
+                    <div class="col">    
+                        <RadzenBadge BadgeStyle="BadgeStyle.Danger" IsPill="true" Text="Falta" />
+                    </div>
+                </div>
+            </ChildContent>
+            @*<RadzenBadge BadgeStyle="BadgeStyle.Danger" Text="Danger" /> *@
+            
+        </RadzenFieldset>    
+    </div>  
+    <div class="col">
 
-
-@code
-{
-    private AlumnoDto? _alumno;
-    private class AlumnoDto
-    {
-        [Column("APELLIDO")]
-        public string Apellido {get; set;} = default!;
-        [Column("NOMBRE")]
-        public string Nombre {get; set;} = default!;
-    }
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            try
-            {
-                if (appSession.UserCode == 0)
-                {
-                    await appSession.LoadInformationUser();
-                }
-                using (var dbContext = await appSession.DbContextCreate())
-                {
-                    _alumno = await dbContext.QuerySingleOrDefaultAsync<AlumnoDto>("select apellido, nom_ape as nombre from alumnos where indice=@indice",
-                        new {
-                            indice = appSession.UserCode
-                        });
-                }
-                StateHasChanged();
-            }
-            catch (Exception err)
-            {
-                if (err.InnerException != null && err.InnerException.Message != "")
-                {
-                    toastService.ShowError(err.InnerException.Message);
-                }
-                else
-                {
-                    toastService.ShowError(err.Message);
-                }
-            }
-        }
-    }
-}
+    </div>  
+</div>
