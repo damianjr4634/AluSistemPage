@@ -85,24 +85,34 @@ namespace EsbaBlazorAppAuth.Services
 
         public async Task LoadInformationUser()
         {
-            using (var dbContext = await DbContextCreate())
+            if (_loaded)
             {
-                _userCode = await dbContext.QuerySingleValueOrDefaultAsync<int>("select indice from alumnos a where a.mail=@mail and baja=@baja",
-                                                                        new
-                                                                        {
-                                                                            mail = _userEmail,
-                                                                            baja = "N"
-                                                                        });
-                                                                        
-                _carreras = await dbContext.QueryAsync<Carrera>($@"select a.carre as id, c.descarre as Nombre
-                                                                  from alumnos a
-                                                                  join carrera c on c.carre=a.carre 
-                                                                  where a.mail=@mail and baja=@baja",
-                                                                        new
-                                                                        {
-                                                                            mail = _userEmail,
-                                                                            baja = "N"
-                                                                        });
+                try
+                {
+                    using (var dbContext = await DbContextCreate())
+                    {
+                        _userCode = await dbContext.QuerySingleValueOrDefaultAsync<int>("select indice from alumnos a where a.mail=@mail and baja=@baja",
+                                                                                new
+                                                                                {
+                                                                                    mail = _userEmail,
+                                                                                    baja = "N"
+                                                                                });
+                                                                                
+                        _carreras = await dbContext.QueryAsync<Carrera>($@"select a.carre as id, c.descarre as Nombre
+                                                                        from alumnos a
+                                                                        join carrera c on c.carre=a.carre 
+                                                                        where a.mail=@mail and baja=@baja",
+                                                                                new
+                                                                                {
+                                                                                    mail = _userEmail,
+                                                                                    baja = "N"
+                                                                                });
+                    }
+                }
+                catch (Exception err) 
+                {
+                    throw;
+                }
             }
         }
         public async Task<ApplicationDbContext> DbContextCreate()

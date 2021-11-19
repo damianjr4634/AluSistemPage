@@ -13,7 +13,7 @@
             <ChildContent>
                 @if(_alumno != null)
                 {
-                    <span>@_alumno.Apellido, @_alumno.Nombre</span>
+                    <span style="font-size:18px" >@_alumno.Apellido, @_alumno.Nombre</span>
                 }
             </ChildContent>
         </RadzenFieldset>    
@@ -28,7 +28,7 @@
             <ChildContent>
                 @if(_carrera != null)
                 {
-                    <span>@_carrera.Nombre</span>
+                    <span style="font-size:18px">@_carrera.Nombre</span>
                 }
             </ChildContent>
         </RadzenFieldset>    
@@ -47,8 +47,15 @@
                     <div class="col">    
                         <span>Fotocopia DNI</span>
                     </div>
-                    <div class="col">    
-                        <RadzenBadge BadgeStyle="BadgeStyle.Success" IsPill="true" Text="Presentado" />
+                    <div class="col">  
+                        @if(_alumno.Documento == "S")  
+                        {
+                            <RadzenBadge BadgeStyle="BadgeStyle.Success" IsPill="true" Text="Presentado" />
+                        }
+                        else 
+                        {
+                            <RadzenBadge BadgeStyle="BadgeStyle.Danger" IsPill="true" Text="Falta presentar" />    
+                        }
                     </div>
                 </div>
                 <div class="row">
@@ -56,7 +63,14 @@
                         <span>Foto</span>
                     </div>
                     <div class="col">    
-                        <RadzenBadge BadgeStyle="BadgeStyle.Success" IsPill="true" Text="Presentado" />
+                        @if(_alumno.Foto == "S")  
+                        {
+                            <RadzenBadge BadgeStyle="BadgeStyle.Success" IsPill="true" Text="Presentado" />
+                        }
+                        else 
+                        {
+                            <RadzenBadge BadgeStyle="BadgeStyle.Danger" IsPill="true" Text="Falta presentar" />    
+                        }
                     </div>
                 </div>
                 <div class="row">
@@ -64,23 +78,66 @@
                         <span>Analitico</span>
                     </div>
                     <div class="col">    
-                        <RadzenBadge BadgeStyle="BadgeStyle.Success" IsPill="true" Text="Presentado" />
+                        @if(_alumno.ConstanciaAnalitico != null && _alumno.ConstanciaAnalitico == "S")  
+                        {
+                            <RadzenBadge BadgeStyle="BadgeStyle.Success" IsPill="true" Text="Presentado" />
+                        }
+                        else 
+                        {
+                            <RadzenBadge BadgeStyle="BadgeStyle.Danger" IsPill="true" Text="Falta presentar" />    
+                        }
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col">    
-                        <span>Constancia Titulo en tramite</span>
+                @if(_alumno.ConstanciaAnalitico == null || _alumno.ConstanciaAnalitico == "N")  
+                {
+                    <div class="row">
+                        <div class="col">    
+                            <span>Constancia Titulo en tramite</span>
+                        </div>
+                        <div class="col">    
+                           @if(_alumno.ConstanciaTituloTramite != null && _alumno.ConstanciaAnalitico == "S")  
+                            {
+                                @if(_alumno.FechaContanciaTituloTramite == null || _alumno.FechaContanciaTituloTramite.Value.AddMonths(3) < DateTime.Now)
+                                {
+                                    <RadzenBadge BadgeStyle="BadgeStyle.Danger" IsPill="true" Text="Vencida" />  
+                                    <RadzenBadge BadgeStyle="BadgeStyle.Info" IsPill="true" Text="@("Fecha: "+_alumno.FechaContanciaTituloTramite.Value.ToShortDateString())" />                                    
+                                }
+                                else
+                                {
+                                    <RadzenBadge BadgeStyle="BadgeStyle.Success" IsPill="true" Text="Presentado" />
+                                    <RadzenBadge BadgeStyle="BadgeStyle.Info" IsPill="true" Text="@("Fecha: "+_alumno.FechaContanciaTituloTramite.Value.ToShortDateString())" />    
+                                }
+                            }
+                            else 
+                            {
+                                <RadzenBadge BadgeStyle="BadgeStyle.Danger" IsPill="true" Text="Falta presentar" />    
+                            }
+                        </div>
                     </div>
-                    <div class="col">    
-                        <RadzenBadge BadgeStyle="BadgeStyle.Success" IsPill="true" Text="Presentado" />
-                    </div>
-                </div>
+                }              
+                
                 <div class="row">
                     <div class="col">    
                         <span>Apto fisico</span>
                     </div>
                     <div class="col">    
-                        <RadzenBadge BadgeStyle="BadgeStyle.Danger" IsPill="true" Text="Falta" />
+                        @if(_alumno.AptoFisico != null && _alumno.AptoFisico == "S")  
+                        {
+                            @if(_alumno.FechaAptoFisico == null || _alumno.FechaAptoFisico.Value.AddMonths(3) < DateTime.Now.Date)
+                            {
+                                <RadzenBadge BadgeStyle="BadgeStyle.Danger" IsPill="true" Text="Vencida" /> 
+                                <RadzenBadge BadgeStyle="BadgeStyle.Info" IsPill="true" Text="@("Fecha: "+_alumno.FechaAptoFisico.Value.ToShortDateString())" />                                 
+                            }
+                            else
+                            {
+                                <RadzenBadge BadgeStyle="BadgeStyle.Success" IsPill="true" Text="Presentado" />
+                                <RadzenBadge BadgeStyle="BadgeStyle.Info" IsPill="true" Text="@("Fecha: "+_alumno.FechaAptoFisico.Value.AddMonths(3).ToShortDateString())" />
+                            }
+                        }
+                        else 
+                        {
+                            <RadzenBadge BadgeStyle="BadgeStyle.Danger" IsPill="true" Text="Falta presentar" />    
+                        }
                     </div>
                 </div>
             </ChildContent>
