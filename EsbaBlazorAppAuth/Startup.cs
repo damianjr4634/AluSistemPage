@@ -42,11 +42,16 @@ namespace EsbaBlazorAppAuth
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddRazorPages();
-            services.AddServerSideBlazor();
+            services.AddServerSideBlazor()
+            .AddHubOptions(o =>
+             {
+                 o.MaximumReceiveMessageSize = 1024000;
+             });
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
             services.AddScoped<AppSession>();
             services.AddDatabaseDeveloperPageExceptionFilter();
-            services.AddBlazoredToast();           
+            services.AddBlazoredToast();  
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

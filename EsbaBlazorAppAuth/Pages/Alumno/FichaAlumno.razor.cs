@@ -25,7 +25,8 @@ namespace EsbaBlazorAppAuth.Pages.Alumno
         public List<EstadoCivil> _listEstadoCivil = new List<EstadoCivil>();
         private bool busy = false;
         private bool _add = false;
-        private EditContext editContext;
+        private EditContext editContext;    
+        public string _photo {get; set;} = default!;
         protected override async Task OnAfterRenderAsync(bool firstRender)        
         {
             string query = "";
@@ -81,8 +82,7 @@ namespace EsbaBlazorAppAuth.Pages.Alumno
             busy = true;   
      
             try
-            {               
-                
+            {                               
                 using (var dbContext = await appSession.DbContextCreate())
                 {
                     if (_add) 
@@ -113,6 +113,36 @@ namespace EsbaBlazorAppAuth.Pages.Alumno
                 }
             }
 
+        }
+
+        void OnProgress(UploadProgressArgs args)
+        {
+           
+            if (args.Progress == 100)
+            {
+                if (!string.IsNullOrEmpty(args.Files.FirstOrDefault()!.Name)) 
+                { 
+                    _alumno.FotoBase64 = "";   
+                    byte[] imageArray = System.IO.File.ReadAllBytes("wwwroot/uploads/"+args.Files.FirstOrDefault()!.Name);
+                    _alumno.FotoBase64 = Convert.ToBase64String(imageArray);          
+                }
+            }
+        }
+
+        void OnComplete(UploadCompleteEventArgs args)
+        {           
+            //args.RawResponse;
+            toastService.ShowSuccess("Foto subida");   
+        }
+
+        void OnChange(string value)
+        {
+            _photo = value;     
+        }
+
+        void OnError(UploadErrorEventArgs args)
+        {
+            toastService.ShowError(args.Message);   
         }
     }
 }

@@ -19,10 +19,92 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
     public partial class InscripcionFinal : _BasePage
     {
         [Parameter]
-        public string CarreraId { set; get; } = "";
-        [Parameter]
-        public string AlumnoId { set; get; } = "";
-        [Parameter]
         public string MateriaId { set; get; } = "";
+        private string _nombreMateria = "";
+        private bool busy = false;
+        private bool _add = false;
+        public PermisoExamenWeb _permiso = new PermisoExamenWeb();
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)        
+        {
+            string query = "";
+
+            if (firstRender)
+            {    
+                try
+                {
+                    if (appSession.UserCode == 0)
+                    {
+                        await appSession.LoadInformationUser();
+                    }
+                    _add = false;
+
+                    using (var dbContext = await appSession.DbContextCreate())
+                    {    
+                        //_listSexo = await dbContext.Sexo.ToListAsync();
+                        //_listEstadoCivil = await dbContext.EstadoCivil.ToListAsync();               
+                        _nombreMateria = await dbContext.QuerySingleValueOrDefaultAsync<string>(@$"select m.descripci from materias m where m.codcarre='{appSession.Carreras[0].Id}' and m.codmateri='{MateriaId}'");
+
+                        _permiso = await dbContext.PermisosExamenWeb.Where(r => r.AlumnoId == appSession.UserCode && r.MateriaId == MateriaId).SingleOrDefaultAsync(); 
+                        if (_permiso == null) {
+                            _add = true;                          
+                            
+                            _permiso = new PermisoExamenWeb();                                                         
+                        }
+                    }  
+
+                    StateHasChanged();
+                }
+                catch (Exception err)
+                {
+                    if (err.InnerException != null && err.InnerException.Message != "")
+                    {
+                        toastService.ShowError(err.InnerException.Message);
+                    }
+                    else
+                    {
+                        toastService.ShowError(err.Message);
+                    }
+                }        
+            }
+        }
+
+        private async Task HandleValidSubmit()
+        {
+            busy = true;   
+     
+            try
+            {                               
+                using (var dbContext = await appSession.DbContextCreate())
+                {
+                    if (_add) 
+                    {
+                        dbContext.PermisosExamenWeb.Add(_permiso);
+                    }
+                    else 
+                    {
+                        dbContext.PermisosExamenWeb.Update(_permiso);
+                    }
+                    
+                    await dbContext.SaveChangesAsync();
+                }
+
+                toastService.ShowSuccess("Grabado");
+                busy = false; 
+            }
+            catch( Exception err)
+            {
+                busy = false; 
+                if (err.InnerException != null && err.InnerException.Message != "")
+                {
+                    toastService.ShowError(err.InnerException.Message);
+                }
+                else
+                {
+                    toastService.ShowError(err.Message);
+                }
+            }
+
+        }
     }
 }

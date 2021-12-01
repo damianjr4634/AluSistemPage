@@ -91,6 +91,8 @@ namespace EsbaBlazorAppAuth.Data
         public DbSet<Sexo> Sexo => Set<Sexo>();
         public DbSet<Carrera> CarrerasWeb => Set<Carrera>();
         public DbSet<AlumnoWeb> AlumnosWeb => Set<AlumnoWeb>(); 
+        public DbSet<PermisoExamenWeb> PermisosExamenWeb => Set<PermisoExamenWeb>(); 
+
         
     }
 }

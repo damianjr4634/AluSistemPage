@@ -90,6 +90,8 @@ namespace EsbaBlazorAppAuth.Data
        
         [Column("CAMBIO")] 
         public string Cambio { get; set; } = default!;
+        [Column("FOTO_64")] 
+        public string FotoBase64 { get; set; } = default!;
         
         [DataType(DataType.DateTime)]
         [Column("ULTIMA_ACTUALIZACION")]

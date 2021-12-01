@@ -1,5 +1,21 @@
-@page "/alumno/materias/inscripcionexamen/{CarreraId}/{AlumnoId}/{MateriaId}"
+@page "/alumno/materias/inscripcionexamen/{MateriaId}"
 
 @inherits _BasePage
 
-<h1>Inscripcion Examen</h1>
+<h2>Permiso de Examen</h2>
+
+<span> <h4>@_nombreMateria </h4> </span>
+
+<hr/>
+
+<EditForm Model="@_permiso" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <div class="row sticky">
+        <div class="btn-toolbar" role="toolbar" style="padding-left: 15px;" >
+            <RadzenButton ButtonType="ButtonType.Submit" style="background-color: blue" Icon="save" BusyText="grabando ..." IsBusy=@busy Text="Guardar" />
+
+        </div>
+    </div>
+    <hr/>
+
+</EditForm>    
