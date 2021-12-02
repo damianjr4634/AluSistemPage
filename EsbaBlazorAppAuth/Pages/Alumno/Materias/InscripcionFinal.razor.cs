@@ -23,14 +23,15 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
         private string _nombreMateria = "";
         private bool busy = false;
         private bool _add = false;
-        public PermisoExamenWeb _permiso = new PermisoExamenWeb();
-
-        protected override async Task OnAfterRenderAsync(bool firstRender)        
+        public PermisoExamen _permiso = new PermisoExamen();
+        public List<MesaExamen> _mesas = new List<MesaExamen>();
+        RadzenDataGrid<MesaExamen> mesasGrid = default!;
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             string query = "";
 
             if (firstRender)
-            {    
+            {
                 try
                 {
                     if (appSession.UserCode == 0)
@@ -40,18 +41,20 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
                     _add = false;
 
                     using (var dbContext = await appSession.DbContextCreate())
-                    {    
+                    {
                         //_listSexo = await dbContext.Sexo.ToListAsync();
                         //_listEstadoCivil = await dbContext.EstadoCivil.ToListAsync();               
                         _nombreMateria = await dbContext.QuerySingleValueOrDefaultAsync<string>(@$"select m.descripci from materias m where m.codcarre='{appSession.Carreras[0].Id}' and m.codmateri='{MateriaId}'");
 
-                        _permiso = await dbContext.PermisosExamenWeb.Where(r => r.AlumnoId == appSession.UserCode && r.MateriaId == MateriaId).SingleOrDefaultAsync(); 
-                        if (_permiso == null) {
-                            _add = true;                          
-                            
-                            _permiso = new PermisoExamenWeb();                                                         
+                        _permiso = await dbContext.PermisosExamen.Where(r => r.AlumnoId == appSession.UserCode && r.MateriaId == MateriaId).SingleOrDefaultAsync();
+                        if (_permiso == null)
+                        {
+                            _add = true;
+
+                            _permiso = new PermisoExamen();
                         }
-                    }  
+                        _mesas = await dbContext.MesasExamen.Where(r => r.CarreraId == appSession.Carreras[0].Id && r.MateriaId == MateriaId).ToListAsync();
+                    }
 
                     StateHasChanged();
                 }
@@ -65,36 +68,36 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
                     {
                         toastService.ShowError(err.Message);
                     }
-                }        
+                }
             }
         }
 
         private async Task HandleValidSubmit()
         {
-            busy = true;   
-     
+            busy = true;
+
             try
-            {                               
+            {
                 using (var dbContext = await appSession.DbContextCreate())
                 {
-                    if (_add) 
+                    if (_add)
                     {
-                        dbContext.PermisosExamenWeb.Add(_permiso);
+                        dbContext.PermisosExamen.Add(_permiso);
                     }
-                    else 
+                    else
                     {
-                        dbContext.PermisosExamenWeb.Update(_permiso);
+                        dbContext.PermisosExamen.Update(_permiso);
                     }
-                    
+
                     await dbContext.SaveChangesAsync();
                 }
 
                 toastService.ShowSuccess("Grabado");
-                busy = false; 
+                busy = false;
             }
-            catch( Exception err)
+            catch (Exception err)
             {
-                busy = false; 
+                busy = false;
                 if (err.InnerException != null && err.InnerException.Message != "")
                 {
                     toastService.ShowError(err.InnerException.Message);

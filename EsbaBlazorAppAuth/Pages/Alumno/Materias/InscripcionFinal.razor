@@ -1,6 +1,7 @@
 @page "/alumno/materias/inscripcionexamen/{MateriaId}"
 
 @inherits _BasePage
+@using EsbaBlazorAppAuth.Data
 
 <h2>Permiso de Examen</h2>
 
@@ -17,5 +18,35 @@
         </div>
     </div>
     <hr/>
+    <div class="row"> 
+        <div class="col"> 
+            <RadzenDataGrid @ref="mesasGrid" Data="@_mesas" TItem="MesaExamen" AllowColumnResize="false"
+                            Width="600px">
+                <Columns>   
+                   
+                    <RadzenDataGridColumn Width="90px" TItem="MesaExamen" Property="MateriaId" Title="Inscripcion" TextAlign="TextAlign.Center">
+                        <Template Context="data">             
+                           
+                            <RadzenButton ButtonStyle="ButtonStyle.Secondary" style="width: 50px;height: 23px;padding-left: 15px;" Click=@(() => navigationManager.NavigateTo(@$"") )>
+                                <span style="color:white;font-size:18px"><i class="fas fa-clipboard-check"></i></span>
+                            </RadzenButton> 
+                            
+                        </Template>
+                    </RadzenDataGridColumn>      
+                                          
+                   
+                    <RadzenDataGridColumn Width="90px" TItem="MesaExamen" Property="Llamado" Title="Llamado"  />  
+                    <RadzenDataGridColumn Width="90px" TItem="MesaExamen" Property="MesaId" Title="Mesa"/>  
+                    <RadzenDataGridColumn Width="120px" TItem="MesaExamen" Property="FechaExamen" Title="Fecha">
+                        <Template Context="data">             
+                            @if (data.FechaExamen != null)  {
+                            @data.FechaExamen.ToString("dd/MM/yyyy")
+                            }
+                        </Template>
+                    </RadzenDataGridColumn>            
+                </Columns>
+            </RadzenDataGrid>
+        </div>
+    </div>
 
 </EditForm>    

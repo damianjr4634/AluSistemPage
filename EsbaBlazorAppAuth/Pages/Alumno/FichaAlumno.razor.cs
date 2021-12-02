@@ -20,7 +20,7 @@ namespace EsbaBlazorAppAuth.Pages.Alumno
     public partial class FichaAlumno : _BasePage
     {       
         public string _carreraId = default!;       
-        public AlumnoWeb _alumno = new AlumnoWeb();
+        public EsbaBlazorAppAuth.Data.Alumno _alumno = new EsbaBlazorAppAuth.Data.Alumno();
         public List<Sexo> _listSexo = new List<Sexo>();
         public List<EstadoCivil> _listEstadoCivil = new List<EstadoCivil>();
         private bool busy = false;
@@ -45,7 +45,7 @@ namespace EsbaBlazorAppAuth.Pages.Alumno
                         _listSexo = await dbContext.Sexo.ToListAsync();
                         _listEstadoCivil = await dbContext.EstadoCivil.ToListAsync();               
 
-                        _alumno = await dbContext.AlumnosWeb.Where(r => r.Id == appSession.UserCode).SingleOrDefaultAsync(); 
+                        _alumno = await dbContext.Alumnos.Where(r => r.Id == appSession.UserCode).SingleOrDefaultAsync(); 
                         if (_alumno == null) {
                             _add = true;
                             query = @$"select INDICE AS ID, NOM_APE AS NOMBRE, APELLIDO, COD_ALU AS CODIGOALUMNO, CARRE AS CARRERAID,
@@ -56,8 +56,8 @@ namespace EsbaBlazorAppAuth.Pages.Alumno
                                        from ALUMNOS WA
                                        WHERE INDICE = {appSession.UserCode}";
                             
-                            _alumno = new AlumnoWeb();                             
-                            _alumno =  await dbContext.QuerySingleOrDefaultAsync<AlumnoWeb>(query);                      
+                            _alumno = new EsbaBlazorAppAuth.Data.Alumno();                             
+                            _alumno =  await dbContext.QuerySingleOrDefaultAsync<EsbaBlazorAppAuth.Data.Alumno>(query);                      
                         }
                     }  
 
@@ -87,11 +87,11 @@ namespace EsbaBlazorAppAuth.Pages.Alumno
                 {
                     if (_add) 
                     {
-                        dbContext.AlumnosWeb.Add(_alumno);
+                        dbContext.Alumnos.Add(_alumno);
                     }
                     else 
                     {
-                        dbContext.AlumnosWeb.Update(_alumno);
+                        dbContext.Alumnos.Update(_alumno);
                     }
                     
                     await dbContext.SaveChangesAsync();

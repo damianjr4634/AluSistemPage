@@ -5,8 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
   
 namespace EsbaBlazorAppAuth.Data
 {
-    [Table("WEB_PERMISOS_EXAMENES")]
-    public class PermisoExamenWeb
+    [Table("PERMISOS_EXAMENES_WEB")]
+    public class PermisoExamen
     {
         [Key]
         [Required]
