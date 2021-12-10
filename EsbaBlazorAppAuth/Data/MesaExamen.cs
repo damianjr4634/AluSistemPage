@@ -40,6 +40,9 @@ namespace EsbaBlazorAppAuth.Data
         [Column("TIPO_MESA")]         
         public string? TipoMesa { get; set; } = default!;   
 
+        [Column("PERMISO_EXAMEN")]         
+        public int? PermisoExamen { get; set; } = default!;   
+
     }
 }
 

@@ -18,7 +18,7 @@ namespace EsbaBlazorAppAuth.Data
         public int Mesa { get; set; } = default!;
                 
         [Column("LLAMADO")]         
-        public int Llamado { get; set; } = default!;
+        public int? Llamado { get; set; } = default!;
         
         [Required]
         [Column("ALUMNO_ID")] 
@@ -29,7 +29,7 @@ namespace EsbaBlazorAppAuth.Data
         public string CarreraId { get; set; } = default!;
             
         [Column("CUATRIMESTRE_TURNO_COMISION")] 
-        public string CuatrimestreTurnoComision { get; set; } = default!;
+        public string? CuatrimestreTurnoComision { get; set; } = default!;
 
         [Required]
         [Column("MATERIA_ID")] 
