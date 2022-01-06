@@ -40,7 +40,7 @@ namespace EsbaBlazorAppAuth.Data
         [Column("TIPO_MESA")]         
         public string? TipoMesa { get; set; } = default!;   
 
-        [Column("PERMISO_EXAMEN")]         
+        [NotMapped]        
         public int? PermisoExamen { get; set; } = default!;   
 
     }
