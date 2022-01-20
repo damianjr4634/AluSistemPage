@@ -1,5 +1,43 @@
-@page "/alumno/materias/inscripcion/{CarreraId}/{AlumnoId}/{MateriaId}"
+@page "/alumno/materias/inscripcion/{MateriaId}"
 
 @inherits _BasePage
 
-<h1>Inscripcion materia</h1>
+<h2>Inscripcion materia</h2>
+
+@if (_materiaInscripcion != null) 
+{
+    <span> <h4>@_materiaInscripcion.MATERIA</h4> </span>
+}
+<hr/>
+
+<EditForm Model="@_inscripcion" OnSubmit="@HandleValidSubmit">    
+    <div class="row sticky">
+        <div class="btn-toolbar" role="toolbar" style="padding-left: 15px;" >
+            <RadzenButton Disabled=@(_materiaInscripcion != null && _materiaInscripcion!.FERRCOD == 2) ButtonType="ButtonType.Submit" style="background-color: blue" Icon="save" BusyText="grabando ..." IsBusy=@busy Text="Guardar" />
+        </div>
+    </div>
+    <hr/>
+    @if(_materiaInscripcion != null && _materiaInscripcion!.FERRCOD == 2) 
+    {
+        <div class="row">
+            <span style="color:red"> 
+                @foreach (var item in _materiaInscripcion.FERRWEB!.Split("<br>"))
+                {
+                    <h4>@item</h4>     
+                }
+                
+            </span>     
+        </div>
+    }
+    <div class="row">
+            
+        <div class="col-8"> 
+           
+        </div>
+        <div class="col-4">
+        </div>     
+    </div>
+
+</EditForm>  
+
+
