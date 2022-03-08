@@ -23,7 +23,9 @@
                     <Template Context="data">             
                         @if (data.inscripcion)  
                         {
-                        <RadzenButton ButtonStyle="ButtonStyle.Secondary" style="width: 50px;height: 23px;padding-left: 15px;" Click=@(() => {_materiaFinal= data.codmat; _inscFinal=true;})>
+                        <RadzenButton ButtonStyle="ButtonStyle.Secondary" style="width: 50px;height: 23px;padding-left: 15px;" Click=@(() => {
+                            _materiaFinal= data.codmat; 
+                            _inscFinal=true;})>
                             @*Click=@(() => navigationManager.NavigateTo(@$"/alumno/materias/inscripcion/{data.codmat}") )>*@
                             
                             <span style="color:white;font-size:18px"><i class="fas fa-clipboard-check"></i></span>
@@ -35,7 +37,7 @@
                     <Template Context="data">             
                         @if (data.permiso)  
                         {
-                        <RadzenButton ButtonStyle="ButtonStyle.Secondary" style="width: 50px;height: 23px;padding-left: 15px;"  Click=@(() => _inscFinal=true )>
+                        <RadzenButton ButtonStyle="ButtonStyle.Secondary" style="width: 50px;height: 23px;padding-left: 15px;"  Click=@(() => {_materiaFinal= data.codmat; _inscFinal=true;} )>
                            @*Click=@(() => navigationManager.NavigateTo(@$"/alumno/materias/inscripcionexamen/{data.codmat}") )>*@
                             
                             <span style="color:white;font-size:18px"><i class="fas fa-book-open"></i></span>
@@ -63,6 +65,7 @@
     </div>
 </div>
 
-<FormModal Visible=@_inscFinal OnClose=@(()=> {_materiaFinal="";_inscFinal=false; }) > 
+
+<FormModal Visible=_inscFinal OnClose=@(()=> {_materiaFinal="";_inscFinal=false; }) > 
     <InscripcionFinal MateriaId=@_materiaFinal/>
 </FormModal> 
