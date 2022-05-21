@@ -15,7 +15,9 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
         public string _alumnoId = default!;
         public string _carreraNombre = default!;
         public bool _inscFinal = false;
+        public bool _inscMateria = false;
         public string _materiaFinal = "";
+        public string _materiaInscripcion = "";
         RadzenDataGrid<MateriaCursadaDto> materiasGrid = default!;
         private List<MateriaCursadaDto> _materiasCursadas = new List<MateriaCursadaDto>();
         public class MateriaCursadaDto

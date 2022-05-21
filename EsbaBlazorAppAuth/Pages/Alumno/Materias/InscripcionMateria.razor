@@ -2,42 +2,56 @@
 
 @inherits _BasePage
 
-<h2>Inscripcion materia</h2>
-
-@if (_materiaInscripcion != null) 
-{
-    <span> <h4>@_materiaInscripcion.MATERIA</h4> </span>
-}
-<hr/>
-
-<EditForm Model="@_inscripcion" OnSubmit="@HandleValidSubmit">    
-    <div class="row sticky">
-        <div class="btn-toolbar" role="toolbar" style="padding-left: 15px;" >
-            <RadzenButton Disabled=@(_materiaInscripcion != null && _materiaInscripcion!.FERRCOD == 2) ButtonType="ButtonType.Submit" style="background-color: blue" Icon="save" BusyText="grabando ..." IsBusy=@busy Text="Guardar" />
-        </div>
+<div class="container-fluid">
+    <div class="row mt-2">
+        <h2>Inscripcion materia</h2>
+    </div>
+    <div class="row mt-2">
+        @if (_materiaInscripcion != null) 
+        {
+            <span> 
+                <h4>@_materiaInscripcion.MATERIA</h4> 
+            </span>
+        }
     </div>
     <hr/>
+
+    @if (_materiaInscripcion != null && _materiaInscripcion!.FERRCOD != 2)
+    {
+        <EditForm Model="@_inscripcion" OnSubmit="@HandleValidSubmit">
+            <div class="row">
+                <h3>Seleccione el turno de cursada</h3>    
+            </div>     
+            <div class="row">               
+                <div class="col">
+                
+                    <RadzenCard>
+                    <RadzenListBox Disabled=@(_materiaInscripcion != null && _materiaInscripcion!.FERRCOD == 2) @bind-Value=@_inscripcion.Turno 
+                                    Data=@_turnos TextProperty="Name" ValueProperty="Id" Style="height:150px" Class="w-100" />
+                    </RadzenCard>
+                </div>               
+            </div>
+        
+            <div class="row sticky">
+                <div class="btn-toolbar" role="toolbar" style="padding-left: 15px;" >
+                    <RadzenButton Disabled=@(_materiaInscripcion != null && _materiaInscripcion!.FERRCOD == 2) ButtonType="ButtonType.Submit" style="background-color: blue" Icon="save" BusyText="grabando ..." IsBusy=@busy Text="Guardar" />
+                </div>
+            </div>
+
+            <hr/>
+            
+        </EditForm>
+    }  
     @if(_materiaInscripcion != null && _materiaInscripcion!.FERRCOD == 2) 
     {
-        <div class="row">
+        <div class="row m-3">
             <span style="color:red"> 
                 @foreach (var item in _materiaInscripcion.FERRWEB!.Split("<br>"))
                 {
                     <h4>@item</h4>     
-                }
-                
+                }                    
             </span>     
         </div>
     }
-    <div class="row">
-            
-        <div class="col-8"> 
-           
-        </div>
-        <div class="col-4">
-        </div>     
-    </div>
-
-</EditForm>  
-
+</div>
 

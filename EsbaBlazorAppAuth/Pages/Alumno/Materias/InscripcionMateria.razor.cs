@@ -18,7 +18,7 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
 {
     public partial class InscripcionMateria : _BasePage
     {
- 
+
         [Parameter]
         public string MateriaId { set; get; } = "";
         private bool _add;
@@ -28,14 +28,20 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
         {
             public string? MATERIA { get; set; }
             public int FERRCOD { get; set; }
-            public string? FERRWEB { get; set; }           
+            public string? FERRWEB { get; set; }
         }
 
         public class Inscripcion
         {
-            public string? Turno { get; set; }            
+            public string? Turno { get; set; }
+        }
+        public class Turnos
+        {
+            public string Id { get; set; } = default!;
+            public string Name { get; set; } = default!;
         }
 
+        private List<Turnos> _turnos = new List<Turnos>();
         public Inscripcion _inscripcion = new Inscripcion();
 
         public MateriaInscripcion? _materiaInscripcion;
@@ -48,6 +54,10 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
             {
                 try
                 {
+                    _turnos.Add(new Turnos { Id = "1", Name = "Mañana" });
+                    _turnos.Add(new Turnos { Id = "2", Name = "Tarde" });
+                    _turnos.Add(new Turnos { Id = "4", Name = "Noche" });
+                    
                     if (appSession.UserCode == 0)
                     {
                         await appSession.LoadInformationUser();
@@ -56,7 +66,7 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
 
                     using (var dbContext = await appSession.DbContextCreate())
                     {
-                        _materiaInscripcion = await dbContext.QuerySingleOrDefaultAsync<MateriaInscripcion>(@$"select FERRCOD, FERRWEB, MATERIA from ALUMNOS A, XXX_INSC_VALMAT(A.cod_alu, '{appSession.Carreras[0].Id}', '{MateriaId}', 'I') WHERE A.INDICE={appSession.UserCode}");                        
+                        _materiaInscripcion = await dbContext.QuerySingleOrDefaultAsync<MateriaInscripcion>(@$"select FERRCOD, FERRWEB, MATERIA from ALUMNOS A, XXX_INSC_VALMAT(A.cod_alu, '{appSession.Carreras[0].Id}', '{MateriaId}', 'I') WHERE A.INDICE={appSession.UserCode}");
                     }
 
                     StateHasChanged();

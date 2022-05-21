@@ -60,23 +60,25 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
 
                         _materiaRendir = await dbContext.QuerySingleOrDefaultAsync<materiaFinales>(@$"SELECT TRIM(MATERIA) AS MATERIA, FMESA, FERRCOD, FERRWEB, CUTUCO, CONDICION FROM ALUMNOS A, XXX_MATERIAS_FINALES(A.cod_alu,'{appSession.Carreras[0].Id}') where A.INDICE='{appSession.UserCode}' AND CODMAT='{MateriaId}'");
 
-                        _mesas = await dbContext.MesasExamen.Where(r => r.CarreraId == appSession.Carreras[0].Id && r.MateriaId == MateriaId).ToListAsync();
+                        if (_materiaRendir != null) {
+                            _mesas = await dbContext.MesasExamen.Where(r => r.CarreraId == appSession.Carreras[0].Id && r.MateriaId == MateriaId).ToListAsync();
 
-                        _add = true;
-                        _permiso = new PermisoExamen();
-                        _permisoOrg = null;
-                        _mesaInscripto = null;
-                        foreach (MesaExamen mesa in _mesas)
-                        {
-                            if (mesa.PermisoExamen == null)
+                            _add = true;
+                            _permiso = new PermisoExamen();
+                            _permisoOrg = null;
+                            _mesaInscripto = null;
+                            foreach (MesaExamen mesa in _mesas)
                             {
-                                _permiso = await dbContext.PermisosExamen.Where(r => r.MateriaId == MateriaId && r.AlumnoId == appSession.UserCode && r.Mesa == mesa.MesaId).SingleOrDefaultAsync() ?? new PermisoExamen();
-                                if (_permiso.Id != 0)
+                                if (mesa.PermisoExamen == null)
                                 {
-                                    _add = false;
-                                    _permisoOrg = _permiso;
-                                    mesa.PermisoExamen = _permiso.Id;
-                                    _mesaInscripto = mesa.MesaId;
+                                    _permiso = await dbContext.PermisosExamen.Where(r => r.MateriaId == MateriaId && r.AlumnoId == appSession.UserCode && r.Mesa == mesa.MesaId).SingleOrDefaultAsync() ?? new PermisoExamen();
+                                    if (_permiso.Id != 0)
+                                    {
+                                        _add = false;
+                                        _permisoOrg = _permiso;
+                                        mesa.PermisoExamen = _permiso.Id;
+                                        _mesaInscripto = mesa.MesaId;
+                                    }
                                 }
                             }
                         }
