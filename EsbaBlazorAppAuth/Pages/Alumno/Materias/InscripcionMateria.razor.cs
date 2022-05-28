@@ -31,10 +31,6 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
             public string? FERRWEB { get; set; }
         }
 
-        public class Inscripcion
-        {
-            public string? Turno { get; set; }
-        }
         public class Turnos
         {
             public string Id { get; set; } = default!;
@@ -42,9 +38,9 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
         }
 
         private List<Turnos> _turnos = new List<Turnos>();
-        public Inscripcion _inscripcion = new Inscripcion();
+        public InscripcionesMaterias? _inscripcion;
 
-        public MateriaInscripcion? _materiaInscripcion;
+        public MateriaInscripcion? _materiaInscripcionValida;
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -66,7 +62,20 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
 
                     using (var dbContext = await appSession.DbContextCreate())
                     {
-                        _materiaInscripcion = await dbContext.QuerySingleOrDefaultAsync<MateriaInscripcion>(@$"select FERRCOD, FERRWEB, MATERIA from ALUMNOS A, XXX_INSC_VALMAT(A.cod_alu, '{appSession.Carreras[0].Id}', '{MateriaId}', 'I') WHERE A.INDICE={appSession.UserCode}");
+                        _materiaInscripcionValida = await dbContext.QuerySingleOrDefaultAsync<MateriaInscripcion>(@$"select FERRCOD, FERRWEB, MATERIA from ALUMNOS A, XXX_INSC_VALMAT(A.cod_alu, '{appSession.Carreras[0].Id}', '{MateriaId}', 'I') WHERE A.INDICE={appSession.UserCode}");
+                        _inscripcion = await dbContext.InscripcionesMaterias.Where(b => b.AlumnoId==appSession.UserCode && b.CarreraId==appSession.Carreras[0].Id && b.MateriaId == MateriaId && b.Estado=="PENDIENTE").FirstOrDefaultAsync();
+                    }
+                    if (_inscripcion == null)
+                    {
+                        _add = true;
+                        _inscripcion = new InscripcionesMaterias();
+                        _inscripcion.Id = 0;
+                        _inscripcion.AlumnoId = appSession.UserCode;
+                        _inscripcion.CarreraId = appSession.Carreras[0].Id;
+                        _inscripcion.FechaInscripcion = DateTime.Now;
+                        _inscripcion.MateriaId = MateriaId;
+                        _inscripcion.Turno = "";
+                        _inscripcion.Estado = "PENDIENTE";
                     }
 
                     StateHasChanged();
@@ -88,56 +97,90 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
         private async Task HandleValidSubmit()
         {
             busy = true;
-
-            try
-            {
-
-                using (var dbContext = await appSession.DbContextCreate())
+            if (_inscripcion != null)
+            { 
+                try
                 {
-                    if (_add)
+
+                    using (var dbContext = await appSession.DbContextCreate())
                     {
-                        /*if (_mesaInscripto == null)
+
+                        if (_add)
                         {
-                            throw new Exception("Seleccione una mesa");
-                        }
-                        dbContext.PermisosExamen.Add(_permiso);*/
-                    }
-                    else
-                    {
-                        //si pasa aca es porque quito el permiso y lo agrego devuelta   
-                        /*if (_permiso.Id == 0 && _permisoOrg != null && _permisoOrg.Id != 0)
-                        {
-                            dbContext.PermisosExamen.Remove(_permisoOrg);
-                            if (_mesaInscripto != null)
+                            if (_inscripcion.Turno == null)
                             {
-                                dbContext.PermisosExamen.Add(_permiso);
+                                throw new Exception("Seleccione una turno");
                             }
+                            
+                            dbContext.InscripcionesMaterias.Add(_inscripcion);
                         }
                         else
                         {
-                            dbContext.PermisosExamen.Update(_permiso);
-                        }*/
+                           
+                            if (_inscripcion.Turno == null)
+                            {
+                                throw new Exception("Seleccione una turno");
+                            }
+                            
+                            dbContext.InscripcionesMaterias.Update(_inscripcion);
+                        }
+
+                        await dbContext.SaveChangesAsync();
                     }
 
-                    await dbContext.SaveChangesAsync();
+                    toastService.ShowSuccess("Grabado");
+                    busy = false;
                 }
-
-                toastService.ShowSuccess("Grabado");
-                busy = false;
-            }
-            catch (Exception err)
-            {
-                busy = false;
-                if (err.InnerException != null && err.InnerException.Message != "")
+                catch (Exception err)
                 {
-                    toastService.ShowError(err.InnerException.Message);
-                }
-                else
-                {
-                    toastService.ShowError(err.Message);
+                    busy = false;
+                    if (err.InnerException != null && err.InnerException.Message != "")
+                    {
+                        toastService.ShowError(err.InnerException.Message);
+                    }
+                    else
+                    {
+                        toastService.ShowError(err.Message);
+                    }
                 }
             }
 
+        }
+
+        private async Task EliminarClick()
+        {
+            if (_inscripcion != null) 
+            {    
+                try
+                {
+
+                    using (var dbContext = await appSession.DbContextCreate())
+                    {
+
+                        
+                        dbContext.InscripcionesMaterias.Remove(_inscripcion);
+                    
+
+                        await dbContext.SaveChangesAsync();
+                    }
+                    _add = true;
+                    _inscripcion = new InscripcionesMaterias();
+                    toastService.ShowSuccess("Inscripcion eliminada");
+                    busy = false;
+                }
+                catch (Exception err)
+                {
+                    busy = false;
+                    if (err.InnerException != null && err.InnerException.Message != "")
+                    {
+                        toastService.ShowError(err.InnerException.Message);
+                    }
+                    else
+                    {
+                        toastService.ShowError(err.Message);
+                    }
+                } 
+            }  
         }
 
     }

@@ -7,16 +7,16 @@
         <h2>Inscripcion materia</h2>
     </div>
     <div class="row mt-2">
-        @if (_materiaInscripcion != null) 
+        @if (_materiaInscripcionValida != null) 
         {
             <span> 
-                <h4>@_materiaInscripcion.MATERIA</h4> 
+                <h4>@_materiaInscripcionValida.MATERIA</h4> 
             </span>
         }
     </div>
     <hr/>
 
-    @if (_materiaInscripcion != null && _materiaInscripcion!.FERRCOD != 2)
+    @if (_materiaInscripcionValida != null && _materiaInscripcionValida!.FERRCOD != 2)
     {
         <EditForm Model="@_inscripcion" OnSubmit="@HandleValidSubmit">
             <div class="row">
@@ -26,7 +26,7 @@
                 <div class="col">
                 
                     <RadzenCard>
-                    <RadzenListBox Disabled=@(_materiaInscripcion != null && _materiaInscripcion!.FERRCOD == 2) @bind-Value=@_inscripcion.Turno 
+                    <RadzenListBox Disabled=@(_materiaInscripcionValida != null && _materiaInscripcionValida!.FERRCOD == 2) @bind-Value=@_inscripcion.Turno 
                                     Data=@_turnos TextProperty="Name" ValueProperty="Id" Style="height:150px" Class="w-100" />
                     </RadzenCard>
                 </div>               
@@ -34,7 +34,11 @@
         
             <div class="row sticky">
                 <div class="btn-toolbar" role="toolbar" style="padding-left: 15px;" >
-                    <RadzenButton Disabled=@(_materiaInscripcion != null && _materiaInscripcion!.FERRCOD == 2) ButtonType="ButtonType.Submit" style="background-color: blue" Icon="save" BusyText="grabando ..." IsBusy=@busy Text="Guardar" />
+                    <RadzenButton Disabled=@(_materiaInscripcionValida != null && _materiaInscripcionValida!.FERRCOD == 2) ButtonType="ButtonType.Submit" style="background-color: blue" Icon="save" BusyText="grabando ..." IsBusy=@busy Text="Guardar" />
+                    @if(_add == false) 
+                    {
+                        <RadzenButton Click="@EliminarClick" style="background-color: red" Icon="trash" BusyText="eliminando..." IsBusy=@busy Text="Eliminar" />    
+                    }
                 </div>
             </div>
 
@@ -42,11 +46,11 @@
             
         </EditForm>
     }  
-    @if(_materiaInscripcion != null && _materiaInscripcion!.FERRCOD == 2) 
+    @if(_materiaInscripcionValida != null && _materiaInscripcionValida!.FERRCOD == 2) 
     {
         <div class="row m-3">
             <span style="color:red"> 
-                @foreach (var item in _materiaInscripcion.FERRWEB!.Split("<br>"))
+                @foreach (var item in _materiaInscripcionValida.FERRWEB!.Split("<br>"))
                 {
                     <h4>@item</h4>     
                 }                    
