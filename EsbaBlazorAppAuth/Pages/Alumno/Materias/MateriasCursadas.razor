@@ -66,10 +66,10 @@
 </div>
 
 
-<FormModal Visible=_inscFinal OnClose=@(()=> {_materiaFinal="";_inscFinal=false; }) > 
+<FormModal Visible=_inscFinal OnClose=@(async ()=> {_materiaFinal="";_inscFinal=false; await LoadMaterias(); }) > 
     <InscripcionFinal MateriaId=@_materiaFinal/>
 </FormModal> 
 
-<FormModal Visible=_inscMateria OnClose=@(()=> {_materiaInscripcion="";_inscMateria=false; }) > 
+<FormModal Visible=_inscMateria OnClose=@(async ()=> {_materiaInscripcion="";_inscMateria=false; await LoadMaterias();}) > 
     <InscripcionMateria MateriaId=@_materiaInscripcion/>
 </FormModal> 

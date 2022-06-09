@@ -67,7 +67,7 @@ namespace EsbaBlazorAppAuth.Services
             if (!_loaded)
             {
 
-                var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+                /*var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
                 var appUser = await _userManager.GetUserAsync(authState.User);
 
                 if (appUser != null)
@@ -78,14 +78,34 @@ namespace EsbaBlazorAppAuth.Services
                     _userName = appUser.UserName;
 
                 }
-
+                */
                 _loaded = true;
             }
         }
 
+        public async Task LoadUser()
+        {
+            var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+            var appUser = await _userManager.GetUserAsync(authState.User);
+
+            if (appUser != null)
+            {
+                _userId = appUser.Id;
+                _userEmail = appUser.Email;
+                _emailConfirmed = appUser.EmailConfirmed;
+                _userName = appUser.UserName;
+
+            }    
+        }
         public async Task LoadInformationUser()
         {
-            if (_loaded)
+            //if ((_loaded || _userCode == 0) && !string.IsNullOrEmpty(_userEmail)) 
+            if (string.IsNullOrEmpty(_userEmail))
+            {
+                await LoadUser();   
+            }
+            
+            if (!string.IsNullOrEmpty(_userEmail))
             {
                 try
                 {

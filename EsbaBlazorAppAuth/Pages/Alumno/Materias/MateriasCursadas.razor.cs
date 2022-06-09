@@ -41,6 +41,10 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
 
         protected async override Task OnInitializedAsync()
         {
+            await LoadMaterias();
+        }
+        protected async Task LoadMaterias()
+        {
             try
             {
                 using (var dbContext = await appSession.DbContextCreate())
