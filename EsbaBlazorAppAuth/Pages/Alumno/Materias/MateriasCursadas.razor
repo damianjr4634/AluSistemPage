@@ -22,37 +22,37 @@
                 <RadzenDataGridColumn Width="90px" TItem="MateriaCursadaDto" Property="inscripcion" Title="Inscripcion" TextAlign="TextAlign.Center">
                     <Template Context="data">             
                         @if (data.inscripcion)  
-                        {
-                        <RadzenButton ButtonStyle="ButtonStyle.Secondary" style="width: 50px;height: 23px;padding-left: 15px;" Click=@(() => {
-                            _materiaInscripcion= data.codmat; 
-                            _inscMateria=true;})>
-                            @*Click=@(() => navigationManager.NavigateTo(@$"/alumno/materias/inscripcion/{data.codmat}") )>*@
-                            
-                            <span style="color:white;font-size:18px"><i class="fas fa-clipboard-check"></i></span>
-                        </RadzenButton> 
+                        {                       
+                            <button type="button" @onclick="@(() => {
+                                _materiaInscripcion= data.codmat; 
+                                _inscMateria=true;})" class="btn btn-info">
+                                <i style="color:white;font-size:18px" class="fas fa-pen"></i>
+                            </button>
                         }
                     </Template>
                 </RadzenDataGridColumn>      
-                <RadzenDataGridColumn Width="95px" TItem="MateriaCursadaDto" Property="permiso" Title="Permiso" TextAlign="TextAlign.Center">
+                <RadzenDataGridColumn Width="90px" TItem="MateriaCursadaDto" Property="permiso" Title="Permiso" TextAlign="TextAlign.Center">
                     <Template Context="data">             
                         @if (data.permiso)  
-                        {
-                        <RadzenButton ButtonStyle="ButtonStyle.Secondary" style="width: 50px;height: 23px;padding-left: 15px;"  Click=@(() => {_materiaFinal= data.codmat; _inscFinal=true;} )>
-                           @*Click=@(() => navigationManager.NavigateTo(@$"/alumno/materias/inscripcionexamen/{data.codmat}") )>*@
-                            
-                            <span style="color:white;font-size:18px"><i class="fas fa-book-open"></i></span>
-                        </RadzenButton>                
+                        {                       
+                            <button type="button" @onclick="@(() => {_materiaFinal= data.codmat; _inscFinal=true;})" class="btn btn-info">
+                                <i style="color:white;font-size:18px" class="fas fa-pen"></i>
+                            </button>                
                         }
                     </Template>
                 </RadzenDataGridColumn>       
-                <RadzenDataGridColumn TItem="MateriaCursadaDto" Property="descripci" Title="Materia" />          
-                <RadzenDataGridColumn Width="125px" TItem="MateriaCursadaDto" Property="condicion" Title="Estado" >  
+                <RadzenDataGridColumn TItem="MateriaCursadaDto" Property="descripci" Title="Materia">
                     <Template Context="data">               
-                        <span style="color:@data.htmlfontcolor;">@data.condicion</span>                
+                        <span style="font-size:15px">@data.descripci</span>                
+                    </Template>
+                </RadzenDataGridColumn>          
+                <RadzenDataGridColumn Width="125px" TItem="MateriaCursadaDto" Property="condicion" Title="Estado" TextAlign="TextAlign.Center">  
+                    <Template Context="data">               
+                        <span style="font-size:12px;color:@data.htmlfontcolor;"><b>@data.condicion</b></span>                
                     </Template>
                 </RadzenDataGridColumn>
-                <RadzenDataGridColumn Width="90px" TItem="MateriaCursadaDto" Property="cuaanio" Title="Cuatri/Año"  />  
-                <RadzenDataGridColumn Width="90px" TItem="MateriaCursadaDto" Property="nota" Title="Nota" TextAlign="TextAlign.Right" FormatString="{0:N}"/>  
+                <RadzenDataGridColumn Width="90px" TItem="MateriaCursadaDto" Property="cuaanio" Title="Cuatri/Año"  TextAlign="TextAlign.Center"/>  
+                <RadzenDataGridColumn Width="90px" TItem="MateriaCursadaDto" Property="nota" Title="Nota" TextAlign="TextAlign.Right" FormatString="{0:N2}"/>  
                 <RadzenDataGridColumn Width="120px" TItem="MateriaCursadaDto" Property="fecha" Title="Fecha">
                     <Template Context="data">             
                         @if (data.fecha != null)  {

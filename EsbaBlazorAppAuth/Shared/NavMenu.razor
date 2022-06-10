@@ -1,5 +1,5 @@
 ﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">Esba Intranet</a>
+    <a class="navbar-brand" href=""><span style="font-size:20pt"><b>ESBA INTRANET</b></span></a>
     @*<button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
     </button>*@
@@ -20,9 +20,9 @@
                         <NavLink class="nav-link" href="@item.Href" Match="NavLinkMatch.All">
                         @if (item.Icon != "")
                             {
-                                <span class="@item.Icon m-2" aria-hidden="true" />
+                                <span style="font-size:12pt" class="@item.Icon m-2" aria-hidden="true" />
                             } 
-                            @item.Name
+                            <span style="font-size:15pt">@item.Name</span>
                         </NavLink>
                     </li>
                 }
@@ -36,7 +36,7 @@
                             else {
                                 <span class="fas fa-angle-right m-2" aria-hidden="true" />
                             }                                                  
-                            @item.Name                                          
+                            <span style="font-size:15pt">@item.Name</span>                                         
                         </NavLink>
                     </li>    
                     @if (item.Expanded)
@@ -49,9 +49,9 @@
                                 <NavLink class="nav-link" href="@option.Href" Match="NavLinkMatch.All">
                                     @if (option.Icon != "")
                                     {
-                                        <span class="@option.Icon m-2" aria-hidden="true" />
+                                        <span style="font-size:12pt" class="@option.Icon m-2" aria-hidden="true" />
                                     }
-                                    @option.Name
+                                    <span style="font-size:15pt">@option.Name</span>
                                 </NavLink>
                                 </li>
                             }                            
@@ -124,7 +124,7 @@
         };
         MenuOptions.Add(menuopt);
 
-        menuopt =  new MenuOption()
+        /*menuopt =  new MenuOption()
         {
             Name = "Submenu",
             Expanded = false,
@@ -152,7 +152,7 @@
             Expanded = false,
             Href = "",
             Icon = "fas fa-globe",            
-        };    
+        };    */
     }
 
 }
