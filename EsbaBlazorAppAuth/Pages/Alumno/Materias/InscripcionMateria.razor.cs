@@ -21,6 +21,8 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
 
         [Parameter]
         public string MateriaId { set; get; } = "";
+        [Parameter] 
+        public EventCallback OnClose { get; set; }
         private bool _add;
         private bool busy = false;
 
@@ -129,6 +131,7 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
                     }
 
                     toastService.ShowSuccess("Grabado");
+                    await DialogClose();
                     busy = false;
                 }
                 catch (Exception err)
@@ -157,7 +160,7 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
                     using (var dbContext = await appSession.DbContextCreate())
                     {
 
-                        
+                     
                         dbContext.InscripcionesMaterias.Remove(_inscripcion);
                     
 
@@ -181,6 +184,14 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
                     }
                 } 
             }  
+        }
+
+        private async Task DialogClose()
+        {
+            if (OnClose.HasDelegate)
+            {
+                await OnClose.InvokeAsync();
+            }
         }
 
     }

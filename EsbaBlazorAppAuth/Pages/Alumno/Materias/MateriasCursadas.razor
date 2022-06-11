@@ -18,8 +18,19 @@
         <RadzenDataGrid @ref="materiasGrid" Data="@_materiasCursadas" TItem="MateriaCursadaDto" AllowColumnResize="true"
                         CellRender="@CellRender" Width="600px">
             <Columns>   
-                <RadzenDataGridColumn Width="50px" TItem="MateriaCursadaDto" Property="cuatrim" Title="Cuat" TextAlign="TextAlign.Center" />                            
-                <RadzenDataGridColumn Width="90px" TItem="MateriaCursadaDto" Property="inscripcion" Title="Inscripcion" TextAlign="TextAlign.Center">
+                <RadzenDataGridColumn Width="50px" TItem="MateriaCursadaDto" Property="cuatrim" TextAlign="TextAlign.Center">
+                    <HeaderTemplate>
+                        <div style="text-align: center; width: 50px; margin-left: -12px;font-size:15px;">
+                            <b>Cuat</b>
+                        </div>
+                    </HeaderTemplate>
+                </RadzenDataGridColumn>                            
+                <RadzenDataGridColumn Width="120px" TItem="MateriaCursadaDto" Property="inscripcion"  TextAlign="TextAlign.Center">
+                    <HeaderTemplate>
+                        <div style="text-align: center; width: 120px; margin-left: -12px;font-size:15px;">
+                           <b>Inscripcion</b>
+                        </div>
+                    </HeaderTemplate>
                     <Template Context="data">             
                         @if (data.inscripcion)  
                         {                       
@@ -31,7 +42,12 @@
                         }
                     </Template>
                 </RadzenDataGridColumn>      
-                <RadzenDataGridColumn Width="90px" TItem="MateriaCursadaDto" Property="permiso" Title="Permiso" TextAlign="TextAlign.Center">
+                <RadzenDataGridColumn Width="100px" TItem="MateriaCursadaDto" Property="permiso"  TextAlign="TextAlign.Center">
+                    <HeaderTemplate>
+                        <div style="text-align: center; width: 100px; margin-left: -12px;font-size:15px;">
+                            <b>Permiso</b>
+                        </div>
+                    </HeaderTemplate>
                     <Template Context="data">             
                         @if (data.permiso)  
                         {                       
@@ -41,22 +57,55 @@
                         }
                     </Template>
                 </RadzenDataGridColumn>       
-                <RadzenDataGridColumn TItem="MateriaCursadaDto" Property="descripci" Title="Materia">
+                <RadzenDataGridColumn TItem="MateriaCursadaDto" Property="descripci" >
+                    <HeaderTemplate>
+                        <div style="text-align: center; margin-left: 0px;font-size:15px;">
+                            <b>Materia</b>
+                        </div>
+                    </HeaderTemplate>
                     <Template Context="data">               
                         <span style="font-size:15px">@data.descripci</span>                
                     </Template>
                 </RadzenDataGridColumn>          
-                <RadzenDataGridColumn Width="125px" TItem="MateriaCursadaDto" Property="condicion" Title="Estado" TextAlign="TextAlign.Center">  
+                <RadzenDataGridColumn Width="170px" TItem="MateriaCursadaDto" Property="condicion" TextAlign="TextAlign.Center">  
+                    <HeaderTemplate>
+                        <div style="text-align: center; width: 170px; margin-left: -12px;font-size:15px;">
+                            <b>Estado</b>
+                        </div>
+                    </HeaderTemplate>
                     <Template Context="data">               
                         <span style="font-size:12px;color:@data.htmlfontcolor;"><b>@data.condicion</b></span>                
                     </Template>
                 </RadzenDataGridColumn>
-                <RadzenDataGridColumn Width="90px" TItem="MateriaCursadaDto" Property="cuaanio" Title="Cuatri/Año"  TextAlign="TextAlign.Center"/>  
-                <RadzenDataGridColumn Width="90px" TItem="MateriaCursadaDto" Property="nota" Title="Nota" TextAlign="TextAlign.Right" FormatString="{0:N2}"/>  
-                <RadzenDataGridColumn Width="120px" TItem="MateriaCursadaDto" Property="fecha" Title="Fecha">
+                <RadzenDataGridColumn Width="100px" TItem="MateriaCursadaDto" Property="cuaanio" TextAlign="TextAlign.Center">
+                     <HeaderTemplate>
+                        <div style="text-align: center; width: 100px; margin-left: -12px;font-size:15px;">
+                            <b>Cuatri<br>Año</b>
+                        </div>
+                    </HeaderTemplate>
+                    <Template Context="data">               
+                        <span style="font-size:15px;">@data.cuaanio</span>                
+                    </Template>
+                </RadzenDataGridColumn>  
+                <RadzenDataGridColumn Width="80px" TItem="MateriaCursadaDto" Property="nota" TextAlign="TextAlign.Right" >
+                    <HeaderTemplate>
+                        <div style="text-align: center; width: 80px; margin-left: -12px;font-size:15px;">
+                            <b>Nota</b>
+                        </div>                       
+                    </HeaderTemplate>
+                    <Template Context="data">               
+                        <span style="font-size:15px;"><b>@String.Format("{0:N2}",data.nota)</b></span>                
+                    </Template>
+                </RadzenDataGridColumn>  
+                <RadzenDataGridColumn Width="100px" TItem="MateriaCursadaDto" Property="fecha">
+                    <HeaderTemplate>
+                        <div style="text-align: center; width: 100px; margin-left: -12px;font-size:15px;">
+                            <b>Fecha</b>
+                        </div>
+                    </HeaderTemplate>
                     <Template Context="data">             
                         @if (data.fecha != null)  {
-                        @data.fecha.Value.ToString("dd/MM/yyyy")
+                            <span style="font-size:15px;"> @data.fecha.Value.ToString("dd/MM/yyyy")</span>
                         }
                     </Template>
                 </RadzenDataGridColumn>            
@@ -66,10 +115,10 @@
 </div>
 
 
-<FormModal Visible=_inscFinal OnClose=@(async ()=> {_materiaFinal="";_inscFinal=false; await LoadMaterias(); }) > 
-    <InscripcionFinal MateriaId=@_materiaFinal/>
+<FormModal Visible=_inscFinal OnClose=@InscripcionFinalClose > 
+    <InscripcionFinal MateriaId=@_materiaFinal OnClose=@InscripcionFinalClose/>
 </FormModal> 
 
-<FormModal Visible=_inscMateria OnClose=@(async ()=> {_materiaInscripcion="";_inscMateria=false; await LoadMaterias();}) > 
-    <InscripcionMateria MateriaId=@_materiaInscripcion/>
+<FormModal Visible=_inscMateria OnClose=@InscripcionMateriaClose > 
+    <InscripcionMateria MateriaId=@_materiaInscripcion OnClose=@InscripcionMateriaClose/>
 </FormModal> 

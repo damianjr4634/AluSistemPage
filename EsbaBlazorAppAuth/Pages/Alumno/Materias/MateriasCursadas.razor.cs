@@ -92,7 +92,7 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
         {
             if (args.Column.Property == "condicion")
             {
-                
+ 
                 args.Attributes.Add("style", $"background-color: {(args.Data.htmlcolor)};");            
             }
 
@@ -101,5 +101,19 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
         void PedirPermiso(string aCodMat){
             
         }
-    }
+
+        private async Task InscripcionMateriaClose() 
+        {
+            _materiaInscripcion="";
+            _inscMateria=false; 
+            await LoadMaterias();
+        }
+        private async Task InscripcionFinalClose()
+        {
+            _materiaFinal="";
+            _inscFinal=false; 
+            await LoadMaterias(); 
+        }
+    }    
+
 }
