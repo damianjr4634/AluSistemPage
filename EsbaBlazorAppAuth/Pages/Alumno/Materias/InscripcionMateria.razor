@@ -2,60 +2,75 @@
 
 @inherits _BasePage
 
+
 <div class="container-fluid">
-    <div class="row mt-2">
-        <h2>Inscripcion materia</h2>
-    </div>
-    <div class="row mt-2">
-        @if (_materiaInscripcionValida != null) 
-        {
-            <span> 
-                <h4>@_materiaInscripcionValida.MATERIA</h4> 
-            </span>
-        }
-    </div>
-    <hr/>
-
-    @if (_materiaInscripcionValida != null && _materiaInscripcionValida!.FERRCOD != 2)
-    {
-        <EditForm Model="@_inscripcion" OnSubmit="@HandleValidSubmit">
-            <div class="row">
-                <h3>Seleccione el turno de cursada</h3>    
-            </div>     
-            <div class="row">               
-                <div class="col">
-                
-                    <RadzenCard>
-                    <RadzenListBox Disabled=@(_materiaInscripcionValida != null && _materiaInscripcionValida!.FERRCOD == 2) @bind-Value=@_inscripcion.Turno 
-                                    Data=@_turnos TextProperty="Name" ValueProperty="Id" Style="height:150px" Class="w-100" />
-                    </RadzenCard>
-                </div>               
-            </div>
-        
-            <div class="row sticky">
-                <div class="btn-toolbar" role="toolbar" style="padding-left: 15px;" >
-                    <RadzenButton Disabled=@(_materiaInscripcionValida != null && _materiaInscripcionValida!.FERRCOD == 2) ButtonType="ButtonType.Submit" style="background-color: blue" Icon="save" BusyText="grabando ..." IsBusy=@busy Text="Guardar" />
-                    @if(_add == false) 
-                    {
-                        <RadzenButton Click="@EliminarClick" style="background-color: red" Icon="trash" BusyText="eliminando..." IsBusy=@busy Text="Eliminar" />    
-                    }
-                </div>
-            </div>
-
-            <hr/>
+   
+    <FormModal Size="" OnClose=@OnClose Visible=@Visible>
+        <header>
             
-        </EditForm>
-    }  
-    @if(_materiaInscripcionValida != null && _materiaInscripcionValida!.FERRCOD == 2) 
-    {
-        <div class="row m-3">
-            <span style="color:red"> 
+            <div class="container">
+                <div class="text-center" style="background-color: lightgray;">
+                    <span style="font-size: 16pt; color: black">
+                        <b>Inscripcion a la materia</b>
+                    </span>
+                </div>
+                @if (_materiaInscripcionValida != null) 
+                {
+                    <div class="text-center">    
+                        <span style="font-size:15px"> 
+                            @_materiaInscripcionValida.MATERIA
+                        </span>
+                    </div>
+                }
+            </div>                
+            
+        </header>
+       
+        <hr/>
+
+        @if (_materiaInscripcionValida != null && _materiaInscripcionValida!.FERRCOD != 2)
+        {
+            <EditForm Model="@_inscripcion" OnSubmit="@HandleValidSubmit">
+                <div class="row ml-3 mr-3">
+                    <span style="font-size:15px">Seleccione el turno de cursada</span>    
+                </div>  
+                <hr/>   
+                <div class="row ml-3 mr-3">               
+                    <div class="col">
+                    
+                    
+                            <RadzenListBox Disabled=@(_materiaInscripcionValida != null && _materiaInscripcionValida!.FERRCOD == 2) @bind-Value=@_inscripcion.Turno 
+                                            Data=@_turnos TextProperty="Name" ValueProperty="Id" Style="height:150px" Class="w-100" />
+                        
+                    </div>               
+                </div>
+                <br>
+                <div class="row sticky ml-3 mr-3">
+                    <div class="btn-toolbar" role="toolbar" style="padding-left: 15px;" >
+                        <RadzenButton Disabled=@(_materiaInscripcionValida != null && _materiaInscripcionValida!.FERRCOD == 2) ButtonType="ButtonType.Submit" style="background-color: blue" Icon="save" BusyText="grabando ..." IsBusy=@busy Text="Guardar" />
+                        @if(_add == false) 
+                        {
+                            <RadzenButton Click="@EliminarClick" style="background-color: blue; margin-left: 3px" Icon="delete_forever" BusyText="eliminando..." IsBusy=@busy Text="Eliminar" />    
+                        }
+                    </div>
+                </div>
+
+                <hr/>
+                
+            </EditForm>
+        }  
+        @if(_materiaInscripcionValida != null && _materiaInscripcionValida!.FERRCOD == 2) 
+        {
+            
+                 
                 @foreach (var item in _materiaInscripcionValida.FERRWEB!.Split("<br>"))
                 {
-                    <h4>@item</h4>     
+                    <div class="row ml-3 mr-2">
+                    <span style="color:red;font-size:14px">@item</span> 
+                    </div>
                 }                    
-            </span>     
-        </div>
-    }
+                    
+        }
+    </FormModal>
 </div>
 

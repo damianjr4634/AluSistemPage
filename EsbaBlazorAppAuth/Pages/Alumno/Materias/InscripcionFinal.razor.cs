@@ -22,6 +22,9 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
         public string MateriaId { set; get; } = "";
         [Parameter] 
         public EventCallback OnClose { get; set; }
+        [Parameter]
+        public bool Visible {get; set;} = false;
+        
         //private string _nombreMateria = "";
         private bool busy = false;
         private bool _add = false;

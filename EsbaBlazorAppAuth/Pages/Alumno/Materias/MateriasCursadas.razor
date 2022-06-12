@@ -34,12 +34,22 @@
                     <Template Context="data">             
                         @if (data.inscripcion)  
                         {                       
-                            <button type="button" @onclick="@(() => {
-                                _materiaInscripcion= data.codmat; 
-                                _inscMateria=true;})" class="btn btn-info">
-                                <i style="color:white;font-size:18px" class="fas fa-pen"></i>
-                            </button>
+                            @if (data.condicion != "**INSCRIPTO**") 
+                            {
+                                <button type="button" @onclick="@(() => { _materiaInscripcion= data.codmat; _inscMateria=true;})" 
+                                    class="btn pt-1 pb-1 pl-2 pr-2" style="background-color: black">
+                                    <i style="color:white;font-size:22px" class="fas fa-pen"></i>
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="button " @onclick="@(() => { _materiaInscripcion= data.codmat; _inscMateria=true;})" 
+                                    class="btn pt-1 pb-1 pl-2 pr-2" style="background-color: black">
+                                    <i style="color:green;font-size:22px" class="fas fa-check"></i>
+                                </button>   
+                            }
                         }
+                        
                     </Template>
                 </RadzenDataGridColumn>      
                 <RadzenDataGridColumn Width="100px" TItem="MateriaCursadaDto" Property="permiso"  TextAlign="TextAlign.Center">
@@ -51,10 +61,13 @@
                     <Template Context="data">             
                         @if (data.permiso)  
                         {                       
-                            <button type="button" @onclick="@(() => {_materiaFinal= data.codmat; _inscFinal=true;})" class="btn btn-info">
-                                <i style="color:white;font-size:18px" class="fas fa-pen"></i>
+                            <button type="button" 
+                                @onclick="@(() => {_materiaFinal= data.codmat; _inscFinal=true;})" 
+                                class="btn pt-1 pb-1 pl-2 pr-2" style="background-color: black;">
+                                <i style="color:white;font-size:22px" class="fas fa-pen"></i>
                             </button>                
                         }
+                        
                     </Template>
                 </RadzenDataGridColumn>       
                 <RadzenDataGridColumn TItem="MateriaCursadaDto" Property="descripci" >
@@ -115,10 +128,11 @@
 </div>
 
 
-<FormModal Visible=_inscFinal OnClose=@InscripcionFinalClose > 
-    <InscripcionFinal MateriaId=@_materiaFinal OnClose=@InscripcionFinalClose/>
-</FormModal> 
-
-<FormModal Visible=_inscMateria OnClose=@InscripcionMateriaClose > 
-    <InscripcionMateria MateriaId=@_materiaInscripcion OnClose=@InscripcionMateriaClose/>
-</FormModal> 
+@if(_inscFinal)
+{   
+    <InscripcionFinal MateriaId=@_materiaFinal OnClose=@InscripcionFinalClose Visible=@_inscFinal/>
+}
+@if(_inscMateria)
+{
+    <InscripcionMateria MateriaId=@_materiaInscripcion OnClose=@InscripcionMateriaClose Visible=@_inscMateria/>
+}

@@ -23,6 +23,8 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
         public string MateriaId { set; get; } = "";
         [Parameter] 
         public EventCallback OnClose { get; set; }
+        [Parameter]
+        public bool Visible { get; set; } = false;
         private bool _add;
         private bool busy = false;
 
@@ -169,6 +171,7 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
                     _add = true;
                     _inscripcion = new InscripcionesMaterias();
                     toastService.ShowSuccess("Inscripcion eliminada");
+                    await DialogClose();
                     busy = false;
                 }
                 catch (Exception err)
