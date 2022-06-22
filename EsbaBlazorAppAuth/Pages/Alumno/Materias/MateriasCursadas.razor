@@ -9,7 +9,7 @@
 </div>    
 <div class="row"> 
     <div class="col">     
-        <span style="font-size:20px"><b>@_carrera.Nombre</b></span>
+        @*<span style="font-size:20px"><b>@_carrera.Nombre</b></span>*@
     </div>
 </div>
 <hr/>
@@ -60,12 +60,23 @@
                     </HeaderTemplate>
                     <Template Context="data">             
                         @if (data.permiso)  
-                        {                       
-                            <button type="button" 
-                                @onclick="@(() => {_materiaFinal= data.codmat; _inscFinal=true;})" 
-                                class="btn pt-1 pb-1 pl-2 pr-2" style="background-color: black;">
-                                <i style="color:white;font-size:22px" class="fas fa-pen"></i>
-                            </button>                
+                        {  
+                            @if(data.tienepermiso)
+                            {                         
+                                <button type="button" 
+                                    @onclick="@(() => {_materiaFinal= data.codmat; _inscFinal=true;})" 
+                                    class="btn pt-1 pb-1 pl-2 pr-2" style="background-color: black;">
+                                    <i style="color:green;font-size:22px" class="fas fa-check"></i>         
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="button" 
+                                    @onclick="@(() => {_materiaFinal= data.codmat; _inscFinal=true;})" 
+                                    class="btn pt-1 pb-1 pl-2 pr-2" style="background-color: black;">
+                                    <i style="color:white;font-size:22px" class="fas fa-pen"></i>        
+                                </button>    
+                            }
                         }
                         
                     </Template>

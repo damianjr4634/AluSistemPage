@@ -44,7 +44,9 @@ namespace EsbaBlazorAppAuth.Data
         [DataType(DataType.Date)]
         [Column("FECHA_EMISION")]         
         public DateTime FechaEmision { get; set; } = default!;
-                
+
+        [Column("PERMISO_ID")]         
+        public int? PermisoId { get; set; } = default!;          
     }
 }
 

@@ -1,0 +1,49 @@
+@using Microsoft.AspNetCore.Mvc
+
+<div class="top-row" style="">
+    <div class="row align-items-center">
+        <div class="col-2">
+            <img style="height:60px" src="/img/esbalogo.webp"/>
+        </div>    
+        <div class="col-6">
+            <b style="font-size:20px">Carreras</b> 
+            <br>
+            @if(Carreras != null) 
+            {
+                <RadzenDropDown AllowClear="false" TValue="string" style="width:500px; margin-top: 2px"
+                                        Data=@Carreras TextProperty="NombreCarrera" ValueProperty="IdCarrera" 
+                                        Change=@OnLocalChange  
+                                        @bind-Value=@_SelectedValue/>
+            }      
+        </div> 
+     </div> 
+     <hr/>
+</div>
+
+@code {
+    [Parameter] 
+    public EventCallback OnChance { get; set; }
+    
+    [Parameter]
+    public List<AlumnoCarrera> Carreras { get; set; }
+
+    [Parameter]
+    public AlumnoCarrera CarreraSelected { get; set;}
+
+    public string _SelectedValue;
+
+    private async Task OnLocalChange(object value)
+    {
+        CarreraSelected = Carreras.Find(x => x.IdCarrera == (string)value);
+
+        if (OnChance.HasDelegate)
+        {
+            await OnChance.InvokeAsync();
+        }
+    }
+
+    public async void CarreraSelectedChanged()
+    {
+
+    }
+}

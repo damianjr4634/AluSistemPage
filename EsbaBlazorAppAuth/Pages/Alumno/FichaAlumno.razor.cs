@@ -35,7 +35,7 @@ namespace EsbaBlazorAppAuth.Pages.Alumno
             {    
                 try
                 {
-                    if (appSession.UserCode == 0)
+                    if (appSession.Carreras.Count == 0)
                     {
                         await appSession.LoadInformationUser();
                     }
@@ -45,7 +45,7 @@ namespace EsbaBlazorAppAuth.Pages.Alumno
                         _listSexo = await dbContext.Sexo.ToListAsync();
                         _listEstadoCivil = await dbContext.EstadoCivil.ToListAsync();               
 
-                        _alumno = await dbContext.Alumnos.Where(r => r.Id == appSession.UserCode).SingleOrDefaultAsync(); 
+                        /*_alumno = await dbContext.Alumnos.Where(r => r.Id == appSession.UserCode).SingleOrDefaultAsync(); 
                         if (_alumno == null) {
                             _add = true;
                             query = @$"select INDICE AS ID, NOM_APE AS NOMBRE, APELLIDO, COD_ALU AS CODIGOALUMNO, CARRE AS CARRERAID,
@@ -58,7 +58,7 @@ namespace EsbaBlazorAppAuth.Pages.Alumno
                             
                             _alumno = new EsbaBlazorAppAuth.Data.Alumno();                             
                             _alumno =  await dbContext.QuerySingleOrDefaultAsync<EsbaBlazorAppAuth.Data.Alumno>(query);                      
-                        }
+                        }*/
                     }  
 
                     StateHasChanged();

@@ -1,5 +1,6 @@
 @inherits LayoutComponentBase
 @using Blazored.Toast.Services
+@inject AppSession appSession
 
 <BlazoredToasts Position="ToastPosition.BottomRight"
                 Timeout="5"
@@ -11,13 +12,15 @@
                 WarningIcon="fas fa-exclamation-triangle" />
                 
 <div class="page">
+
     <div class="sidebar">
         <NavMenu />
     </div>
 
     <div class="main">
+
         <div class="top-row px-4 auth" style="background-color: #26276E">
-            <LoginDisplay />           
+            <LoginDisplay />                      
         </div>
 
         <div class="content px-4">
@@ -25,3 +28,8 @@
         </div>
     </div>
 </div>
+
+@code
+{
+
+}

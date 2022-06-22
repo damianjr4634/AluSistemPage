@@ -12,8 +12,14 @@ namespace EsbaBlazorAppAuth.Pages
 {
     public partial class Index : _BasePage
     {      
+       
         private AlumnoDto? _alumno = new AlumnoDto();
-        public Carrera _carrera = new Carrera(); 
+        
+        public AlumnoCarrera _carrera = new AlumnoCarrera(); 
+        
+        private int _carreraSelectedIndex = 0;
+        private string _carreraSelectedId = "";
+
         private class AlumnoDto
         {          
             public string Apellido {get; set;} = default!;            
@@ -29,38 +35,61 @@ namespace EsbaBlazorAppAuth.Pages
             public string Documento {get; set;} = default!;
 
         }
+
+        private async Task LoadInfo()
+        {
+            try
+            {
+                if (appSession.Carreras == null || appSession.Carreras.Count == 0)
+                {
+                    await appSession.LoadInformationUser();
+                }
+                
+                _carrera = appSession.Carreras[_carreraSelectedIndex];
+                _carreraSelectedId = _carrera.IdCarrera;
+
+                using (var dbContext = await appSession.DbContextCreate())
+                {
+                    _alumno = await dbContext.QuerySingleOrDefaultAsync<AlumnoDto>(@$"select trim(apellido) as apellido, trim(nom_ape) as nombre,
+                                                                                                iif(CTT='*','S','N') as ConstanciaTituloTramite,
+                                                                                                FAPTFIS as AptoFisico, FAPTFEC as FechaAptoFisico,
+                                                                                                FFOTO as foto ,FPARNAC as PartidaNacimiento, 
+                                                                                                NOMIPASE as FotocopiaNominaPase,DNI as Documento,
+                                                                                                CA as ConstanciaAnalitico
+                                                                                        from alumnos 
+                                                                                        where indice=@indice",
+                        new {
+                            indice = appSession.Carreras[_carreraSelectedIndex].IdAlumno
+                        });
+                }
+
+                //_alumno.FechaAptoFisico.Value.AddMonths(3) > DateTime.Now
+                
+                StateHasChanged();
+            }
+            catch (Exception err)
+            {
+                if (err.InnerException != null && err.InnerException.Message != "")
+                {
+                    toastService.ShowError(err.InnerException.Message);
+                }
+                else
+                {
+                    toastService.ShowError(err.Message);
+                }
+            }
+        }
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
             {
                 try
                 {
-                    if (appSession.UserCode == 0)
+                    if (appSession.Carreras == null || appSession.Carreras.Count == 0)
                     {
                         await appSession.LoadInformationUser();
-                    }
-
-                    
-                     _carrera = appSession.Carreras[0];
-
-                    using (var dbContext = await appSession.DbContextCreate())
-                    {
-                        _alumno = await dbContext.QuerySingleOrDefaultAsync<AlumnoDto>(@$"select trim(apellido) as apellido, trim(nom_ape) as nombre,
-                                                                                                 iif(CTT='*','S','N') as ConstanciaTituloTramite,
-                                                                                                 FAPTFIS as AptoFisico, FAPTFEC as FechaAptoFisico,
-                                                                                                 FFOTO as foto ,FPARNAC as PartidaNacimiento, 
-                                                                                                 NOMIPASE as FotocopiaNominaPase,DNI as Documento,
-                                                                                                 CA as ConstanciaAnalitico
-                                                                                          from alumnos 
-                                                                                          where indice=@indice",
-                            new {
-                                indice = appSession.UserCode
-                            });
-                    }
-
-                    //_alumno.FechaAptoFisico.Value.AddMonths(3) > DateTime.Now
-                   
-                    StateHasChanged();
+                    } 
+                    await LoadInfo();
                 }
                 catch (Exception err)
                 {
@@ -72,8 +101,15 @@ namespace EsbaBlazorAppAuth.Pages
                     {
                         toastService.ShowError(err.Message);
                     }
-                }
+                }  
             }
+        }
+
+        private async void carreraOnChange()
+        {
+            //_carreraSelectedIndex = appSession.Carreras.FindIndex(x => x.IdCarrera == (string)value);
+            //_carrera = appSession.Carreras[_carreraSelectedIndex];
+            await LoadInfo();
         }
     }
 }

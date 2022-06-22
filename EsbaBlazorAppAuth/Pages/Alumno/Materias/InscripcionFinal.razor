@@ -29,8 +29,8 @@
         <EditForm Model="@_permiso" OnSubmit="@HandleValidSubmit">    
             @if(_materiaRendir != null && _materiaRendir!.FERRCOD == 2) 
             {
-                <div class="row mt-2">
-                    <span style="color:white;font-size:12px;background-color:red"> 
+                <div class="row m-2">
+                    <span style="color:white;font-size:15px;background-color:red"> 
                         @_materiaRendir.FERRWEB
                     </span>     
                 </div>
@@ -63,7 +63,7 @@
                                             */ 
                                         }
                                         else if(_mesaInscripto != null) { 
-                                            if (_permiso.Mesa == data.MesaId)
+                                            if (_mesaInscripto == data.MesaId)
                                             {
                                                 <span style="color:green;font-size:12px"><b>Ingresado</b></span>
                                                 <button type="button" @onclick="@(() => QuitarMesa(data))" 

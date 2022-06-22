@@ -1,12 +1,7 @@
 @page "/"
-
 @inherits _BasePage
 
-<div class="row">
-    <div class="col">
-        <img style="height:80%" src="/img/esbalogo.webp" />
-    </div>
-</div>
+<CarreraSelect OnChance=@carreraOnChange @bind-CarreraSelected=@_carrera Carreras=@appSession.Carreras/>
 <div class="row">
     <div class="col">
          <RadzenFieldset>
@@ -33,7 +28,7 @@
             <ChildContent>
                 @if(_carrera != null)
                 {
-                    <span style="font-size:18px">@_carrera.Nombre</span>
+                    @*<span style="font-size:18px">@_carrera.Nombre</span>*@
                 }
             </ChildContent>
         </RadzenFieldset>    

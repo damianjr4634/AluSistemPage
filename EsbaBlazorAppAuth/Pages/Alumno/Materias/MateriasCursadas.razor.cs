@@ -11,7 +11,8 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
 {
     public partial class MateriasCursadas : _BasePage
     {      
-        public Carrera _carrera = new Carrera();      
+        //public AlumnoCarrera _carrera = new AlumnoCarrera();
+        public int IdSelectedCarrera;     
         public string _alumnoId = default!;
         public string _carreraNombre = default!;
         public bool _inscFinal = false;
@@ -37,11 +38,14 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
             public string vencim { set; get; } = "";
             public bool permiso { set; get;}
             public bool inscripcion { set; get; }
+            public bool tienepermiso {set; get;}
         }
 
         protected async override Task OnInitializedAsync()
         {
+            IdSelectedCarrera = 0;
             await LoadMaterias();
+            
         }
         protected async Task LoadMaterias()
         {
@@ -49,29 +53,27 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
             {
                 using (var dbContext = await appSession.DbContextCreate())
                 {
-                    if (appSession.UserCode == 0)
+                    if (appSession.Carreras.Count == 0)
                     {
                         await appSession.LoadInformationUser();
                     }
 
-                    _carrera = appSession.Carreras[0];
-
-                    _alumnoId = await dbContext.QuerySingleValueOrDefaultAsync<string>(@$"select cod_alu 
+                    /*_alumnoId = await dbContext.QuerySingleValueOrDefaultAsync<string>(@$"select cod_alu 
                                                                                 from alumnos a                                                                             
                                                                                 where a.indice=@codalu",
                                                                                 new
                                                                                 {
-                                                                                    codalu = appSession.UserCode                                                                                   
-                                                                                });
+                                                                                    codalu = appSession.Carreras[0].IdAlumno                                                                                   
+                                                                                });*/
 
                     _materiasCursadas = await dbContext.QueryAsync<MateriaCursadaDto>(@$"select cuatrim, codmat, descripci, condicion, cuaanio, 
                                                                                         nota, fecha, anual, cutuco, vencim, htmlcolor, htmlfontcolor,
-                                                                                        permiso, inscripcion
+                                                                                        permiso, inscripcion, tienepermiso
                                                                                 from xxx_constancia_terciaria(@codalu,@carrera)",
                                                                                 new
                                                                                 {
-                                                                                    codalu = _alumnoId,
-                                                                                    carrera = _carrera.Id
+                                                                                    codalu = appSession.Carreras[IdSelectedCarrera].DocumentoAlumno,
+                                                                                    carrera = appSession.Carreras[IdSelectedCarrera].IdCarrera
                                                                                 });                    
                 }
             }
