@@ -20,6 +20,8 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
     {
         [Parameter]
         public string MateriaId { set; get; } = "";
+        [Parameter]
+        public AlumnoCarrera Carrera { set; get; } = default!;
         [Parameter] 
         public EventCallback OnClose { get; set; }
         [Parameter]
@@ -51,10 +53,7 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
             {
                 try
                 {
-                    if (appSession.Carreras.Count == 0)
-                    {
-                        await appSession.LoadInformationUser();
-                    }
+            
                     _add = false;
 
                     using (var dbContext = await appSession.DbContextCreate())
@@ -63,10 +62,10 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
                         //_listEstadoCivil = await dbContext.EstadoCivil.ToListAsync();               
                         //_nombreMateria = await dbContext.QuerySingleValueOrDefaultAsync<string>(@$"select m.descripci from materias m where m.codcarre='{appSession.Carreras[0].Id}' and m.codmateri='{MateriaId}'");
 
-                        //_materiaRendir = await dbContext.QuerySingleOrDefaultAsync<materiaFinales>(@$"SELECT TRIM(MATERIA) AS MATERIA, FMESA, FERRCOD, FERRWEB, CUTUCO, CONDICION FROM ALUMNOS A, XXX_MATERIAS_FINALES(A.cod_alu,'{appSession.Carreras[0].Id}') where A.INDICE='{appSession.UserCode}' AND CODMAT='{MateriaId}'");
+                        _materiaRendir = await dbContext.QuerySingleOrDefaultAsync<materiaFinales>(@$"SELECT TRIM(MATERIA) AS MATERIA, FMESA, FERRCOD, FERRWEB, CUTUCO, CONDICION FROM ALUMNOS A, XXX_MATERIAS_FINALES(A.cod_alu,'{Carrera.IdCarrera}') where A.INDICE='{Carrera.IdAlumno}' AND CODMAT='{MateriaId}'");
 
                         if (_materiaRendir != null) {
-                            //_mesas = await dbContext.MesasExamen.Where(r => r.CarreraId == appSession.Carreras[0].Id && r.MateriaId == MateriaId).ToListAsync();
+                            _mesas = await dbContext.MesasExamen.Where(r => r.CarreraId == Carrera.IdCarrera && r.MateriaId == MateriaId).ToListAsync();
 
                             _add = true;
                             _permiso = new PermisoExamen();
@@ -76,7 +75,7 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
                             {
                                 if (mesa.PermisoExamen == null)
                                 {
-                                    //_permiso = await dbContext.PermisosExamen.Where(r => r.MateriaId == MateriaId && r.AlumnoId == appSession.UserCode && r.Mesa == mesa.MesaId && r.PermisoId == null).SingleOrDefaultAsync() ?? new PermisoExamen();
+                                    _permiso = await dbContext.PermisosExamen.Where(r => r.MateriaId == MateriaId && r.AlumnoId == Carrera.IdAlumno && r.Mesa == mesa.MesaId && r.PermisoId == null).SingleOrDefaultAsync() ?? new PermisoExamen();
                                     if (_permiso.Id != 0)
                                     {
                                         _add = false;

@@ -25,6 +25,8 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
         public EventCallback OnClose { get; set; }
         [Parameter]
         public bool Visible { get; set; } = false;
+        [Parameter]
+        public AlumnoCarrera Carrera { set; get; } = default!;
         private bool _add;
         private bool busy = false;
 
@@ -58,24 +60,21 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
                     _turnos.Add(new Turnos { Id = "2", Name = "Tarde" });
                     _turnos.Add(new Turnos { Id = "4", Name = "Noche" });
                     
-                    if (appSession.Carreras.Count == 0)
-                    {
-                        await appSession.LoadInformationUser();
-                    }
+            
                     _add = false;
 
                     using (var dbContext = await appSession.DbContextCreate())
                     {
-                        // va esta _materiaInscripcionValida = await dbContext.QuerySingleOrDefaultAsync<MateriaInscripcion>(@$"select FERRCOD, FERRWEB, MATERIA from ALUMNOS A, XXX_INSC_VALMAT(A.cod_alu, '{appSession.Carreras[0].Id}', '{MateriaId}', 'I') WHERE A.INDICE={appSession.UserCode}");
-                        //_inscripcion = await dbContext.InscripcionesMaterias.Where(b => b.AlumnoId==appSession.UserCode && b.CarreraId==appSession.Carreras[0].Id && b.MateriaId == MateriaId && b.Estado=="PENDIENTE").FirstOrDefaultAsync();
+                        _materiaInscripcionValida = await dbContext.QuerySingleOrDefaultAsync<MateriaInscripcion>(@$"select FERRCOD, FERRWEB, MATERIA from ALUMNOS A, XXX_INSC_VALMAT(A.cod_alu, '{Carrera.IdCarrera}', '{MateriaId}', 'I') WHERE A.INDICE={Carrera.IdAlumno}");
+                        _inscripcion = await dbContext.InscripcionesMaterias.Where(b => b.AlumnoId==Carrera.IdAlumno && b.CarreraId==Carrera.IdCarrera && b.MateriaId == MateriaId && b.Estado=="PENDIENTE").FirstOrDefaultAsync();
                     }
                     if (_inscripcion == null)
                     {
                         _add = true;
                         _inscripcion = new InscripcionesMaterias();
                         _inscripcion.Id = 0;
-                       // _inscripcion.AlumnoId = appSession.UserCode;
-                        //_inscripcion.CarreraId = appSession.Carreras[0].Id;
+                        _inscripcion.AlumnoId = Carrera.IdAlumno;
+                        _inscripcion.CarreraId = Carrera.IdCarrera;
                         _inscripcion.FechaInscripcion = DateTime.Now;
                         _inscripcion.MateriaId = MateriaId;
                         _inscripcion.Turno = "";

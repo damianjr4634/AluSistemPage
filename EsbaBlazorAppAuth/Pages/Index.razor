@@ -1,7 +1,7 @@
 @page "/"
 @inherits _BasePage
 
-<CarreraSelect OnChance=@carreraOnChange @bind-CarreraSelected=@_carrera Carreras=@appSession.Carreras/>
+<CarreraSelect OnChange=@carreraOnChange  Carreras=@appSession.Carreras SelectedValue=@_carreraSelectedId />
 <div class="row">
     <div class="col">
          <RadzenFieldset>
@@ -12,7 +12,7 @@
             </HeaderTemplate>
             <ChildContent>
                 @if(_alumno != null)
-                {
+                { 
                     <span style="font-size:18px" >@_alumno.Apellido, @_alumno.Nombre</span>
                 }
             </ChildContent>
@@ -28,7 +28,7 @@
             <ChildContent>
                 @if(_carrera != null)
                 {
-                    @*<span style="font-size:18px">@_carrera.Nombre</span>*@
+                    <span style="font-size:18px">@_carrera.NombreCarrera</span>
                 }
             </ChildContent>
         </RadzenFieldset>    

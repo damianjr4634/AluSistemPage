@@ -2,14 +2,16 @@
 
 @inherits _BasePage
 
+<CarreraSelect OnChange=@carreraOnChange  Carreras=@appSession.Carreras SelectedValue=@_carreraSelectedId />
+
 <div class="row"> 
     <div class="col"> 
-        <span style="font-size:20px"><b>Materias de la carrera</b></span>
+        <span style="font-size:14px"><b>Materias de la carrera</b></span>
     </div>
 </div>    
 <div class="row"> 
     <div class="col">     
-        @*<span style="font-size:20px"><b>@_carrera.Nombre</b></span>*@
+        <span style="font-size:12px"><b>@_carrera.NombreCarrera</b></span>
     </div>
 </div>
 <hr/>
@@ -31,22 +33,25 @@
                            <b>Inscripcion</b>
                         </div>
                     </HeaderTemplate>
-                    <Template Context="data">             
-                        @if (data.inscripcion)  
+                    <Template Context="data">
+                                  
+                        @if (_carrera.Baja == "N" && data.inscripcion)  
                         {                       
                             @if (data.condicion != "**INSCRIPTO**") 
                             {
+
                                 <button type="button" @onclick="@(() => { _materiaInscripcion= data.codmat; _inscMateria=true;})" 
                                     class="btn pt-1 pb-1 pl-2 pr-2" style="background-color: black">
                                     <i style="color:white;font-size:22px" class="fas fa-pen"></i>
-                                </button>
+                                </button>      
                             }
                             else
                             {
                                 <button type="button " @onclick="@(() => { _materiaInscripcion= data.codmat; _inscMateria=true;})" 
                                     class="btn pt-1 pb-1 pl-2 pr-2" style="background-color: black">
                                     <i style="color:green;font-size:22px" class="fas fa-check"></i>
-                                </button>   
+                                </button>
+                               
                             }
                         }
                         
@@ -59,7 +64,7 @@
                         </div>
                     </HeaderTemplate>
                     <Template Context="data">             
-                        @if (data.permiso)  
+                        @if (_carrera.Baja == "N" && data.permiso)  
                         {  
                             @if(data.tienepermiso)
                             {                         
@@ -141,9 +146,9 @@
 
 @if(_inscFinal)
 {   
-    <InscripcionFinal MateriaId=@_materiaFinal OnClose=@InscripcionFinalClose Visible=@_inscFinal/>
+    <InscripcionFinal MateriaId=@_materiaFinal OnClose=@InscripcionFinalClose Visible=@_inscFinal Carrera=_carrera/>
 }
 @if(_inscMateria)
 {
-    <InscripcionMateria MateriaId=@_materiaInscripcion OnClose=@InscripcionMateriaClose Visible=@_inscMateria/>
+    <InscripcionMateria MateriaId=@_materiaInscripcion OnClose=@InscripcionMateriaClose Visible=@_inscMateria Carrera=_carrera/>
 }

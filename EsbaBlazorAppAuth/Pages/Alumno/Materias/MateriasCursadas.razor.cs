@@ -11,14 +11,15 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
 {
     public partial class MateriasCursadas : _BasePage
     {      
-        //public AlumnoCarrera _carrera = new AlumnoCarrera();
-        public int IdSelectedCarrera;     
-        public string _alumnoId = default!;
+        //public AlumnoCarrera _carrera = new AlumnoCarrera();   
+        //public string _alumnoId = default!;
         public string _carreraNombre = default!;
         public bool _inscFinal = false;
         public bool _inscMateria = false;
         public string _materiaFinal = "";
         public string _materiaInscripcion = "";
+        public AlumnoCarrera _carrera = new AlumnoCarrera(); 
+        private string _carreraSelectedId = "";
         RadzenDataGrid<MateriaCursadaDto> materiasGrid = default!;
         private List<MateriaCursadaDto> _materiasCursadas = new List<MateriaCursadaDto>();
         public class MateriaCursadaDto
@@ -41,29 +42,51 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
             public bool tienepermiso {set; get;}
         }
 
-        protected async override Task OnInitializedAsync()
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            IdSelectedCarrera = 0;
-            await LoadMaterias();
-            
+            if (firstRender)
+            {
+                try
+                {
+                    if (appSession.Carreras == null || appSession.Carreras.Count == 0)
+                    {
+                        await appSession.LoadInformationUser();
+                    }
+                     
+                    if (appSession.Carreras != null & appSession!.Carreras!.Count != 0)
+                    {
+                        _carrera = appSession!.Carreras[0];
+                    }
+                    await LoadMaterias();
+                }
+                catch (Exception err)
+                {
+                    if (err.InnerException != null && err.InnerException.Message != "")
+                    {
+                        toastService.ShowError(err.InnerException.Message);
+                    }
+                    else
+                    {
+                        toastService.ShowError(err.Message);
+                    }
+                }  
+            }
         }
+
         protected async Task LoadMaterias()
         {
             try
             {
                 using (var dbContext = await appSession.DbContextCreate())
                 {
-                    if (appSession.Carreras.Count == 0)
-                    {
-                        await appSession.LoadInformationUser();
-                    }
+                    _carreraSelectedId = _carrera.IdCarrera;
 
                     /*_alumnoId = await dbContext.QuerySingleValueOrDefaultAsync<string>(@$"select cod_alu 
                                                                                 from alumnos a                                                                             
                                                                                 where a.indice=@codalu",
                                                                                 new
                                                                                 {
-                                                                                    codalu = appSession.Carreras[0].IdAlumno                                                                                   
+                                                                                    codalu = _carrera.IdAlumno                                                                                   
                                                                                 });*/
 
                     _materiasCursadas = await dbContext.QueryAsync<MateriaCursadaDto>(@$"select cuatrim, codmat, descripci, condicion, cuaanio, 
@@ -72,10 +95,11 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
                                                                                 from xxx_constancia_terciaria(@codalu,@carrera)",
                                                                                 new
                                                                                 {
-                                                                                    codalu = appSession.Carreras[IdSelectedCarrera].DocumentoAlumno,
-                                                                                    carrera = appSession.Carreras[IdSelectedCarrera].IdCarrera
+                                                                                    codalu = _carrera.DocumentoAlumno,
+                                                                                    carrera = _carrera.IdCarrera
                                                                                 });                    
                 }
+                StateHasChanged();
             }
             catch (Exception err)
             {
@@ -115,6 +139,14 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
             _materiaFinal="";
             _inscFinal=false; 
             await LoadMaterias(); 
+        }
+
+        private async void carreraOnChange(AlumnoCarrera _value)
+        {
+            //_carreraSelectedIndex = appSession.Carreras.FindIndex(x => x.IdCarrera == (string)value);
+            //_carrera = appSession.Carreras[_carreraSelectedIndex];
+            _carrera = _value;
+            await LoadMaterias();
         }
     }    
 

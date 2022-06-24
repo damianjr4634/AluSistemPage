@@ -2,7 +2,11 @@
 
 @inherits _BasePage
 
-<h2>Datos Personales</h2>
+<CarreraSelect OnChange=@carreraOnChange  Carreras=@appSession.Carreras SelectedValue=@_carreraSelectedId />
+
+<span style="font-size:14pt"><b>Datos Personales de la carrera</b></span>
+<br>
+<span style="font-size:12px">@_carrera.NombreCarrera</span>
 <hr/>
 
 <EditForm Model="@_alumno" OnValidSubmit="@HandleValidSubmit">
@@ -10,7 +14,7 @@
     
     <div class="row sticky">
         <div class="btn-toolbar" role="toolbar" style="padding-left: 15px;" >
-            <RadzenButton ButtonType="ButtonType.Submit" style="background-color: blue" Icon="save" BusyText="grabando ..." IsBusy=@busy Text="Guardar" />
+            <RadzenButton ButtonType="ButtonType.Submit" style="background-color: blue" Icon="save" BusyText="grabando ..." IsBusy=@busy Text="Guardar" Disabled="@(_carrera.Baja == "S")"/>
         </div>
     </div>
     <hr/>

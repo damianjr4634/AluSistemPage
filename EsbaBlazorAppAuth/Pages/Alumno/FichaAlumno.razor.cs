@@ -25,43 +25,27 @@ namespace EsbaBlazorAppAuth.Pages.Alumno
         public List<EstadoCivil> _listEstadoCivil = new List<EstadoCivil>();
         private bool busy = false;
         private bool _add = false;
+        public AlumnoCarrera _carrera = new AlumnoCarrera(); 
+        private string _carreraSelectedId = "";
         private EditContext editContext;    
         public string _photo {get; set;} = default!;
         protected override async Task OnAfterRenderAsync(bool firstRender)        
         {
-            string query = "";
-
+            
             if (firstRender)
             {    
                 try
                 {
-                    if (appSession.Carreras.Count == 0)
+                    if (appSession.Carreras == null || appSession.Carreras.Count == 0)
                     {
                         await appSession.LoadInformationUser();
                     }
-                    _add = false;
-                    using (var dbContext = await appSession.DbContextCreate())
-                    {    
-                        _listSexo = await dbContext.Sexo.ToListAsync();
-                        _listEstadoCivil = await dbContext.EstadoCivil.ToListAsync();               
-
-                        /*_alumno = await dbContext.Alumnos.Where(r => r.Id == appSession.UserCode).SingleOrDefaultAsync(); 
-                        if (_alumno == null) {
-                            _add = true;
-                            query = @$"select INDICE AS ID, NOM_APE AS NOMBRE, APELLIDO, COD_ALU AS CODIGOALUMNO, CARRE AS CARRERAID,
-                                              SEXO, NACIONAL AS NACIONALIDAD, EST_CIV AS ESTADOCIVIL, FEC_NAC AS FECHANACIMIENTO,
-                                              LUG_NAC AS LUGARNACIMIENTO, PCIA_NAC AS PROVINCIANACIMIENTO, DOMI AS DOMICILIO,
-                                              LOCALI AS LOCALIDAD, COD_POS AS CODIGOPOSTAL, TELE AS TELEFONO, MAIL, CELULAR,
-                                              'S' AS CAMBIO, CURRENT_TIMESTAMP AS ULTIMAACTUALIZACION
-                                       from ALUMNOS WA
-                                       WHERE INDICE = {appSession.UserCode}";
-                            
-                            _alumno = new EsbaBlazorAppAuth.Data.Alumno();                             
-                            _alumno =  await dbContext.QuerySingleOrDefaultAsync<EsbaBlazorAppAuth.Data.Alumno>(query);                      
-                        }*/
-                    }  
-
-                    StateHasChanged();
+                   
+                    if (appSession.Carreras != null & appSession!.Carreras!.Count != 0)
+                    {
+                        _carrera = appSession!.Carreras[0];
+                    }
+                    await LoadInfo();
                 }
                 catch (Exception err)
                 {
@@ -74,6 +58,55 @@ namespace EsbaBlazorAppAuth.Pages.Alumno
                         toastService.ShowError(err.Message);
                     }
                 }        
+            }
+        }
+
+        private async Task LoadInfo()
+        {
+            string query = "";
+            try
+            {
+                if (appSession.Carreras == null || appSession.Carreras.Count == 0)
+                {
+                    await appSession.LoadInformationUser();
+                }
+                
+                _carreraSelectedId = _carrera.IdCarrera;
+
+                _add = false;
+                using (var dbContext = await appSession.DbContextCreate())
+                {    
+                    _listSexo = await dbContext.Sexo.ToListAsync();
+                    _listEstadoCivil = await dbContext.EstadoCivil.ToListAsync();               
+
+                    _alumno = await dbContext.Alumnos.Where(r => r.Id == _carrera.IdAlumno).SingleOrDefaultAsync(); 
+                    if (_alumno == null) {
+                        _add = true;
+                        query = @$"select INDICE AS ID, NOM_APE AS NOMBRE, APELLIDO, COD_ALU AS CODIGOALUMNO, CARRE AS CARRERAID,
+                                            SEXO, NACIONAL AS NACIONALIDAD, EST_CIV AS ESTADOCIVIL, FEC_NAC AS FECHANACIMIENTO,
+                                            LUG_NAC AS LUGARNACIMIENTO, PCIA_NAC AS PROVINCIANACIMIENTO, DOMI AS DOMICILIO,
+                                            LOCALI AS LOCALIDAD, COD_POS AS CODIGOPOSTAL, TELE AS TELEFONO, MAIL, CELULAR,
+                                            'S' AS CAMBIO, CURRENT_TIMESTAMP AS ULTIMAACTUALIZACION
+                                    from ALUMNOS WA
+                                    WHERE INDICE = {_carrera.IdAlumno}";
+                        
+                        _alumno = new EsbaBlazorAppAuth.Data.Alumno();                             
+                        _alumno =  await dbContext.QuerySingleOrDefaultAsync<EsbaBlazorAppAuth.Data.Alumno>(query);                      
+                    }
+                } 
+                
+                StateHasChanged();
+            }
+            catch (Exception err)
+            {
+                if (err.InnerException != null && err.InnerException.Message != "")
+                {
+                    toastService.ShowError(err.InnerException.Message);
+                }
+                else
+                {
+                    toastService.ShowError(err.Message);
+                }
             }
         }
 
@@ -143,6 +176,14 @@ namespace EsbaBlazorAppAuth.Pages.Alumno
         void OnError(UploadErrorEventArgs args)
         {
             toastService.ShowError(args.Message);   
+        }
+
+        private async void carreraOnChange(AlumnoCarrera _value)
+        {
+            //_carreraSelectedIndex = appSession.Carreras.FindIndex(x => x.IdCarrera == (string)value);
+            //_carrera = appSession.Carreras[_carreraSelectedIndex];
+            _carrera = _value;
+            await LoadInfo();
         }
     }
 }

@@ -16,8 +16,6 @@ namespace EsbaBlazorAppAuth.Pages
         private AlumnoDto? _alumno = new AlumnoDto();
         
         public AlumnoCarrera _carrera = new AlumnoCarrera(); 
-        
-        private int _carreraSelectedIndex = 0;
         private string _carreraSelectedId = "";
 
         private class AlumnoDto
@@ -45,7 +43,6 @@ namespace EsbaBlazorAppAuth.Pages
                     await appSession.LoadInformationUser();
                 }
                 
-                _carrera = appSession.Carreras[_carreraSelectedIndex];
                 _carreraSelectedId = _carrera.IdCarrera;
 
                 using (var dbContext = await appSession.DbContextCreate())
@@ -59,7 +56,7 @@ namespace EsbaBlazorAppAuth.Pages
                                                                                         from alumnos 
                                                                                         where indice=@indice",
                         new {
-                            indice = appSession.Carreras[_carreraSelectedIndex].IdAlumno
+                            indice = _carrera.IdAlumno
                         });
                 }
 
@@ -88,7 +85,12 @@ namespace EsbaBlazorAppAuth.Pages
                     if (appSession.Carreras == null || appSession.Carreras.Count == 0)
                     {
                         await appSession.LoadInformationUser();
-                    } 
+                    }
+                     
+                    if (appSession.Carreras != null & appSession!.Carreras!.Count != 0)
+                    {
+                        _carrera = appSession!.Carreras[0];
+                    }
                     await LoadInfo();
                 }
                 catch (Exception err)
@@ -105,10 +107,11 @@ namespace EsbaBlazorAppAuth.Pages
             }
         }
 
-        private async void carreraOnChange()
+        private async void carreraOnChange(AlumnoCarrera _value)
         {
             //_carreraSelectedIndex = appSession.Carreras.FindIndex(x => x.IdCarrera == (string)value);
             //_carrera = appSession.Carreras[_carreraSelectedIndex];
+            _carrera = _value;
             await LoadInfo();
         }
     }

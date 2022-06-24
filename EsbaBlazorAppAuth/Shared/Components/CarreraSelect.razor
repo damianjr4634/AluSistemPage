@@ -1,5 +1,3 @@
-@using Microsoft.AspNetCore.Mvc
-
 <div class="top-row" style="">
     <div class="row align-items-center">
         <div class="col-2">
@@ -13,37 +11,53 @@
                 <RadzenDropDown AllowClear="false" TValue="string" style="width:500px; margin-top: 2px"
                                         Data=@Carreras TextProperty="NombreCarrera" ValueProperty="IdCarrera" 
                                         Change=@OnLocalChange  
-                                        @bind-Value=@_SelectedValue/>
+                                        @bind-Value="@SelectedValue"/>
+                <br>
+                @if(_carreraSelected != null && _carreraSelected.Baja == "S")
+                {
+                    <span style="font-size:18px" >Estado <RadzenBadge BadgeStyle="BadgeStyle.Danger" IsPill="true" Text="BAJA" /> </span>
+                }
+                else if(_carreraSelected != null && _carreraSelected.Baja == "N")
+                {
+                    <span style="font-size:18px" >Estado <RadzenBadge BadgeStyle="BadgeStyle.Success" IsPill="true" Text="ACTIVO" /> </span>
+                }
+                
             }      
+        </div>
+        <div class="col-3">
+            
         </div> 
-     </div> 
-     <hr/>
+    </div> 
+    <hr/>
 </div>
 
 @code {
     [Parameter] 
-    public EventCallback OnChance { get; set; }
+    public EventCallback<AlumnoCarrera> OnChange { get; set; }
     
     [Parameter]
     public List<AlumnoCarrera> Carreras { get; set; }
 
     [Parameter]
-    public AlumnoCarrera CarreraSelected { get; set;}
+    public string SelectedValue { get; set; }
 
-    public string _SelectedValue;
+    private AlumnoCarrera _carreraSelected;
 
     private async Task OnLocalChange(object value)
     {
-        CarreraSelected = Carreras.Find(x => x.IdCarrera == (string)value);
+        _carreraSelected = Carreras.Find(x => x.IdCarrera == (string)value);
 
-        if (OnChance.HasDelegate)
+        if (OnChange.HasDelegate)
         {
-            await OnChance.InvokeAsync();
+            await OnChange.InvokeAsync(_carreraSelected);
         }
     }
 
-    public async void CarreraSelectedChanged()
+    protected override async Task OnParametersSetAsync()
     {
-
+        if (!string.IsNullOrEmpty(SelectedValue))
+        {
+            _carreraSelected = Carreras.Find(x => x.IdCarrera == SelectedValue);   
+        }
     }
 }
