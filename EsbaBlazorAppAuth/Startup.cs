@@ -17,6 +17,7 @@ using EsbaBlazorAppAuth.Areas.Identity;
 using EsbaBlazorAppAuth.Data;
 using Blazored.Toast;
 using EsbaBlazorAppAuth.Services;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace EsbaBlazorAppAuth
 {
@@ -47,6 +48,8 @@ namespace EsbaBlazorAppAuth
              {
                  o.MaximumReceiveMessageSize = 1024000;
              });
+
+            services.AddTransient<IEmailSender, SmtpEmailSender>();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
             services.AddScoped<AppSession>();
             services.AddDatabaseDeveloperPageExceptionFilter();

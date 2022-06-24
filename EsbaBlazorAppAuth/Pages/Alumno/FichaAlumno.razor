@@ -142,7 +142,7 @@
             <div class="row m-2">
                 <div class="col-md-4 p-0">Foto</div>
                 <div class="col-md-4 p-0">            
-                    <RadzenUpload ChooseText="Subir Imagen" Url="upload/single" Style="background-color:null" Progress=@(args => OnProgress(args)) Error=@(args => OnError(args))/>    
+                    <RadzenUpload ChooseText="Subir Imagen" Url="upload/single" Style="background-color:null" Progress=@(args => OnProgress(args)) Error=@(args => OnError(args)) Disabled="@(_carrera.Baja == "S")"/>    
                 </div>
             </div> 
             <div class="row m-2">

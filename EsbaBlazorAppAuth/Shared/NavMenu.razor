@@ -1,19 +1,18 @@
 ﻿
 
-<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href=""><span style="font-size:20pt"><b>ESBA INTRANET</b></span></a>
+<div class="top-row pl-4 navbar navbar-dark" style="background-color: #26276E">    
     @*<button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
     </button>*@
 </div>
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    @*<div class="row">
-        <div class="col">
-        <img class="sidebar-img" src="/img/esbalogo.webp" />
+    <div class="text-center">
+        <div class="top-row">
+            <span style="font-size:18pt;color:white"><b>ESBA INTRANET</b></span>
         </div>
-    </div>*@
-    
+    </div>
+    <hr style="background-color: white;margin-top: -2px;"/>
     <div>
         <ul class="nav flex-column">
             @foreach (MenuOption item in MenuOptions)
