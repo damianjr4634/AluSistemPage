@@ -60,13 +60,13 @@ namespace EsbaBlazorAppAuth.Services
                 {
                     UseDefaultCredentials = false,
                     EnableSsl = true,
-                    DeliveryMethod = SmtpDeliveryMethod.Network,
-                    Credentials = new NetworkCredential("rdj4634@gmail.com", "daiarwbrksphjrum")
+                    DeliveryMethod = SmtpDeliveryMethod.Network, 
+                    Credentials = new NetworkCredential("esba.intranet.no.reply@gmail.com", "spwnlumndhuyxdxc") //e.i.n.r2022
                 };
                 var mailMessage = new MailMessage
                 {
-                    From = new MailAddress("rdj4634@gmail.com")
-                    //From = new MailAddress("drouco@sig2k.com")
+                    From = new MailAddress("esba.intranet.no.reply@gmail.com")
+                  
                 };
                 mailMessage.To.Add(email);
                 mailMessage.Subject = subject;
