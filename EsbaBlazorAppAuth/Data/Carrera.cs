@@ -18,6 +18,7 @@ namespace EsbaBlazorAppAuth.Data
         public int IdAlumno { get; set; }
         public string DocumentoAlumno { get; set; } = default!; 
         public string Baja { get; set; } = "S";
+        public string NombreAlumno { get; set; } = default!;
     }
 
 }

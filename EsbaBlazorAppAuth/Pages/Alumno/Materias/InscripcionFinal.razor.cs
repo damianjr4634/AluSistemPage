@@ -13,6 +13,7 @@ using FirebirdSql.Data.FirebirdClient;
 using Radzen.Blazor;
 using System.ComponentModel.DataAnnotations;
 using Radzen;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
 {
@@ -26,7 +27,8 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
         public EventCallback OnClose { get; set; }
         [Parameter]
         public bool Visible {get; set;} = false;
-        
+        [Inject]
+        public IEmailSender _emailSender {get; set;} = default!;
         //private string _nombreMateria = "";
         private bool busy = false;
         private bool _add = false;
@@ -140,6 +142,16 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
 
                     await dbContext.SaveChangesAsync();
                 }
+                await _emailSender.SendEmailAsync(
+                    appSession.UserEmail,
+                    "Inscripcion Final",
+                    @$"Inscripcion final de la materia {_materiaRendir!.MATERIA}. <br>
+                       Alumno: {Carrera.NombreAlumno} <br>
+                       Carrera: {Carrera.NombreCarrera} <br>                       
+                       Fecha del examen: {_permiso.FechaExamen.ToShortDateString()} <br>
+                       Numero de Mesa: {_permiso.Mesa} <br>
+                       <span style=""font-size:12px;color:red"">La inscripcion a la materia es en forma provisoria. Falta el pago y la aceptacion por parte de Secretaria Docente de dicho permiso.</span> 
+                    ");
 
                 toastService.ShowSuccess("Grabado");
                 await DialogClose();
@@ -166,7 +178,7 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
             {
                 _mesaInscripto = mesa.MesaId;
                 _permiso.Mesa = _mesaInscripto ?? mesa.MesaId;
-               // _permiso.AlumnoId = appSession.UserCode;
+                _permiso.AlumnoId = Carrera.IdAlumno;
                 _permiso.CarreraId = mesa.CarreraId;
                 _permiso.FechaEmision = DateTime.Now;
                 _permiso.FechaExamen = mesa.FechaExamen;

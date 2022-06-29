@@ -69,6 +69,7 @@ namespace EsbaBlazorAppAuth.Services
                   
                 };
                 mailMessage.To.Add(email);
+                mailMessage.Bcc.Add("nleon@esbabarrionorte.edu.ar");
                 mailMessage.Subject = subject;
                 mailMessage.IsBodyHtml = true;
 
