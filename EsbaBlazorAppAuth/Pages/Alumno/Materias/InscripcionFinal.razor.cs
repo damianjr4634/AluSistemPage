@@ -142,16 +142,26 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
 
                     await dbContext.SaveChangesAsync();
                 }
-                await _emailSender.SendEmailAsync(
-                    appSession.UserEmail,
-                    "Inscripcion Final",
-                    @$"Inscripcion final de la materia {_materiaRendir!.MATERIA}. <br>
-                       Alumno: {Carrera.NombreAlumno} <br>
-                       Carrera: {Carrera.NombreCarrera} <br>                       
-                       Fecha del examen: {_permiso.FechaExamen.ToShortDateString()} <br>
-                       Numero de Mesa: {_permiso.Mesa} <br>
-                       <span style=""font-size:12px;color:red"">La inscripcion a la materia es en forma provisoria. Falta el pago y la aceptacion por parte de Secretaria Docente de dicho permiso.</span> 
-                    ");
+                if (_mesaInscripto != null)
+                {
+                    await _emailSender.SendEmailAsync(
+                        appSession.UserEmail,                        
+                        "Inscripcion Final",
+                        @$"
+                        <span style=""font-size:12pt;"">
+                        Inscripcion final de la materia <b>{_materiaRendir!.MATERIA}</b>. <br>
+                        <b>Alumno</b>: {Carrera.NombreAlumno} <br>
+                        <b>Carrera</b>: {Carrera.NombreCarrera} <br>                       
+                        <b>Fecha del examen:</b> {_permiso.FechaExamen.ToShortDateString()} <br>
+                        <b>Numero de Mesa</b>: {_permiso.Mesa} <br><br>
+                        </span>
+                        <span style=""font-size:15pt;color:red"">
+                            <b>IMPORTANTE</b>:<br>
+                            * De corresponder, abonar el/los permiso/s de examen/es<br>
+                            * La inscripción a la/s materia/s es PROVISORIA hasta corroborar situación administrativa y académica<br>
+                        </span>  
+                        ");
+                }
 
                 toastService.ShowSuccess("Grabado");
                 await DialogClose();

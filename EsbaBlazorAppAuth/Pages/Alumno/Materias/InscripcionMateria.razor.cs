@@ -13,6 +13,7 @@ using FirebirdSql.Data.FirebirdClient;
 using Radzen.Blazor;
 using System.ComponentModel.DataAnnotations;
 using Radzen;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
 {
@@ -27,8 +28,11 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
         public bool Visible { get; set; } = false;
         [Parameter]
         public AlumnoCarrera Carrera { set; get; } = default!;
+        [Inject]
+        public IEmailSender _emailSender {get; set;} = default!;
         private bool _add;
         private bool busy = false;
+        private string _cuatrimestreAnio = "";
 
         public class MateriaInscripcion
         {
@@ -67,7 +71,9 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
                     {
                         _materiaInscripcionValida = await dbContext.QuerySingleOrDefaultAsync<MateriaInscripcion>(@$"select FERRCOD, FERRWEB, MATERIA from ALUMNOS A, XXX_INSC_VALMAT(A.cod_alu, '{Carrera.IdCarrera}', '{MateriaId}', 'I') WHERE A.INDICE={Carrera.IdAlumno}");
                         _inscripcion = await dbContext.InscripcionesMaterias.Where(b => b.AlumnoId==Carrera.IdAlumno && b.CarreraId==Carrera.IdCarrera && b.MateriaId == MateriaId && b.Estado=="PENDIENTE").FirstOrDefaultAsync();
+                        _cuatrimestreAnio = await dbContext.QuerySingleOrDefaultAsync<string>(@$"select FCUATRIM from XXX_NUMCUATANIO('{Carrera.IdCarrera}')");
                     }
+                   
                     if (_inscripcion == null)
                     {
                         _add = true;
@@ -129,6 +135,25 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
                         }
 
                         await dbContext.SaveChangesAsync();
+                        
+                        await _emailSender.SendEmailAsync(
+                            appSession.UserEmail,                        
+                            "Inscripcion Cursada",
+                            @$"
+                            <span style=""font-size:12pt;"">
+                            Inscripcion a la cursada de la materia <b>{_materiaInscripcionValida!.MATERIA}</b>. <br>
+                            <b>Alumno</b>: {Carrera.NombreAlumno} <br>
+                            <b>Carrera</b>: {Carrera.NombreCarrera} <br>                       
+                            <b>Cuatrimestre/Año:</b> {_cuatrimestreAnio.Substring(0,1)+"/"+_cuatrimestreAnio.Substring(1,2)} <br>
+                            <b>Turno</b>: {(_turnos.Find(x => x.Id == _inscripcion.Turno) ?? new Turnos()).Name} <br><br>
+                            </span>
+                            <span style=""font-size:15pt;color:red"">
+                                <b>IMPORTANTE</b>:<br>
+                                * De corresponder, abonar el/los permiso/s de examen/es<br>
+                                * La inscripción a la/s materia/s es PROVISORIA hasta corroborar situación administrativa y académica<br>
+                            </span>  
+                            ");
+                        
                     }
 
                     toastService.ShowSuccess("Grabado");
