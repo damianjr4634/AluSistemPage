@@ -17,6 +17,7 @@ namespace EsbaBlazorAppAuth.Pages
         
         public AlumnoCarrera _carrera = new AlumnoCarrera(); 
         private string _carreraSelectedId = "";
+        private string _messageError = "";
 
         private class AlumnoDto
         {          
@@ -90,8 +91,13 @@ namespace EsbaBlazorAppAuth.Pages
                     if (appSession.Carreras != null & appSession!.Carreras!.Count != 0)
                     {
                         _carrera = appSession!.Carreras[0];
+                        await LoadInfo();
                     }
-                    await LoadInfo();
+                    else
+                    {
+                        _messageError="No esta habilitado para ver informacion en esta pagina. Solicite acceso";
+                    }
+                    
                 }
                 catch (Exception err)
                 {

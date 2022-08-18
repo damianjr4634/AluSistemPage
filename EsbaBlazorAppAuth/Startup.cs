@@ -41,7 +41,11 @@ namespace EsbaBlazorAppAuth
             services.AddDbContext<ApplicationDbContext>(ServiceLifetime.Transient);        
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders()
+                .AddSignInManager<AuthSignInManager<IdentityUser>>();
+
+            
             services.AddRazorPages();
             services.AddServerSideBlazor()
             .AddHubOptions(o =>

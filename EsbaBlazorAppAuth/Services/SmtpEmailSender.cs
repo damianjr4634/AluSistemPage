@@ -11,7 +11,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace EsbaBlazorAppAuth.Services
 {
-//https://stackoverflow.com/questions/32260/sending-email-in-net-through-gmail
+    //https://stackoverflow.com/questions/32260/sending-email-in-net-through-gmail
     public class SmtpEmailSender : IEmailSender
     {
         private IConfiguration _configuration;
@@ -60,13 +60,13 @@ namespace EsbaBlazorAppAuth.Services
                 {
                     UseDefaultCredentials = false,
                     EnableSsl = true,
-                    DeliveryMethod = SmtpDeliveryMethod.Network, 
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
                     Credentials = new NetworkCredential("esba.intranet.no.reply@gmail.com", "spwnlumndhuyxdxc") //e.i.n.r2022
                 };
                 var mailMessage = new MailMessage
                 {
                     From = new MailAddress("esba.intranet.no.reply@gmail.com")
-                  
+
                 };
                 mailMessage.To.Add(email);
                 mailMessage.Bcc.Add("nleon@esbabarrionorte.edu.ar");

@@ -95,16 +95,16 @@ namespace EsbaBlazorAppAuth.Services
                 _emailConfirmed = appUser.EmailConfirmed;
                 _userName = appUser.UserName;
 
-            }    
+            }
         }
         public async Task LoadInformationUser()
         {
             //if ((_loaded || _userCode == 0) && !string.IsNullOrEmpty(_userEmail)) 
             if (string.IsNullOrEmpty(_userEmail))
             {
-                await LoadUser();   
+                await LoadUser();
             }
-            
+
             if (!string.IsNullOrEmpty(_userEmail))
             {
                 try
@@ -117,12 +117,12 @@ namespace EsbaBlazorAppAuth.Services
                                                                                     mail = _userEmail,
                                                                                     baja = "N"
                                                                                 });
-                        */                                                        
+                        */
                         _carreras = await dbContext.QueryAsync<AlumnoCarrera>($@"select a.carre as IdCarrera, c.descarre as NombreCarrera, a.indice as IdALumno, a.baja,
                                                                                         a.cod_alu as DocumentoAlumno, a.nom_ape||', '||a.apellido as NombreAlumno  
                                                                         from alumnos a
                                                                         join carrera c on c.carre=a.carre 
-                                                                        where a.mail=@mail /*and baja=@baja*/",
+                                                                        where a.mail=@mail and fusuweb='S'",
                                                                                 new
                                                                                 {
                                                                                     mail = _userEmail,
@@ -130,7 +130,7 @@ namespace EsbaBlazorAppAuth.Services
                                                                                 });
                     }
                 }
-                catch (Exception err) 
+                catch (Exception err)
                 {
                     throw;
                 }
