@@ -9,10 +9,10 @@
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <div class="text-center">
         <div class="top-row">
-            <span style="font-size:18pt;color:white"><b>ESBA INTRANET</b></span>
+            <img style="height:60px" src="/img/esbalogo.webp"/>
         </div>
     </div>
-    <hr style="background-color: white;margin-top: -2px;"/>
+    <hr style="background-color: black;"/>
     <div>
         <ul class="nav flex-column">
             @foreach (MenuOption item in MenuOptions)
@@ -22,9 +22,9 @@
                         <NavLink class="nav-link" href="@item.Href" Match="NavLinkMatch.All">
                         @if (item.Icon != "")
                             {
-                                <span style="font-size:12pt" class="@item.Icon m-2" aria-hidden="true" />
+                                <span style="font-size:12pt" class="@item.Icon principalfontstyles m-2" aria-hidden="true" />
                             } 
-                            <span style="font-size:15pt">@item.Name</span>
+                            <span class="principalfontstyles" style="font-size:15pt">@item.Name</span>
                         </NavLink>
                     </li>
                 }
@@ -33,12 +33,12 @@
                         <NavLink class="nav-link"
                             @onclick="@(() => { item.Expanded = !item.Expanded; } )">
                             @if (item.Expanded) {
-                                <span class="fas fa-angle-down m-2" aria-hidden="true" /> 
+                                <span class="fas fa-angle-down principalfontstyles m-2" aria-hidden="true" /> 
                             }
                             else {
-                                <span class="fas fa-angle-right m-2" aria-hidden="true" />
+                                <span class="fas fa-angle-right principalfontstyles m-2" aria-hidden="true" />
                             }                                                  
-                            <span style="font-size:15pt">@item.Name</span>                                         
+                            <span class="principalfontstyles" style="font-size:15pt">@item.Name</span>                                         
                         </NavLink>
                     </li>    
                     @if (item.Expanded)
@@ -51,9 +51,9 @@
                                 <NavLink class="nav-link" href="@option.Href" Match="NavLinkMatch.All">
                                     @if (option.Icon != "")
                                     {
-                                        <span style="font-size:12pt" class="@option.Icon m-2" aria-hidden="true" />
+                                        <span style="font-size:12pt" class="@option.Icon principalfontstyles m-2" aria-hidden="true" />
                                     }
-                                    <span style="font-size:15pt">@option.Name</span>
+                                    <span class="principalfontstyles" style="font-size:15pt">@option.Name</span>
                                 </NavLink>
                                 </li>
                             }                            
@@ -113,7 +113,7 @@
             Name = "Datos Personales",
             Expanded = false,
             Href = "/alumno/ficha",
-            Icon = "fas fa-globe"
+            Icon = "fa-solid fa-id-card"
         };
         MenuOptions.Add(menuopt);
 
@@ -122,7 +122,7 @@
             Name = "Materias",
             Expanded = false,
             Href = "/alumno/materias",
-            Icon = "fas fa-globe"
+            Icon = "fa-solid fa-file-certificate"
         };
         MenuOptions.Add(menuopt);
 

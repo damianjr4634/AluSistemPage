@@ -1,32 +1,33 @@
-<div class="top-row" style="">
-    <div class="row align-items-center">
-        <div class="col-2">
-            <img style="height:60px" src="/img/esbalogo.webp"/>
-        </div>    
-        <div class="col-6">
-            <b style="font-size:20px">Carreras</b> 
-            <br>
-            @if(Carreras != null) 
-            {
+<div class="top-row" style="background-color: #607EAA;margin-left: -28px;margin-right: -21px;margin-top: -15px;">
+    <div class="d-flex flex-row">
+           
+        <div class="d-flex flex-column justify-content-center ml-2 pt-2">
+            <span class="principalfontstyles" style="font-size:20px"><b>Carreras</b></span> 
+        </div>
+        
+        @if(Carreras != null) 
+        {
+            <div class="d-flex flex-column justify-content-center ml-2 pt-2">    
                 <RadzenDropDown AllowClear="false" TValue="string" style="width:500px; margin-top: 2px"
                                         Data=@Carreras TextProperty="NombreCarrera" ValueProperty="IdCarrera" 
                                         Change=@OnLocalChange  
                                         @bind-Value="@SelectedValue"/>
-                <br>
-                @if(_carreraSelected != null && _carreraSelected.Baja == "S")
-                {
-                    <span style="font-size:18px" >Estado <RadzenBadge BadgeStyle="BadgeStyle.Danger" IsPill="true" Text="BAJA" /> </span>
-                }
-                else if(_carreraSelected != null && _carreraSelected.Baja == "N")
-                {
-                    <span style="font-size:18px" >Estado <RadzenBadge BadgeStyle="BadgeStyle.Success" IsPill="true" Text="ACTIVO" /> </span>
-                }
-                
-            }      
-        </div>
-        <div class="col-3">
+            </div>
+            @if(_carreraSelected != null && _carreraSelected.Baja == "S")
+            {
+                <div class="d-flex flex-column justify-content-center ml-2 pt-2">    
+                    <span class="principalfontstyles" style="font-size:18px" >Estado <RadzenBadge BadgeStyle="BadgeStyle.Danger" IsPill="true" Text="BAJA" /> </span>
+                </div>
+            }
+            else if(_carreraSelected != null && _carreraSelected.Baja == "N")
+            {
+                <div class="d-flex flex-column justify-content-center ml-2 pt-2">    
+                    <span class="principalfontstyles" style="font-size:18px" >Estado <RadzenBadge BadgeStyle="BadgeStyle.Success" IsPill="true" Text="ACTIVO" /> </span>
+                </div>
+            }
             
-        </div> 
+        }      
+         
     </div> 
     <hr/>
 </div>
