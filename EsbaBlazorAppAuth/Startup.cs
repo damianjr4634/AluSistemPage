@@ -18,6 +18,7 @@ using EsbaBlazorAppAuth.Data;
 using Blazored.Toast;
 using EsbaBlazorAppAuth.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using EsbaBlazorAppAuth.Areas.Identity.Data;
 
 namespace EsbaBlazorAppAuth
 {
@@ -40,10 +41,10 @@ namespace EsbaBlazorAppAuth
             ApplicationDbContext.LoadConfig(Configuration);
             services.AddDbContext<ApplicationDbContext>(ServiceLifetime.Transient);        
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders()
-                .AddSignInManager<AuthSignInManager<IdentityUser>>();
+                .AddSignInManager<AuthSignInManager<ApplicationUser>>();
 
             
             services.AddRazorPages();
@@ -54,7 +55,7 @@ namespace EsbaBlazorAppAuth
              });
 
             services.AddTransient<IEmailSender, SmtpEmailSender>();
-            services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
+            services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<ApplicationUser>>();
             services.AddScoped<AppSession>();
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddBlazoredToast();  

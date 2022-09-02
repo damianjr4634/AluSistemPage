@@ -9,6 +9,7 @@ using EsbaBlazorAppAuth.Data;
 using System.Security.Claims;
 using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
+using EsbaBlazorAppAuth.Areas.Identity.Data;
 
 namespace EsbaBlazorAppAuth.Services
 {
@@ -21,8 +22,8 @@ namespace EsbaBlazorAppAuth.Services
     {
         public event Func<Task>? SessionChangedEvent;
         private AuthenticationStateProvider _authenticationStateProvider;
-        private UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IHttpContextAccessor _contextAccessor;
         private bool _loaded;
         private string _userId = "";
@@ -35,7 +36,7 @@ namespace EsbaBlazorAppAuth.Services
 
         // contructor
         // **********************************************************************************************
-        public AppSession(AuthenticationStateProvider authenticationStateProvider, UserManager<IdentityUser> userManager, IHttpContextAccessor httpContextAccessor, SignInManager<IdentityUser> signInManager)
+        public AppSession(AuthenticationStateProvider authenticationStateProvider, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor, SignInManager<ApplicationUser> signInManager)
         {
             _contextAccessor = httpContextAccessor;
             _authenticationStateProvider = authenticationStateProvider;
@@ -118,15 +119,13 @@ namespace EsbaBlazorAppAuth.Services
                                                                                     baja = "N"
                                                                                 });
                         */
-                        _carreras = await dbContext.QueryAsync<AlumnoCarrera>($@"select a.carre as IdCarrera, c.descarre as NombreCarrera, a.indice as IdALumno, a.baja,
-                                                                                        a.cod_alu as DocumentoAlumno, a.nom_ape||', '||a.apellido as NombreAlumno  
-                                                                        from alumnos a
-                                                                        join carrera c on c.carre=a.carre 
-                                                                        where a.mail=@mail and fusuweb='S'",
+                        _carreras = await dbContext.QueryAsync<AlumnoCarrera>($@"select ferrmsg, cod_alu as DocumentoAlumno, id_alumno as IdAlumno, NOMBRE as NombreAlumno,
+                                                       carre as IdCarrera, descarre as NombreCarrera, baja
+                                                from WEB_NET_LOGIN(@mail, @tipo, 1)",
                                                                                 new
                                                                                 {
                                                                                     mail = _userEmail,
-                                                                                    baja = "N"
+                                                                                    tipo = "A"
                                                                                 });
                     }
                 }

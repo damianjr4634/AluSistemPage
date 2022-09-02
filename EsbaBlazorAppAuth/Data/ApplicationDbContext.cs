@@ -10,11 +10,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using EsbaBlazorAppAuth.Data.Tablas;
-
+using EsbaBlazorAppAuth.Areas.Identity.Data;
 
 namespace EsbaBlazorAppAuth.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         static readonly ILoggerFactory MyLoggerFactory = LoggerFactory.Create(builder => { builder.AddConsole(); });
 
