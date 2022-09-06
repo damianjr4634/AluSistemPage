@@ -26,7 +26,7 @@ namespace EsbaBlazorAppAuth.Pages.Alumno
         private bool busy = false;
         private bool _add = false;
         public AlumnoCarrera _carrera = new AlumnoCarrera(); 
-        private string _carreraSelectedId = "";
+        private int _alumnoSelectedId;
         private EditContext editContext;    
         public string _photo {get; set;} = default!;
         protected override async Task OnAfterRenderAsync(bool firstRender)        
@@ -71,7 +71,7 @@ namespace EsbaBlazorAppAuth.Pages.Alumno
                     await appSession.LoadInformationUser();
                 }
                 
-                _carreraSelectedId = _carrera.IdCarrera;
+                _alumnoSelectedId = _carrera.IdAlumno;
 
                 _add = false;
                 using (var dbContext = await appSession.DbContextCreate())

@@ -47,10 +47,6 @@ namespace EsbaBlazorAppAuth.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [DataType(DataType.Text)]
-            [Display(Name = "Acceder como")]
-            public string AccountType { get; set; }
 
             [Required]
             [EmailAddress]
@@ -92,7 +88,7 @@ namespace EsbaBlazorAppAuth.Areas.Identity.Pages.Account
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true                
 
-                var result = await _signInManager._PasswordSignInAsync(Input.Email, Input.Password, Input.AccountType, Input.RememberMe, false);
+                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, false);
                 
                 if (result.Succeeded)
                 {

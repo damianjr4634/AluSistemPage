@@ -33,6 +33,7 @@ namespace EsbaBlazorAppAuth.Services
         private string _userEmail = "";
         private bool _emailConfirmed;
         private string _userName;
+        private string _userType;
 
         // contructor
         // **********************************************************************************************
@@ -60,6 +61,7 @@ namespace EsbaBlazorAppAuth.Services
         public string UserName => _userName;
         public bool UserIsAdmin => _userIsAdmin;
         public string UserEmail => _userEmail;
+        public string UserType => _userType;
         public bool EmailConfirmed => _emailConfirmed;
         public IHttpContextAccessor ContextAccessor => _contextAccessor;
 
@@ -95,6 +97,7 @@ namespace EsbaBlazorAppAuth.Services
                 _userEmail = appUser.Email;
                 _emailConfirmed = appUser.EmailConfirmed;
                 _userName = appUser.UserName;
+                _userType = appUser.AccountType ?? "A";
 
             }
         }
@@ -112,20 +115,13 @@ namespace EsbaBlazorAppAuth.Services
                 {
                     using (var dbContext = await DbContextCreate())
                     {
-                        /*_userCode = await dbContext.QuerySingleValueOrDefaultAsync<int>("select indice from alumnos a where a.mail=@mail and baja=@baja",
-                                                                                new
-                                                                                {
-                                                                                    mail = _userEmail,
-                                                                                    baja = "N"
-                                                                                });
-                        */
                         _carreras = await dbContext.QueryAsync<AlumnoCarrera>($@"select ferrmsg, cod_alu as DocumentoAlumno, id_alumno as IdAlumno, NOMBRE as NombreAlumno,
-                                                       carre as IdCarrera, descarre as NombreCarrera, baja
+                                                       carre as IdCarrera, descarre as NombreCarrera, baja, NOMBRE||' '||descarre as AlumnoApellidoCarrera
                                                 from WEB_NET_LOGIN(@mail, @tipo, 1)",
                                                                                 new
                                                                                 {
                                                                                     mail = _userEmail,
-                                                                                    tipo = "A"
+                                                                                    tipo = _userType
                                                                                 });
                     }
                 }

@@ -13,12 +13,14 @@ namespace EsbaBlazorAppAuth.Data
     public class AlumnoCarrera
     {
         [Key]
+        public int IdAlumno { get; set; }
         public string IdCarrera { get; set; } = default!;
         public string NombreCarrera { get; set; } = default!;
-        public int IdAlumno { get; set; }
         public string DocumentoAlumno { get; set; } = default!; 
         public string Baja { get; set; } = "S";
         public string NombreAlumno { get; set; } = default!;
+        public string AlumnoApellidoCarrera { get; set; } = default!;
+        
     }
 
 }

@@ -34,7 +34,7 @@ namespace EsbaBlazorAppAuth.Services
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
 
         }
-        public async Task<SignInResult> _PasswordSignInAsync(string userName, string password, string accountType, bool isPersistent, bool lockoutOnFailure)
+        public override async Task<SignInResult> PasswordSignInAsync(string userName, string password, bool isPersistent, bool lockoutOnFailure)
         {
             var user = UserManager.FindByEmailAsync(userName).Result;
             //SignInResult _res;
@@ -48,7 +48,7 @@ namespace EsbaBlazorAppAuth.Services
                                                     new
                                                     {
                                                         mail = userName,
-                                                        tipo = accountType
+                                                        tipo = user.AccountType
                                                     });
                 
                 if (_carreras == null || _carreras.Count == 0)

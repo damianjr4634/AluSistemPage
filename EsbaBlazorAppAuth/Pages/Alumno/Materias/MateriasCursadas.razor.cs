@@ -19,7 +19,7 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
         public string _materiaFinal = "";
         public string _materiaInscripcion = "";
         public AlumnoCarrera _carrera = new AlumnoCarrera(); 
-        private string _carreraSelectedId = "";
+        private int _alumnoSelectedId;
         RadzenDataGrid<MateriaCursadaDto> materiasGrid = default!;
         private List<MateriaCursadaDto> _materiasCursadas = new List<MateriaCursadaDto>();
         public class MateriaCursadaDto
@@ -79,7 +79,7 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
             {
                 using (var dbContext = await appSession.DbContextCreate())
                 {
-                    _carreraSelectedId = _carrera.IdCarrera;
+                    _alumnoSelectedId = _carrera.IdAlumno;
 
                     /*_alumnoId = await dbContext.QuerySingleValueOrDefaultAsync<string>(@$"select cod_alu 
                                                                                 from alumnos a                                                                             

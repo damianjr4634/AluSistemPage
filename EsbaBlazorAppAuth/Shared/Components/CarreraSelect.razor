@@ -1,17 +1,38 @@
+@inject AppSession appSession
+
 <div class="top-row" style="background-color: #607EAA;margin-left: -28px;margin-right: -21px;margin-top: -15px;">
     <div class="d-flex flex-row">
            
         <div class="d-flex flex-column justify-content-center ml-2 pt-2">
-            <span class="principalfontstyles" style="font-size:20px"><b>Carreras</b></span> 
+            <span class="principalfontstyles" style="font-size:20px">
+                @if (appSession.UserType == "A")
+                {
+                    <b>Carreras</b>
+                }
+                else
+                {   
+                    <b>Alumnos</b>
+                }
+            </span> 
         </div>
         
         @if(Carreras != null) 
         {
-            <div class="d-flex flex-column justify-content-center ml-2 pt-2">    
-                <RadzenDropDown AllowClear="false" TValue="string" style="width:500px; margin-top: 2px"
-                                        Data=@Carreras TextProperty="NombreCarrera" ValueProperty="IdCarrera" 
-                                        Change=@OnLocalChange  
-                                        @bind-Value="@SelectedValue"/>
+            <div class="d-flex flex-column justify-content-center ml-2 pt-2">
+                @if (appSession.UserType == "A")
+                {    
+                    <RadzenDropDown AllowClear="false" TValue="int" style="width:500px; margin-top: 2px"
+                                            Data=@Carreras TextProperty="NombreCarrera" ValueProperty="IdAlumno" 
+                                            Change=@OnLocalChange  
+                                            @bind-Value="@SelectedValue"/>
+                }
+                else
+                {
+                     <RadzenDropDown AllowClear="false" TValue="int" style="width:500px; margin-top: 2px"
+                                            Data=@Carreras TextProperty="AlumnoApellidoCarrera" ValueProperty="IdAlumno" 
+                                            Change=@OnLocalChange  
+                                            @bind-Value="@SelectedValue"/>                  
+                }
             </div>
             @if(_carreraSelected != null && _carreraSelected.Baja == "S")
             {
@@ -40,13 +61,13 @@
     public List<AlumnoCarrera> Carreras { get; set; }
 
     [Parameter]
-    public string SelectedValue { get; set; }
+    public int SelectedValue { get; set; }
 
     private AlumnoCarrera _carreraSelected;
 
     private async Task OnLocalChange(object value)
     {
-        _carreraSelected = Carreras.Find(x => x.IdCarrera == (string)value);
+        _carreraSelected = Carreras.Find(x => x.IdAlumno == (int)value);
 
         if (OnChange.HasDelegate)
         {
@@ -56,9 +77,9 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        if (!string.IsNullOrEmpty(SelectedValue))
+        if (SelectedValue != null && SelectedValue != 0)
         {
-            _carreraSelected = Carreras.Find(x => x.IdCarrera == SelectedValue);   
+            _carreraSelected = Carreras.Find(x => x.IdAlumno == SelectedValue);   
         }
     }
 }

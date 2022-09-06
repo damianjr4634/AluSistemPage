@@ -16,7 +16,7 @@ namespace EsbaBlazorAppAuth.Pages
         private AlumnoDto? _alumno = new AlumnoDto();
         
         public AlumnoCarrera _carrera = new AlumnoCarrera(); 
-        private string _carreraSelectedId = "";
+        private int _alumnoSelectedId;
         private string _messageError = "";
 
         private class AlumnoDto
@@ -44,7 +44,7 @@ namespace EsbaBlazorAppAuth.Pages
                     await appSession.LoadInformationUser();
                 }
                 
-                _carreraSelectedId = _carrera.IdCarrera;
+                _alumnoSelectedId = _carrera.IdAlumno;
 
                 using (var dbContext = await appSession.DbContextCreate())
                 {
