@@ -1,0 +1,176 @@
+@page "/alumno/materias/info/{MateriaId}"
+
+@inherits _BasePage
+
+
+<div class="container-fluid">   
+    <FormModal Size="modal-lg" OnClose=@OnClose Visible=@Visible>
+        <header>
+            <div class="container">
+                @if (!string.IsNullOrEmpty(MateriaNombre)) 
+                {
+                    <div class="text-center">    
+                        <span style="font-size:16px">
+                            <b>Informacion Académica</b> <br>
+                            <b>@MateriaNombre</b>
+                        </span>
+                    </div>
+                }
+                <hr/> 
+            </div>                  
+        </header>
+        @if (Carrera.IdCarrera == "650") 
+        {
+            <div class="row">
+                <div class="col-xl-6 left form-line">
+                    <div class="row ml-2">
+                        <div class="col-md-6 p-0"><b style="font-size:12px">Nota primer parcial</b></div>
+                        <div class="col-md-4 p-0">
+                            <RadzenNumeric ShowUpDown="false" TValue="double?" Format="00.00" @bind-Value=@_notas.PrimerNota Disabled="true" Class="mb-3" Style="width:80px"/>
+                        </div>
+                    </div>
+                    <div class="row ml-2">
+                        <div class="col-md-6 p-0"><b style="font-size:12px">Nota segundo parcial</b></div>
+                        <div class="col-md-4 p-0">
+                            <RadzenNumeric ShowUpDown="false" TValue="double?" Format="00.00" Disabled="true" Class="mb-3" Style="width:80px"/>
+                        </div>
+                    </div>
+                    <div class="row ml-2">
+                        <div class="col-md-6 p-0"><b style="font-size:12px">Recuperatorio integrador</b></div>
+                        <div class="col-md-4 p-0">
+                            <RadzenNumeric ShowUpDown="false" TValue="double?" Format="00.00" Disabled="true" Class="mb-3" Style="width:80px"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="row">
+                        <div class="col-md-6 p-0"><b style="font-size:12px">Inasistencias sin justificar</b></div>
+                        <div class="col-md-4 p-0">
+                            <RadzenNumeric ShowUpDown="false" TValue="double?" Format="00.00" Disabled="true" Class="mb-3" Style="width:80px"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 p-0"><b style="font-size:12px">Inasistencias justificar</b></div>
+                        <div class="col-md-4 p-0">
+                            <RadzenNumeric ShowUpDown="false" TValue="double?" Format="00.00" Disabled="true" Class="mb-3" Style="width:80px"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {            
+            <div class="row">
+                <div class="col-6 left form-line">
+                    <RadzenFieldset>
+                        <HeaderTemplate>
+                            <span Style="color: black">
+                                <b style="font-size:12px">Primer Bimestre</b>
+                            </span>
+                        </HeaderTemplate>
+                        <ChildContent>
+                            <div class="d-flex flex-row">
+                                <div class="d-flex flex-column-5 mr-5">
+                                    <label class="mr-3"><b style="font-size:12px">Nota</b></label>
+                                    
+                                    <RadzenNumeric ShowUpDown="false" TValue="double?" Format="00.00" @bind-Value=@_notas.PrimerNota Disabled="true" Class="mb-3" Style="width:80px"/>
+                                </div>
+                                <div class="d-flex flex-column-5">
+                                    <label class="mr-3"><b style="font-size:12px">Faltas</b></label>
+                                    
+                                    <RadzenNumeric ShowUpDown="false" TValue="double?" Format="00.00" @bind-Value=@_notas.FaltasPrimerBimestre Disabled="true" Class="mb-3" Style="width:80px"/>
+                                </div>        
+                            </div>
+                        </ChildContent>
+                    </RadzenFieldset>
+                    <RadzenFieldset>
+                        <HeaderTemplate>
+                            <span Style="color: black">
+                                <b style="font-size:12px">Segundo Bimestre</b>
+                            </span>
+                        </HeaderTemplate>
+                        <ChildContent>
+                            <div class="d-flex flex-row">
+                                <div class="d-flex flex-column-5 mr-5">
+                                    <label class="mr-3"><b style="font-size:12px">Nota</b></label>
+                                    
+                                    <RadzenNumeric ShowUpDown="false" TValue="double?" Format="00.00" @bind-Value=@_notas.SegundaNota Disabled="true" Class="mb-3" Style="width:80px"/>
+                                </div>
+                                <div class="d-flex flex-column-5">
+                                    <label class="mr-3"><b style="font-size:12px">Faltas</b></label>
+                                    
+                                    <RadzenNumeric ShowUpDown="false" TValue="double?" Format="00.00" @bind-Value=@_notas.FaltasSegundoBimestre Disabled="true" Class="mb-3" Style="width:80px"/>
+                                </div>        
+                            </div>
+                        </ChildContent>
+                    </RadzenFieldset>
+                    <RadzenFieldset>
+                        <HeaderTemplate>
+                            <span Style="color: black">
+                                <b style="font-size:12px">Tercer Bimestre</b>
+                            </span>
+                        </HeaderTemplate>
+                        <ChildContent>
+                            <div class="d-flex flex-row">
+                                <div class="d-flex flex-column-5 mr-5">
+                                    <label class="mr-3"><b style="font-size:12px">Nota</b></label>
+                                    
+                                    <RadzenNumeric ShowUpDown="false" TValue="double?" Format="00.00" @bind-Value=@_notas.TerceraNota Disabled="true" Class="mb-3" Style="width:80px"/>
+                                </div>
+                                <div class="d-flex flex-column-5">
+                                    <label class="mr-3"><b style="font-size:12px">Faltas</b></label>
+                                    
+                                    <RadzenNumeric ShowUpDown="false" TValue="double?" Format="00.00" @bind-Value=@_notas.FaltasTercerBimestre Disabled="true" Class="mb-3" Style="width:80px"/>
+                                </div>        
+                            </div>
+                        </ChildContent>
+                    </RadzenFieldset>
+                    <RadzenFieldset>
+                        <HeaderTemplate>
+                            <span Style="color: black">
+                                <b style="font-size:12px">Recuperatorios</b>
+                            </span>
+                        </HeaderTemplate>
+                        <ChildContent>
+                            <div class="d-flex flex-row">
+                                <div class="d-flex flex-column-5 mr-5">
+                                    <label class="mr-3"><b style="font-size:12px">Diciembre</b></label>
+                                
+                                    <RadzenNumeric ShowUpDown="false" TValue="double?" Format="00.00" @bind-Value=@_notas.DiciembreNota Disabled="true" Class="mb-3" Style="width:80px"/>
+                                </div>
+                                <div class="d-flex flex-column-5">
+                                    <label class="mr-3"><b style="font-size:12px">Marzo</b></label>
+                                    
+                                    <RadzenNumeric ShowUpDown="false" TValue="double?" Format="00.00" @bind-Value=@_notas.MarzoNota Disabled="true" Class="mb-3" Style="width:80px" Align="TextAlign.Center"/>
+                                </div>        
+                            </div>
+                        </ChildContent>
+                    </RadzenFieldset>
+                </div> 
+                <div class="col">
+                    <RadzenDataGrid Data="@_faltasFechas" TItem="FaltasDto" AllowColumnResize="true" style="height:420px">
+                        <Columns>  
+                            <RadzenDataGridColumn Width="50px" TItem="FaltasDto" Property="Fecha" TextAlign="TextAlign.Center">
+                                <HeaderTemplate>
+                                    <div style="text-align: center">
+                                        <b>Fecha</b>
+                                    </div>
+                                </HeaderTemplate>
+                            </RadzenDataGridColumn>
+                            <RadzenDataGridColumn Width="50px" TItem="FaltasDto" Property="Descri" TextAlign="TextAlign.Center">
+                                <HeaderTemplate>
+                                    <div style="text-align: center;">
+                                        <b>Descripción</b>
+                                    </div>
+                                </HeaderTemplate>
+                            </RadzenDataGridColumn>
+                        </Columns>
+                    </RadzenDataGrid>
+
+                </div>       
+            </div>   
+        }
+    </FormModal>
+    
+</div>
+

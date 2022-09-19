@@ -19,18 +19,29 @@
     <div class="col"> 
         <RadzenDataGrid @ref="materiasGrid" Data="@_materiasCursadas" TItem="MateriaCursadaDto" AllowColumnResize="true"
                         CellRender="@CellRender" Width="600px">
-            <Columns>   
+            <Columns>  
                 <RadzenDataGridColumn Width="50px" TItem="MateriaCursadaDto" Property="cuatrim" TextAlign="TextAlign.Center">
                     <HeaderTemplate>
                         <div style="text-align: center; width: 50px; margin-left: -12px;font-size:15px;">
                             <b>Cuat</b>
                         </div>
                     </HeaderTemplate>
-                </RadzenDataGridColumn>                            
-                <RadzenDataGridColumn Width="120px" TItem="MateriaCursadaDto" Property="inscripcion"  TextAlign="TextAlign.Center">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn Width="70px" TItem="MateriaCursadaDto" Property="cuatrim" TextAlign="TextAlign.Center">
+                    <Template Context="data">
+                        @if (data.condicion != "* ADEUDA *" && data.condicion != "EQUIVALENCIA" && data.condicion != "**INSCRIPTO**" )  
+                        {  
+                            <button type="button" @onclick="@(() => { _infoMateriaId= data.codmat; _infoViewMateria=true; _infoDesMateria=data.descripci;})" 
+                                class="btn pt-1 pb-1 pl-2 pr-2" style="background-color: green">
+                                <i style="color:white;font-size:22px" class="fa-solid fa-eye"></i>
+                            </button>
+                        }     
+                    </Template>    
+                </RadzenDataGridColumn>                                  
+                <RadzenDataGridColumn Width="90px" TItem="MateriaCursadaDto" Property="inscripcion"  TextAlign="TextAlign.Center">
                     <HeaderTemplate>
-                        <div style="text-align: center; width: 120px; margin-left: -12px;font-size:15px;">
-                           <b>Inscripcion</b>
+                        <div style="text-align: center; width: 90px; margin-left: -12px;font-size:15px;">
+                           <b>Inscrip<br>cion</b>
                         </div>
                     </HeaderTemplate>
                     <Template Context="data">
@@ -57,10 +68,10 @@
                         
                     </Template>
                 </RadzenDataGridColumn>      
-                <RadzenDataGridColumn Width="100px" TItem="MateriaCursadaDto" Property="permiso"  TextAlign="TextAlign.Center">
+                <RadzenDataGridColumn Width="90px" TItem="MateriaCursadaDto" Property="permiso"  TextAlign="TextAlign.Center">
                     <HeaderTemplate>
-                        <div style="text-align: center; width: 100px; margin-left: -12px;font-size:15px;">
-                            <b>Permiso</b>
+                        <div style="text-align: center; width: 90px; margin-left: -12px;font-size:15px;">
+                            <b>Per<br>miso</b>
                         </div>
                     </HeaderTemplate>
                     <Template Context="data">             
@@ -151,4 +162,8 @@
 @if(_inscMateria)
 {
     <InscripcionMateria MateriaId=@_materiaInscripcion OnClose=@InscripcionMateriaClose Visible=@_inscMateria Carrera=_carrera/>
+}
+@if(_infoViewMateria)
+{
+    <InfoMateria MateriaId=@_infoMateriaId MateriaNombre=@_infoDesMateria OnClose=@InfoMateriaClose Visible=@_infoViewMateria Carrera=_carrera/>
 }

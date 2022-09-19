@@ -10,7 +10,7 @@ using Radzen;
 namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
 {
     public partial class MateriasCursadas : _BasePage
-    {      
+    {
         //public AlumnoCarrera _carrera = new AlumnoCarrera();   
         //public string _alumnoId = default!;
         public string _carreraNombre = default!;
@@ -18,7 +18,10 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
         public bool _inscMateria = false;
         public string _materiaFinal = "";
         public string _materiaInscripcion = "";
-        public AlumnoCarrera _carrera = new AlumnoCarrera(); 
+        public string _infoMateriaId = "";
+        public bool _infoViewMateria = false;
+        public string _infoDesMateria = "";
+        public AlumnoCarrera _carrera = new AlumnoCarrera();
         private int _alumnoSelectedId;
         RadzenDataGrid<MateriaCursadaDto> materiasGrid = default!;
         private List<MateriaCursadaDto> _materiasCursadas = new List<MateriaCursadaDto>();
@@ -37,9 +40,9 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
             public string htmlcolor { set; get; } = "white";
             public string htmlfontcolor { set; get; } = "black";
             public string vencim { set; get; } = "";
-            public bool permiso { set; get;}
+            public bool permiso { set; get; }
             public bool inscripcion { set; get; }
-            public bool tienepermiso {set; get;}
+            public bool tienepermiso { set; get; }
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -52,7 +55,7 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
                     {
                         await appSession.LoadInformationUser();
                     }
-                     
+
                     if (appSession.Carreras != null & appSession!.Carreras!.Count != 0)
                     {
                         _carrera = appSession!.Carreras[0];
@@ -69,7 +72,7 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
                     {
                         toastService.ShowError(err.Message);
                     }
-                }  
+                }
             }
         }
 
@@ -97,7 +100,7 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
                                                                                 {
                                                                                     codalu = _carrera.DocumentoAlumno,
                                                                                     carrera = _carrera.IdCarrera
-                                                                                });                    
+                                                                                });
                 }
                 StateHasChanged();
             }
@@ -118,27 +121,35 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
         {
             if (args.Column.Property == "condicion")
             {
- 
-                args.Attributes.Add("style", $"background-color: {(args.Data.htmlcolor)};");            
+
+                args.Attributes.Add("style", $"background-color: {(args.Data.htmlcolor)};");
             }
 
         }
 
-        void PedirPermiso(string aCodMat){
-            
+        void PedirPermiso(string aCodMat)
+        {
+
         }
 
-        private async Task InscripcionMateriaClose() 
+        private async Task InscripcionMateriaClose()
         {
-            _materiaInscripcion="";
-            _inscMateria=false; 
+            _materiaInscripcion = "";
+            _inscMateria = false;
             await LoadMaterias();
         }
         private async Task InscripcionFinalClose()
         {
-            _materiaFinal="";
-            _inscFinal=false; 
-            await LoadMaterias(); 
+            _materiaFinal = "";
+            _inscFinal = false;
+            await LoadMaterias();
+        }
+
+        private async Task InfoMateriaClose()
+        {
+            _infoMateriaId = "";
+            _infoDesMateria = "";
+            _infoViewMateria  = false;
         }
 
         private async void carreraOnChange(AlumnoCarrera _value)
@@ -148,6 +159,6 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
             _carrera = _value;
             await LoadMaterias();
         }
-    }    
+    }
 
 }
