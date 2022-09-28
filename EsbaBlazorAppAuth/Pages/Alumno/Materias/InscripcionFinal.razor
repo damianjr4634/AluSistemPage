@@ -4,14 +4,9 @@
 @using EsbaBlazorAppAuth.Data
 
 <div class="container-fluid">
-    <FormModal Size="modal-lg" OnClose=@OnClose Visible=@Visible>
+    <FormModal Size="modal-lg" OnClose=@OnClose Visible=@Visible Header="Permiso de Examen"> 
         <header>
             <div class="container">
-                <div class="text-center" style="background-color: lightgray;">
-                    <span style="font-size: 16pt; color: black">
-                        <b>Permiso de Examen</b>
-                    </span>
-                </div>
                 @if (_materiaRendir != null) 
                 {
                     <div class="text-center">    

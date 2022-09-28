@@ -16,11 +16,13 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
         public string _carreraNombre = default!;
         public bool _inscFinal = false;
         public bool _inscMateria = false;
+        public bool _infoViewMateria = false;
+        public bool _viewFaltas = false;
         public string _materiaFinal = "";
         public string _materiaInscripcion = "";
         public string _infoMateriaId = "";
-        public bool _infoViewMateria = false;
         public string _infoDesMateria = "";
+        public string _cuatrimestre = "";
         public AlumnoCarrera _carrera = new AlumnoCarrera();
         private int _alumnoSelectedId;
         RadzenDataGrid<MateriaCursadaDto> materiasGrid = default!;
@@ -151,7 +153,7 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
             _infoDesMateria = "";
             _infoViewMateria  = false;
         }
-
+        
         private async void carreraOnChange(AlumnoCarrera _value)
         {
             //_carreraSelectedIndex = appSession.Carreras.FindIndex(x => x.IdCarrera == (string)value);

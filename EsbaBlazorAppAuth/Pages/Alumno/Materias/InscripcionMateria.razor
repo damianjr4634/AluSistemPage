@@ -5,15 +5,10 @@
 
 <div class="container-fluid">
    
-    <FormModal Size="" OnClose=@OnClose Visible=@Visible>
+    <FormModal Size="" OnClose=@OnClose Visible=@Visible Header="Inscripcion a la materia">
         <header>
             
             <div class="container">
-                <div class="text-center" style="background-color: lightgray;">
-                    <span style="font-size: 16pt; color: black">
-                        <b>Inscripcion a la materia</b>
-                    </span>
-                </div>
                 @if (_materiaInscripcionValida != null) 
                 {
                     <div class="text-center">    

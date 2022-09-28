@@ -6,14 +6,21 @@
 
 <div class="row"> 
     <div class="col"> 
-        <span style="font-size:14px"><b>Materias de la carrera</b></span>
-    </div>
-</div>    
-<div class="row"> 
-    <div class="col">     
+        <span style="font-size:14px"><b>Materias de la carrera</b></span> 
+        <br>
         <span style="font-size:12px"><b>@_carrera.NombreCarrera</b></span>
     </div>
-</div>
+    <div class="col text-right">
+        @if (_carrera.IdCarrera == "333" || _carrera.IdCarrera == "650")
+        {
+            <button type="button" @onclick="@(() => {_viewFaltas=true; })" 
+                                    class="btn btn-primary pt-1 pb-1 pl-2 pr-2" style="background-color: green">
+                                    <i style="color:white;font-size:22px" class="fas fa-tasks"></i>
+                                    Inasistencias
+            </button>
+        }   
+    </div>
+</div>    
 <hr/>
 <div class="row"> 
     <div class="col"> 
@@ -22,16 +29,16 @@
             <Columns>  
                 <RadzenDataGridColumn Width="50px" TItem="MateriaCursadaDto" Property="cuatrim" TextAlign="TextAlign.Center">
                     <HeaderTemplate>
-                        <div style="text-align: center; width: 50px; margin-left: -12px;font-size:15px;">
+                        <div class="grid-column-title" style="width: 50px;">
                             <b>Cuat</b>
                         </div>
                     </HeaderTemplate>
                 </RadzenDataGridColumn>
-                <RadzenDataGridColumn Width="70px" TItem="MateriaCursadaDto" Property="cuatrim" TextAlign="TextAlign.Center">
+                <RadzenDataGridColumn Width="80px" TItem="MateriaCursadaDto" Property="cuatrim" TextAlign="TextAlign.Center">
                     <Template Context="data">
                         @if (data.condicion != "* ADEUDA *" && data.condicion != "EQUIVALENCIA" && data.condicion != "**INSCRIPTO**" )  
                         {  
-                            <button type="button" @onclick="@(() => { _infoMateriaId= data.codmat; _infoViewMateria=true; _infoDesMateria=data.descripci;})" 
+                            <button type="button" @onclick="@(() => { _infoMateriaId= data.codmat; _infoViewMateria=true; _infoDesMateria=data.descripci; _cuatrimestre=data.cuaanio;})" 
                                 class="btn pt-1 pb-1 pl-2 pr-2" style="background-color: green">
                                 <i style="color:white;font-size:22px" class="fa-solid fa-eye"></i>
                             </button>
@@ -40,7 +47,7 @@
                 </RadzenDataGridColumn>                                  
                 <RadzenDataGridColumn Width="90px" TItem="MateriaCursadaDto" Property="inscripcion"  TextAlign="TextAlign.Center">
                     <HeaderTemplate>
-                        <div style="text-align: center; width: 90px; margin-left: -12px;font-size:15px;">
+                        <div class="grid-column-title" style="width: 90px;">
                            <b>Inscrip<br>cion</b>
                         </div>
                     </HeaderTemplate>
@@ -70,7 +77,7 @@
                 </RadzenDataGridColumn>      
                 <RadzenDataGridColumn Width="90px" TItem="MateriaCursadaDto" Property="permiso"  TextAlign="TextAlign.Center">
                     <HeaderTemplate>
-                        <div style="text-align: center; width: 90px; margin-left: -12px;font-size:15px;">
+                        <div class="grid-column-title" style="width: 90px;">
                             <b>Per<br>miso</b>
                         </div>
                     </HeaderTemplate>
@@ -99,7 +106,7 @@
                 </RadzenDataGridColumn>       
                 <RadzenDataGridColumn TItem="MateriaCursadaDto" Property="descripci" >
                     <HeaderTemplate>
-                        <div style="text-align: center; margin-left: 0px;font-size:15px;">
+                        <div class="grid-column-title">
                             <b>Materia</b>
                         </div>
                     </HeaderTemplate>
@@ -109,7 +116,7 @@
                 </RadzenDataGridColumn>          
                 <RadzenDataGridColumn Width="170px" TItem="MateriaCursadaDto" Property="condicion" TextAlign="TextAlign.Center">  
                     <HeaderTemplate>
-                        <div style="text-align: center; width: 170px; margin-left: -12px;font-size:15px;">
+                        <div class="grid-column-title" style="width: 170px;">
                             <b>Estado</b>
                         </div>
                     </HeaderTemplate>
@@ -119,7 +126,7 @@
                 </RadzenDataGridColumn>
                 <RadzenDataGridColumn Width="100px" TItem="MateriaCursadaDto" Property="cuaanio" TextAlign="TextAlign.Center">
                      <HeaderTemplate>
-                        <div style="text-align: center; width: 100px; margin-left: -12px;font-size:15px;">
+                        <div class="grid-column-title" style="width: 100px;">
                             <b>Cuatri<br>Año</b>
                         </div>
                     </HeaderTemplate>
@@ -129,7 +136,7 @@
                 </RadzenDataGridColumn>  
                 <RadzenDataGridColumn Width="80px" TItem="MateriaCursadaDto" Property="nota" TextAlign="TextAlign.Right" >
                     <HeaderTemplate>
-                        <div style="text-align: center; width: 80px; margin-left: -12px;font-size:15px;">
+                        <div class="grid-column-title" style="width: 80px;">
                             <b>Nota</b>
                         </div>                       
                     </HeaderTemplate>
@@ -137,9 +144,9 @@
                         <span style="font-size:15px;"><b>@String.Format("{0:N2}",data.nota)</b></span>                
                     </Template>
                 </RadzenDataGridColumn>  
-                <RadzenDataGridColumn Width="100px" TItem="MateriaCursadaDto" Property="fecha">
+                <RadzenDataGridColumn Width="120px" TItem="MateriaCursadaDto" Property="fecha">
                     <HeaderTemplate>
-                        <div style="text-align: center; width: 100px; margin-left: -12px;font-size:15px;">
+                        <div class="grid-column-title" style="width: 100px;">
                             <b>Fecha</b>
                         </div>
                     </HeaderTemplate>
@@ -165,5 +172,9 @@
 }
 @if(_infoViewMateria)
 {
-    <InfoMateria MateriaId=@_infoMateriaId MateriaNombre=@_infoDesMateria OnClose=@InfoMateriaClose Visible=@_infoViewMateria Carrera=_carrera/>
+    <InfoMateria MateriaId=@_infoMateriaId MateriaNombre=@_infoDesMateria OnClose=@InfoMateriaClose Visible=@_infoViewMateria Carrera=_carrera CuatrimestreAnio=@_cuatrimestre/>
+}
+@if(_viewFaltas)
+{
+    <Inasistencias OnClose=@(() => {_viewFaltas=false;}) Visible=@_viewFaltas Carrera=_carrera CuatrimestreAnio=@_cuatrimestre/>
 }
