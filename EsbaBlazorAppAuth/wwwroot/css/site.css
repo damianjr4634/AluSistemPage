@@ -1,5 +1,9 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
+h5, .h5 {
+    color: inherit;
+}
+
 .navbar {
     baground-color: #26276E;
 }

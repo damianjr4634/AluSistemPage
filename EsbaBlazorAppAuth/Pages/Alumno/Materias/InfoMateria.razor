@@ -10,7 +10,7 @@
                 @if (!string.IsNullOrEmpty(MateriaNombre)) 
                 {
                     <div class="text-center">    
-                        <span style="font-size:16px">  
+                        <span style="font-size:16pt">  
                             <b>@MateriaNombre</b>
                         </span>
                     </div>
@@ -23,35 +23,35 @@
             <div class="row">
                 <div class="col-xl-6 left form-line">
                     <div class="row ml-2">
-                        <div class="col-md-6 p-0"><b style="font-size:12px">Nota primer parcial</b></div>
+                        <div class="col-md-6 p-0"><b style="font-size:11pt">Nota primer parcial</b></div>
                         <div class="col-md-4 p-0">
-                            <RadzenNumeric ShowUpDown="false" TValue="double?" Format="00.00" @bind-Value=@_notas.PrimerNota Disabled="true" Class="mb-3" Style="width:80px"/>
+                            <RadzenNumeric ShowUpDown="false" TValue="double?" Format="0.00" @bind-Value=@_notas.PrimerNota ReadOnly="true" Class="mb-3" Style="width:80pt"/>
                         </div>
                     </div>
                     <div class="row ml-2">
-                        <div class="col-md-6 p-0"><b style="font-size:12px">Nota segundo parcial</b></div>
+                        <div class="col-md-6 p-0"><b style="font-size:11pt">Nota segundo parcial</b></div>
                         <div class="col-md-4 p-0">
-                            <RadzenNumeric ShowUpDown="false" TValue="double?" Format="0.00" Disabled="true" Class="mb-3" Style="width:80px"/>
+                            <RadzenNumeric ShowUpDown="false" TValue="double?" Format="0.00" @bind-Value=@_notas.SegundaNota ReadOnly="true" Class="mb-3" Style="width:80pt"/>
                         </div>
                     </div>
                     <div class="row ml-2">
-                        <div class="col-md-6 p-0"><b style="font-size:12px">Recuperatorio integrador</b></div>
+                        <div class="col-md-6 p-0"><b style="font-size:11pt">Recuperatorio integrador</b></div>
                         <div class="col-md-4 p-0">
-                            <RadzenNumeric ShowUpDown="false" TValue="double?" Format="0.00" Disabled="true" Class="mb-3" Style="width:80px"/>
+                            <RadzenNumeric ShowUpDown="false" TValue="double?" Format="0.00" @bind-Value=@_notas.Recuperatorio ReadOnly="true" Class="mb-3" Style="width:80pt"/>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-6">
                     <div class="row">
-                        <div class="col-md-6 p-0"><b style="font-size:12px">Inasistencias sin justificar</b></div>
+                        <div class="col-md-6 p-0"><b style="font-size:11pt">Inasistencias sin justificar</b></div>
                         <div class="col-md-4 p-0">
-                            <RadzenNumeric ShowUpDown="false" TValue="double?" Format="0.00" Disabled="true" Class="mb-3" Style="width:80px"/>
+                            <RadzenNumeric ShowUpDown="false" TValue="int?" Format="0.00" @bind-Value=@_notas.Inasistencias ReadOnly="true" Class="mb-3" Style="width:80pt"/>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6 p-0"><b style="font-size:12px">Inasistencias justificar</b></div>
+                        <div class="col-md-6 p-0"><b style="font-size:11pt">Inasistencias justificar</b></div>
                         <div class="col-md-4 p-0">
-                            <RadzenNumeric ShowUpDown="false" TValue="double?" Format="0.00" Disabled="true" Class="mb-3" Style="width:80px"/>
+                            <RadzenNumeric ShowUpDown="false" TValue="int?" Format="0.00" @bind-Value=@_notas.Justificadas ReadOnly="true" Class="mb-3" Style="width:80pt"/>
                         </div>
                     </div>
                 </div>
@@ -64,32 +64,32 @@
                     <RadzenFieldset>
                         <HeaderTemplate>
                             <span Style="color: black">
-                                <b style="font-size:12px">Evaluaciones</b>
+                                <b style="font-size:12pt">Evaluaciones</b>
                             </span>
                         </HeaderTemplate>
                         <ChildContent>
                             <div class="row">
                                 <div class="col-5">
-                                    <label class=""><b style="font-size:12px">Primer Bimestre</b></label>
+                                    <label class=""><b style="font-size:11pt">Primer Bimestre</b></label>
                                 </div>
-                                <div class="col">    
-                                    <RadzenNumeric ShowUpDown="false" TValue="double?" Format="0.00" @bind-Value=@_notas.PrimerNota  ReadOnly="true" Class="mb-3" Style="width:80px"/>
+                                <div class="col-5">    
+                                    <RadzenNumeric ShowUpDown="false" TValue="double?" Format="0.00" @bind-Value=@_notas.PrimerNota  ReadOnly="true" Class="mb-3" Style="width:80pt"/>
                                 </div>         
                             </div>
                             <div class="row">
                                 <div class="col-5">
-                                    <label class=""><b style="font-size:12px">Segundo Bimestre</b></label>
+                                    <label class=""><b style="font-size:11pt">Segundo Bimestre</b></label>
                                 </div>
-                                <div class="col">     
-                                    <RadzenNumeric ShowUpDown="false" TValue="double?" Format="0.00" @bind-Value=@_notas.SegundaNota  ReadOnly="true" Class="mb-3" Style="width:80px"/>
+                                <div class="col-5">     
+                                    <RadzenNumeric ShowUpDown="false" TValue="double?" Format="0.00" @bind-Value=@_notas.SegundaNota  ReadOnly="true" Class="mb-3" Style="width:80pt"/>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-5">
-                                    <label class=""><b style="font-size:12px">Tercer Bimestre</b></label>
+                                    <label class=""><b style="font-size:11pt">Tercer Bimestre</b></label>
                                 </div>
-                                <div class="col">     
-                                    <RadzenNumeric ShowUpDown="false" TValue="double?" Format="0.00" @bind-Value=@_notas.SegundaNota ReadOnly="true" Class="mb-3" Style="width:80px"/>
+                                <div class="col-5">     
+                                    <RadzenNumeric ShowUpDown="false" TValue="double?" Format="0.00" @bind-Value=@_notas.SegundaNota ReadOnly="true" Class="mb-3" Style="width:80pt"/>
                                 </div>
                             </div>
                         </ChildContent>
@@ -99,19 +99,24 @@
                     <RadzenFieldset>
                         <HeaderTemplate>
                             <span Style="color: black">
-                                <b style="font-size:12px">Recuperatorios</b>
+                                <b style="font-size:12pt">Recuperatorios</b>
                             </span>
                         </HeaderTemplate>
                         <ChildContent>
-                            <div class="d-flex flex-row">
-                                <div class="d-flex flex-column-5 mr-5">
-                                    <label class="mr-3"><b style="font-size:12px">Diciembre</b></label>
-                                
-                                    <RadzenNumeric ShowUpDown="false" TValue="double?" Format="0.00" @bind-Value=@_notas.DiciembreNota ReadOnly="true" Class="mb-3" Style="width:80px"/>
+                            <div class="row">
+                                <div class="col-5">
+                                    <label class="mr-3"><b style="font-size:11pt">Diciembre</b></label>
                                 </div>
-                                <div class="d-flex flex-column-5">
-                                    <label class="mr-3"><b style="font-size:12px">Marzo</b></label>                                   
-                                    <RadzenNumeric ShowUpDown="false" TValue="double?" Format="0.00" @bind-Value=@_notas.MarzoNota ReadOnly="true" Class="mb-3" Style="width:80px" Align="TextAlign.Center"/>
+                                <div class="col-5"> 
+                                    <RadzenNumeric ShowUpDown="false" TValue="double?" Format="0.00" @bind-Value=@_notas.DiciembreNota ReadOnly="true" Class="mb-3" Style="width:80pt"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    <label class="mr-3"><b style="font-size:11pt">Marzo</b></label> 
+                                </div>
+                                <div class="col-5">                                   
+                                    <RadzenNumeric ShowUpDown="false" TValue="double?" Format="0.00" @bind-Value=@_notas.MarzoNota ReadOnly="true" Class="mb-3" Style="width:80pt" Align="TextAlign.Center"/>
                                 </div>        
                             </div>
                         </ChildContent>
