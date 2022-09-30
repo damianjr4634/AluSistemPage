@@ -1,0 +1,61 @@
+@page "/counter"
+
+@using FirebirdSql.Data.FirebirdClient;
+@using BlazorAppHttps.Data;
+
+<h1>Counter</h1>
+
+<p>Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<button class="btn btn-primary" @onclick="ReadDb2">Click 2</button>
+
+@if (_listCarre != null) 
+{
+  <table>  
+  @foreach (CarreDto item in _listCarre)
+  {
+      <tr>
+        <td>@item.id </td>
+        <td>@item.descri</td>
+      </tr>
+  }
+  </table>
+}
+@if (_listCarreGrupo != null) 
+{
+  <table>  
+  @foreach (CarreraGrupos item in _listCarreGrupo)
+  {
+      <tr>
+        <td>@item.id </td>
+        <td>@item.name</td>
+      </tr>
+  }
+  </table>
+}
+
+@code {
+    private class CarreDto {
+        public string id {get; set;}
+        public string descri {get; set;}
+    }
+
+    private int currentCount = 0;
+    private List<CarreDto> _listCarre = new List<CarreDto>();
+    private List<CarreraGrupos> _listCarreGrupo = new List<CarreraGrupos>();
+
+    private void IncrementCount()
+    {
+        currentCount++;
+        _listCarre.Clear();
+    }
+
+    private void ReadDb2() 
+    {        
+        using (var db = new ApplicationDbContext())
+        {           
+            _listCarreGrupo = db.CarreraGrupos.ToList();
+        }
+    }    
+}

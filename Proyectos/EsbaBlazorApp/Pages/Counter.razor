@@ -1,0 +1,58 @@
+@page "/counter"
+
+@using FirebirdSql.Data.FirebirdClient;
+@using EsbaBlazorApp.Data;
+@inject IToastService toastService
+@inject NavigationManager navigationManager
+
+<h1>Counter</h1>
+
+<p>Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<button class="btn btn-primary" @onclick="ReadDb2">Click 2</button>
+<RadzenButton Text="pepe" Click="@Button0Click"></RadzenButton>
+
+
+@if (_listCarreGrupo != null) 
+{
+  <table>  
+  @foreach (CarreraGrupos item in _listCarreGrupo)
+  {
+      <tr>
+        <td>@item.id </td>
+        <td>@item.name</td>
+      </tr>
+  }
+  </table>
+}
+
+@code {
+
+    private int currentCount = 0;
+    private List<CarreraGrupos> _listCarreGrupo = new List<CarreraGrupos>();
+
+    private void IncrementCount()
+    {
+        currentCount++;
+        _listCarreGrupo.Clear();
+    }
+
+    private void ReadDb2() 
+    { 
+        try {       
+            using (var db = new ApplicationDbContext())
+            {           
+                _listCarreGrupo = db.CarreraGrupos.ToList();
+            }
+            toastService.ShowSuccess("ok");
+        }
+        catch (Exception err) {
+            toastService.ShowError(err.Message);
+        }
+    }   
+
+    private void Button0Click() {
+        navigationManager.NavigateTo("/");
+    }    
+}
