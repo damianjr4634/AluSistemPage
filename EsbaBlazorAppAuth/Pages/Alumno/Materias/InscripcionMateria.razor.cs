@@ -61,10 +61,8 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
                 try
                 {
                     _turnos.Add(new Turnos { Id = "1", Name = "Mañana" });
-                    _turnos.Add(new Turnos { Id = "2", Name = "Tarde" });
                     _turnos.Add(new Turnos { Id = "4", Name = "Noche" });
-                    
-            
+                            
                     _add = false;
 
                     using (var dbContext = await appSession.DbContextCreate())
@@ -73,7 +71,8 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
                         _inscripcion = await dbContext.InscripcionesMaterias.Where(b => b.AlumnoId==Carrera.IdAlumno && b.CarreraId==Carrera.IdCarrera && b.MateriaId == MateriaId && b.Estado=="PENDIENTE").FirstOrDefaultAsync();
                         _cuatrimestreAnio = await dbContext.QuerySingleOrDefaultAsync<string>(@$"select FCUATRIM from XXX_NUMCUATANIO('{Carrera.IdCarrera}')");
                     }
-                   
+                    
+                    
                     if (_inscripcion == null)
                     {
                         _add = true;
@@ -83,7 +82,14 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
                         _inscripcion.CarreraId = Carrera.IdCarrera;
                         _inscripcion.FechaInscripcion = DateTime.Now;
                         _inscripcion.MateriaId = MateriaId;
-                        _inscripcion.Turno = "";
+                        if (Carrera.Adistancia == "S")
+                        {
+                            _inscripcion.Turno = "4";
+                        }
+                        else
+                        {
+                            _inscripcion.Turno = "";
+                        }
                         _inscripcion.Estado = "PENDIENTE";
                     }
 
