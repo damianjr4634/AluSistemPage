@@ -22,3 +22,13 @@ https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/linux-nginx?view=as
 --.net manuales
 https://dotnet.microsoft.com/learn/aspnet/blazor-tutorial/create
 https://docs.microsoft.com/en-us/learn/modules/secure-aspnet-core-identity/3-add-identity?pivots=pg
+
+-- webmin
+https://ubunlog.com/webmin-instalacion-ubuntu-20-04/
+
+--docker
+https://www.youtube.com/watch?v=8WO-WlZ9NoA
+
+https://docs.docker.com/engine/install/ubuntu/
+https://phoenixnap.com/kb/docker-portainer-install
+

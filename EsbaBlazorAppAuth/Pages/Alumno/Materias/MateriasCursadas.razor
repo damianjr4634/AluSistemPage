@@ -54,22 +54,25 @@
                     <Template Context="data">
                                   
                         @if (_carrera.Baja == "N" && data.inscripcion)  
-                        {                       
-                            @if (data.condicion != "**INSCRIPTO**") 
-                            {
+                        { 
+                            @if (data.cuatrim <= _maxcuatrimaprob+1  )
+                            {                      
+                                @if (data.condicion != "**INSCRIPTO**") 
+                                {
 
-                                <button type="button" @onclick="@(() => { _materiaInscripcion= data.codmat; _inscMateria=true;})" 
-                                    class="btn pt-1 pb-1 pl-2 pr-2" style="background-color: black">
-                                    <i style="color:white;font-size:22px" class="fas fa-pen"></i>
-                                </button>      
-                            }
-                            else
-                            {
-                                <button type="button " @onclick="@(() => { _materiaInscripcion= data.codmat; _inscMateria=true;})" 
-                                    class="btn pt-1 pb-1 pl-2 pr-2" style="background-color: black">
-                                    <i style="color:green;font-size:22px" class="fas fa-check"></i>
-                                </button>
-                               
+                                    <button type="button" @onclick="@(() => { _materiaInscripcion= data.codmat; _inscMateria=true;})" 
+                                        class="btn pt-1 pb-1 pl-2 pr-2" style="background-color: black">
+                                        <i style="color:white;font-size:22px" class="fas fa-pen"></i>
+                                    </button>      
+                                }
+                                else
+                                {
+                                    <button type="button " @onclick="@(() => { _materiaInscripcion= data.codmat; _inscMateria=true;})" 
+                                        class="btn pt-1 pb-1 pl-2 pr-2" style="background-color: black">
+                                        <i style="color:green;font-size:22px" class="fas fa-check"></i>
+                                    </button>
+                                
+                                }
                             }
                         }
                         

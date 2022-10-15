@@ -25,6 +25,7 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
         public string _cuatrimestre = "";
         public AlumnoCarrera _carrera = new AlumnoCarrera();
         private int _alumnoSelectedId;
+        private int? _maxcuatrimaprob;
         RadzenDataGrid<MateriaCursadaDto> materiasGrid = default!;
         private List<MateriaCursadaDto> _materiasCursadas = new List<MateriaCursadaDto>();
         public class MateriaCursadaDto
@@ -103,7 +104,13 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
                                                                                     codalu = _carrera.DocumentoAlumno,
                                                                                     carrera = _carrera.IdCarrera
                                                                                 });
+                    _maxcuatrimaprob = await dbContext.QuerySingleOrDefaultAsync(@$" select max(m.cuatrim) as maxcuatrimaprob
+                                                                                            from analitic a
+                                                                                            left outer join materias m  on m.codcarre=a.carre and m.codmateri=a.cod_mat
+                                                                                            where A.COD_ALU='{_carrera.DocumentoAlumno}'");
                 }
+                if (_maxcuatrimaprob == null)
+                    _maxcuatrimaprob = 0;
                 StateHasChanged();
             }
             catch (Exception err)

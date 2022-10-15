@@ -81,6 +81,11 @@ namespace EsbaBlazorAppAuth.Data
             return await Database.GetDbConnection().QuerySingleOrDefaultAsync<T>(sql, param);
         }
         
+        public async Task<int?> QuerySingleOrDefaultAsync(string sql, object? param = null)
+        {
+            return await Database.GetDbConnection().QuerySingleOrDefaultAsync<int?>(sql, param);
+        }
+
         public async Task<T> QuerySingleValueOrDefaultAsync<T>(string sql, object? param = null)
         {
             return await Database.GetDbConnection().QuerySingleOrDefaultAsync<T>(sql, param);

@@ -116,7 +116,7 @@ namespace EsbaBlazorAppAuth.Services
                     using (var dbContext = await DbContextCreate())
                     {
                         _carreras = await dbContext.QueryAsync<AlumnoCarrera>($@"select ferrmsg, cod_alu as DocumentoAlumno, id_alumno as IdAlumno, NOMBRE as NombreAlumno,
-                                                       carre as IdCarrera, descarre as NombreCarrera, baja, NOMBRE||' '||descarre as AlumnoApellidoCarrera
+                                                       carre as IdCarrera, distancia as Adistancia, descarre as NombreCarrera, baja, NOMBRE||' '||descarre as AlumnoApellidoCarrera
                                                 from WEB_NET_LOGIN(@mail, @tipo, 1)",
                                                                                 new
                                                                                 {
