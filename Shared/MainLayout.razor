@@ -1,0 +1,35 @@
+@inherits LayoutComponentBase
+@using Blazored.Toast.Services
+@inject AppSession appSession
+
+<BlazoredToasts Position="ToastPosition.BottomRight"
+                Timeout="5"
+                IconType="IconType.FontAwesome"
+                SuccessClass="success-toast-override"
+                SuccessIcon="fas fa-thumbs-up"
+                ErrorIcon="fas fa-bug"
+                InfoIcon="fas fa-info-circle"
+                WarningIcon="fas fa-exclamation-triangle" />
+                
+<div class="page">
+
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <div class="main">
+
+        <div class="top-row px-4 auth" style="background-color: #26276E">
+            <LoginDisplay />                      
+        </div>
+
+        <div class="content px-4">
+            @Body
+        </div>
+    </div>
+</div>
+
+@code
+{
+
+}

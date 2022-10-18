@@ -1,0 +1,122 @@
+@page "/alumno/materias/inscripcionexamen/{MateriaId}"
+
+@inherits _BasePage
+@using EsbaBlazorAppAuth.Data
+
+<div class="container-fluid">
+    <FormModal Size="modal-lg" OnClose=@OnClose Visible=@Visible Header="Permiso de Examen"> 
+        <header>
+            <div class="container">
+                @if (_materiaRendir != null) 
+                {
+                    <div class="text-center">    
+                        <span style="font-size:16pt"> 
+                            @_materiaRendir.MATERIA
+                        </span>
+                    </div>
+                }
+            </div>           
+
+        </header>
+     
+        <hr/>
+
+        <EditForm Model="@_permiso" OnSubmit="@HandleValidSubmit">    
+            @if(_materiaRendir != null && _materiaRendir!.FERRCOD == 2) 
+            {
+                <div class="row m-2">
+                    <span style="color:white;font-size:15px;background-color:red"> 
+                        @_materiaRendir.FERRWEB
+                    </span>     
+                </div>
+            }
+            <div class="row mt-2">
+                    
+                <div class="col"> 
+                    <RadzenDataGrid @ref="mesasGrid" Data="@_mesas" TItem="MesaExamen" AllowColumnResize="false">
+                        <Columns>   
+                        
+                            <RadzenDataGridColumn Width="90px" TItem="MesaExamen" Property="MateriaId" TextAlign="TextAlign.Center">
+                                <HeaderTemplate>
+                                    <div style="text-align: center; margin-left: 0px;font-size:15px;">
+                                        <b>Inscripcion</b>
+                                    </div>
+                                </HeaderTemplate>
+                                <Template Context="data">             
+                                    @if(_materiaRendir != null && _materiaRendir.FERRCOD != 2) 
+                                    {
+
+                                        @if(data.PermisoExamen == null && _mesaInscripto == null) {
+                                            <button type="button" @onclick="@(() => AsignarMesa(data))" 
+                                                class="btn btn-success">
+                                                <i style="color:white;font-size:15px" class="fas fa-plus"></i>
+                                            </button>
+                                            /*
+                                            <RadzenButton ButtonStyle="ButtonStyle.Secondary" style="" Click=@(() => AsignarMesa(data))>
+                                                <span style="color:white;font-size:12px"><i class="fas fa-clipboard-check" style="margin-right:5px"/>Anotarme</span>
+                                            </RadzenButton>
+                                            */ 
+                                        }
+                                        else if(_mesaInscripto != null) { 
+                                            if (_mesaInscripto == data.MesaId)
+                                            {
+                                                <span style="color:green;font-size:12px"><b>Ingresado</b></span>
+                                                <button type="button" @onclick="@(() => QuitarMesa(data))" 
+                                                    class="btn btn-danger">
+                                                    <i style="color:white;font-size:15px" class="fas fa-trash"></i>
+                                                </button>
+                                                /*<RadzenButton ButtonStyle="ButtonStyle.Danger" style="" Click=@(() => QuitarMesa(data))>
+                                                    <span style="color:white;font-size:12px"><i class="fas fa-trash-alt" style="margin-right:5px"></i>Quitar</span>
+                                                </RadzenButton> 
+                                                */
+                                            }
+                                        }
+                                    }
+                                    @if(_materiaRendir != null && data.MesaId == _materiaRendir.FMESA)
+                                    {
+                                        <span style="color:green;font-size:12px"><b>Inscripto</b></span>   
+                                    }                            
+                                </Template>
+                            </RadzenDataGridColumn>      
+
+                            <RadzenDataGridColumn Width="50px" TItem="MesaExamen" Property="Llamado" Title="Llamado" TextAlign="TextAlign.Center">
+                                <HeaderTemplate>
+                                    <div style="text-align: center;  margin-left: 0px;font-size:15px;">
+                                        <b>Llamado</b>
+                                    </div>
+                                </HeaderTemplate>
+                            </RadzenDataGridColumn>  
+                            <RadzenDataGridColumn Width="50px" TItem="MesaExamen" Property="MesaId" Title="Mesa" TextAlign="TextAlign.Center">  
+                                <HeaderTemplate>
+                                    <div style="text-align: center; margin-left: 0px;font-size:15px;">
+                                        <b>Nunero de<br>Mesa</b>
+                                    </div>
+                                </HeaderTemplate>
+                            </RadzenDataGridColumn>
+                            <RadzenDataGridColumn Width="80px" TItem="MesaExamen" Property="FechaExamen" Title="Fecha" TextAlign="TextAlign.Center">
+                                <HeaderTemplate>
+                                    <div style="text-align: center; margin-left: 0px;font-size:15px;">
+                                        <b>Fecha<br>Examen</b>
+                                    </div>
+                                </HeaderTemplate>
+
+                                <Template Context="data">             
+                                    @if (data.FechaExamen != null)  {
+                                        @data.FechaExamen.ToString("dd/MM/yyyy")
+                                    }
+                                </Template>
+                            </RadzenDataGridColumn>            
+                        </Columns>
+                    </RadzenDataGrid>
+                </div>             
+            </div>
+            <hr/>
+            <div class="row mt-2 sticky">
+                <div class="btn-toolbar" role="toolbar" style="padding-left: 15px;" >
+                    <RadzenButton ButtonType="ButtonType.Submit" style="background-color: blue" Icon="save" BusyText="grabando ..." IsBusy=@busy Text="Guardar" />
+                </div>
+            </div>
+        
+        </EditForm>
+    </FormModal>   
+</div>

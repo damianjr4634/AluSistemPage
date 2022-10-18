@@ -1,0 +1,130 @@
+@page "/alumno/materias/info/{MateriaId}"
+
+@inherits _BasePage
+
+
+<div class="container-fluid">   
+    <FormModal Size="modal-lg" OnClose=@OnClose Visible=@Visible Header="Informacion Academica del Cuatrimestre">
+        <header>
+            <div class="container">
+                @if (!string.IsNullOrEmpty(MateriaNombre)) 
+                {
+                    <div class="text-center">    
+                        <span style="font-size:16pt">  
+                            <b>@MateriaNombre</b>
+                        </span>
+                    </div>
+                }
+                <hr/> 
+            </div>                  
+        </header>
+        @if (Carrera.IdCarrera != "650" && Carrera.IdCarrera != "333") 
+        {
+            <div class="row">
+                <div class="col-xl-6 left form-line">
+                    <div class="row ml-2">
+                        <div class="col-md-6 p-0"><b style="font-size:11pt">Nota primer parcial</b></div>
+                        <div class="col-md-4 p-0">
+                            <RadzenNumeric ShowUpDown="false" TValue="double?" Format="0.00" @bind-Value=@_notas.PrimerNota ReadOnly="true" Class="mb-3" Style="width:80pt"/>
+                        </div>
+                    </div>
+                    <div class="row ml-2">
+                        <div class="col-md-6 p-0"><b style="font-size:11pt">Nota segundo parcial</b></div>
+                        <div class="col-md-4 p-0">
+                            <RadzenNumeric ShowUpDown="false" TValue="double?" Format="0.00" @bind-Value=@_notas.SegundaNota ReadOnly="true" Class="mb-3" Style="width:80pt"/>
+                        </div>
+                    </div>
+                    <div class="row ml-2">
+                        <div class="col-md-6 p-0"><b style="font-size:11pt">Recuperatorio integrador</b></div>
+                        <div class="col-md-4 p-0">
+                            <RadzenNumeric ShowUpDown="false" TValue="double?" Format="0.00" @bind-Value=@_notas.Recuperatorio ReadOnly="true" Class="mb-3" Style="width:80pt"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="row">
+                        <div class="col-md-6 p-0"><b style="font-size:11pt">Inasistencias sin justificar</b></div>
+                        <div class="col-md-4 p-0">
+                            <RadzenNumeric ShowUpDown="false" TValue="int?" Format="0.00" @bind-Value=@_notas.Inasistencias ReadOnly="true" Class="mb-3" Style="width:80pt"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 p-0"><b style="font-size:11pt">Inasistencias justificar</b></div>
+                        <div class="col-md-4 p-0">
+                            <RadzenNumeric ShowUpDown="false" TValue="int?" Format="0.00" @bind-Value=@_notas.Justificadas ReadOnly="true" Class="mb-3" Style="width:80pt"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {            
+            <div class="row">
+                <div class="col-6 left form-line">
+                    <RadzenFieldset>
+                        <HeaderTemplate>
+                            <span Style="color: black">
+                                <b style="font-size:12pt">Evaluaciones</b>
+                            </span>
+                        </HeaderTemplate>
+                        <ChildContent>
+                            <div class="row">
+                                <div class="col-5">
+                                    <label class=""><b style="font-size:11pt">Primer Bimestre</b></label>
+                                </div>
+                                <div class="col-5">    
+                                    <RadzenNumeric ShowUpDown="false" TValue="double?" Format="0.00" @bind-Value=@_notas.PrimerNota  ReadOnly="true" Class="mb-3" Style="width:80pt"/>
+                                </div>         
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    <label class=""><b style="font-size:11pt">Segundo Bimestre</b></label>
+                                </div>
+                                <div class="col-5">     
+                                    <RadzenNumeric ShowUpDown="false" TValue="double?" Format="0.00" @bind-Value=@_notas.SegundaNota  ReadOnly="true" Class="mb-3" Style="width:80pt"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    <label class=""><b style="font-size:11pt">Tercer Bimestre</b></label>
+                                </div>
+                                <div class="col-5">     
+                                    <RadzenNumeric ShowUpDown="false" TValue="double?" Format="0.00" @bind-Value=@_notas.SegundaNota ReadOnly="true" Class="mb-3" Style="width:80pt"/>
+                                </div>
+                            </div>
+                        </ChildContent>
+                    </RadzenFieldset>
+                </div> 
+                <div class="col">
+                    <RadzenFieldset>
+                        <HeaderTemplate>
+                            <span Style="color: black">
+                                <b style="font-size:12pt">Recuperatorios</b>
+                            </span>
+                        </HeaderTemplate>
+                        <ChildContent>
+                            <div class="row">
+                                <div class="col-5">
+                                    <label class="mr-3"><b style="font-size:11pt">Diciembre</b></label>
+                                </div>
+                                <div class="col-5"> 
+                                    <RadzenNumeric ShowUpDown="false" TValue="double?" Format="0.00" @bind-Value=@_notas.DiciembreNota ReadOnly="true" Class="mb-3" Style="width:80pt"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-5">
+                                    <label class="mr-3"><b style="font-size:11pt">Marzo</b></label> 
+                                </div>
+                                <div class="col-5">                                   
+                                    <RadzenNumeric ShowUpDown="false" TValue="double?" Format="0.00" @bind-Value=@_notas.MarzoNota ReadOnly="true" Class="mb-3" Style="width:80pt" Align="TextAlign.Center"/>
+                                </div>        
+                            </div>
+                        </ChildContent>
+                    </RadzenFieldset>
+                </div>     
+            </div>   
+        }
+    </FormModal>
+    
+</div>
+

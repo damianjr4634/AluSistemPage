@@ -1,0 +1,85 @@
+@inject AppSession appSession
+
+<div class="top-row" style="background-color: #607EAA;margin-left: -32px;margin-right: -24px;margin-top: -18px;">
+    <div class="d-flex flex-row">
+           
+        <div class="d-flex flex-column justify-content-center ml-2 pt-2">
+            <span class="principalfontstyles" style="font-size:20px">
+                @if (appSession.UserType == "A")
+                {
+                    <b>Carreras</b>
+                }
+                else
+                {   
+                    <b>Alumnos</b>
+                }
+            </span> 
+        </div>
+        
+        @if(Carreras != null) 
+        {
+            <div class="d-flex flex-column justify-content-center ml-2 pt-2">
+                @if (appSession.UserType == "A")
+                {    
+                    <RadzenDropDown AllowClear="false" TValue="int" style="width:500px; margin-top: 2px"
+                                            Data=@Carreras TextProperty="NombreCarrera" ValueProperty="IdAlumno" 
+                                            Change=@OnLocalChange  
+                                            @bind-Value="@SelectedValue"/>
+                }
+                else
+                {
+                     <RadzenDropDown AllowClear="false" TValue="int" style="width:500px; margin-top: 2px"
+                                            Data=@Carreras TextProperty="AlumnoApellidoCarrera" ValueProperty="IdAlumno" 
+                                            Change=@OnLocalChange  
+                                            @bind-Value="@SelectedValue"/>                  
+                }
+            </div>
+            @if(_carreraSelected != null && _carreraSelected.Baja == "S")
+            {
+                <div class="d-flex flex-column justify-content-center ml-2 pt-2">    
+                    <span class="principalfontstyles" style="font-size:18px" >Estado <RadzenBadge BadgeStyle="BadgeStyle.Danger" IsPill="true" Text="BAJA" /> </span>
+                </div>
+            }
+            else if(_carreraSelected != null && _carreraSelected.Baja == "N")
+            {
+                <div class="d-flex flex-column justify-content-center ml-2 pt-2">    
+                    <span class="principalfontstyles" style="font-size:18px" >Estado <RadzenBadge BadgeStyle="BadgeStyle.Success" IsPill="true" Text="ACTIVO" /> </span>
+                </div>
+            }
+            
+        }      
+         
+    </div> 
+    <hr/>
+</div>
+
+@code {
+    [Parameter] 
+    public EventCallback<AlumnoCarrera> OnChange { get; set; }
+    
+    [Parameter]
+    public List<AlumnoCarrera> Carreras { get; set; }
+
+    [Parameter]
+    public int SelectedValue { get; set; }
+
+    private AlumnoCarrera _carreraSelected;
+
+    private async Task OnLocalChange(object value)
+    {
+        _carreraSelected = Carreras.Find(x => x.IdAlumno == (int)value);
+
+        if (OnChange.HasDelegate)
+        {
+            await OnChange.InvokeAsync(_carreraSelected);
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (SelectedValue != null && SelectedValue != 0)
+        {
+            _carreraSelected = Carreras.Find(x => x.IdAlumno == SelectedValue);   
+        }
+    }
+}

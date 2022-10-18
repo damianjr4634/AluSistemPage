@@ -1,0 +1,68 @@
+@page "/alumno/materias/insistencias"
+
+@inherits _BasePage
+
+
+<div class="container-fluid">   
+    <FormModal Size="modal-lg" OnClose=@OnClose Visible=@Visible Header="Inasistencias"> 
+        <div class="row">
+            <div class="col">
+                <span>Seleccione un año</span>
+                <RadzenDropDown AllowClear="false" TValue="int" style="width:100px; margin-top: 0px"
+                                                Data=@_anios TextProperty="Anio" ValueProperty="Anio" 
+                                                Change=@OnLocalChange  
+                                                @bind-Value="@SelectedAnioValue"/>
+            </div>
+        </div>               
+        <div class="row">    
+            <div class="col">
+                <RadzenFieldset>
+                    <HeaderTemplate>
+                        <span Style="color: black">
+                            <b style="font-size:12px">Inasistencias</b>
+                        </span>
+                    </HeaderTemplate>
+                    <ChildContent>
+                        <RadzenDataGrid Data="@_faltasFechas" TItem="FaltasDto" AllowColumnResize="true" style="height:420px">
+                            <Columns>  
+                                <RadzenDataGridColumn Width="50px" TItem="FaltasDto" Property="Fecha" TextAlign="TextAlign.Center">
+                                    <HeaderTemplate>
+                                        <div class="grid-column-title">
+                                            <b>Fecha</b>
+                                        </div>
+                                    </HeaderTemplate>
+                                    <Template Context="data">             
+                                        @if (data.Fecha != null)  {
+                                            @data.Fecha.ToString("dd/MM/yyyy")
+                                        }
+                                    </Template>
+                                </RadzenDataGridColumn>
+                                <RadzenDataGridColumn Width="50px" TItem="FaltasDto" Property="Descri" TextAlign="TextAlign.Center">
+                                    <HeaderTemplate>
+                                        <div class="grid-column-title">
+                                            <b>Descripción</b>
+                                        </div>
+                                    </HeaderTemplate>
+                                </RadzenDataGridColumn>
+                                <RadzenDataGridColumn Width="50px" TItem="FaltasDto" Property="Cantid" TextAlign="TextAlign.Center">
+                                    <HeaderTemplate>
+                                        <div class="grid-column-title">
+                                            <b>Cantidad</b>
+                                        </div>
+                                    </HeaderTemplate>
+                                    <Template Context="data">               
+                                        <span style="font-size:15px;"><b>@String.Format("{0:N2}",data.Cantid)</b></span>                
+                                    </Template>
+                                    <FooterTemplate>
+                                        Total faltas: <b>@String.Format("{0:N2}", _faltasFechas.Sum(o => o.Cantid))</b>
+                                    </FooterTemplate>
+                                </RadzenDataGridColumn>
+                            </Columns>
+                        </RadzenDataGrid>
+                    </ChildContent>
+                </RadzenFieldset>
+            </div>       
+        </div>   
+    </FormModal>
+</div>
+

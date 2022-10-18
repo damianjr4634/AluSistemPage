@@ -1,0 +1,52 @@
+﻿@inject AppSession appSession;
+
+    <CascadingAuthenticationState>
+        <Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true">
+            <Found Context="routeData">
+                <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+            </Found>
+            <NotFound>
+                <LayoutView Layout="@typeof(MainLayout)">
+                    <p>Sorry, there's nothing at this address.</p>
+                </LayoutView>
+            </NotFound>
+        </Router>
+    </CascadingAuthenticationState>
+
+@code {
+    private int _sessionStateId = -1;
+
+    // la idea es que cuando cambia algo en la sesion se dispare un statehaschanged
+    // lo cual hace que todos los componentes subscriptos al cascadingValue se actualicen
+    // en verdad podriamos pasar un cascading value al pedo y usar injeccion de dependencia
+    // en los componentes, lo unico que hace el cascadingValue es notificar a los componentes
+    // que actualicen
+
+    // para que esto funcione hay que pasar el "render-mode" de ServerPrerendered a Server en _host.cshtml
+    // https://docs.microsoft.com/en-us/aspnet/core/blazor/hosting-models?view=aspnetcore-3.1
+    // esto también tiene la ventaja de que ejecuta una sola vez el OnInitializedAsync.
+    protected override async Task OnInitializedAsync()
+    {
+        await appSession.LoadStateAsync();
+    }
+
+    // si por algun motivo no podemos cambiar el "render-mode" a Server,
+    // la otra alternativa es acceder en el OnAfterRenderAsync
+    // protected async override Task OnAfterRenderAsync(bool firstRender)
+    //{
+    //    if (firstRender)
+    //    {
+    //        await appSession.LoadStateAsync();
+    //        StateHasChanged();
+    //    }
+    //}
+
+    private async Task OnSessionUpdate()
+    {
+        await InvokeAsync( () => {
+
+            StateHasChanged();
+        });
+    }
+}
+

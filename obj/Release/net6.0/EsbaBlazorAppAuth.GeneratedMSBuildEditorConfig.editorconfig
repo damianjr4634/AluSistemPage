@@ -1,0 +1,148 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = EsbaBlazorAppAuth
+build_property.RootNamespace = EsbaBlazorAppAuth
+build_property.ProjectDir = /home/damian/git/AluSistemPage/EsbaBlazorAppAuth/
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = /home/damian/git/AluSistemPage/EsbaBlazorAppAuth
+build_property._RazorSourceGeneratorDebug = 
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/App.razor]
+build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/Pages/Alumno/FichaAlumno.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWx1bW5vL0ZpY2hhQWx1bW5vLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/Pages/Alumno/Materias/Inasistencias.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWx1bW5vL01hdGVyaWFzL0luYXNpc3RlbmNpYXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/Pages/Alumno/Materias/InfoMateria.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWx1bW5vL01hdGVyaWFzL0luZm9NYXRlcmlhLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/Pages/Alumno/Materias/InscripcionFinal.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWx1bW5vL01hdGVyaWFzL0luc2NyaXBjaW9uRmluYWwucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/Pages/Alumno/Materias/InscripcionMateria.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWx1bW5vL01hdGVyaWFzL0luc2NyaXBjaW9uTWF0ZXJpYS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/Pages/Alumno/Materias/MateriasCursadas.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWx1bW5vL01hdGVyaWFzL01hdGVyaWFzQ3Vyc2FkYXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/Pages/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXgucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/Shared/Components/CarreraSelect.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL0NvbXBvbmVudHMvQ2FycmVyYVNlbGVjdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/Shared/Components/FormModal.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL0NvbXBvbmVudHMvRm9ybU1vZGFsLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/Shared/LoginDisplay.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL0xvZ2luRGlzcGxheS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/Shared/SurveyPrompt.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL1N1cnZleVByb21wdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/Shared/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL01haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-9zyvoxd0p5
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/Shared/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL05hdk1lbnUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-xgxzzm5ljg
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/Areas/Identity/Pages/Account/ConfirmEmail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvSWRlbnRpdHkvUGFnZXMvQWNjb3VudC9Db25maXJtRW1haWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/Areas/Identity/Pages/Account/ForgotPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvSWRlbnRpdHkvUGFnZXMvQWNjb3VudC9Gb3Jnb3RQYXNzd29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/Areas/Identity/Pages/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvSWRlbnRpdHkvUGFnZXMvQWNjb3VudC9Mb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/Areas/Identity/Pages/Account/LogOut.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvSWRlbnRpdHkvUGFnZXMvQWNjb3VudC9Mb2dPdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/Areas/Identity/Pages/Account/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvSWRlbnRpdHkvUGFnZXMvQWNjb3VudC9SZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/Areas/Identity/Pages/Account/ResetPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvSWRlbnRpdHkvUGFnZXMvQWNjb3VudC9SZXNldFBhc3N3b3JkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/Areas/Identity/Pages/Account/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvSWRlbnRpdHkvUGFnZXMvQWNjb3VudC9fVmlld0ltcG9ydHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/Areas/Identity/Pages/Shared/_LoginPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvSWRlbnRpdHkvUGFnZXMvU2hhcmVkL19Mb2dpblBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/Areas/Identity/Pages/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvSWRlbnRpdHkvUGFnZXMvX1ZhbGlkYXRpb25TY3JpcHRzUGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/Areas/Identity/Pages/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvSWRlbnRpdHkvUGFnZXMvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/Areas/Identity/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvSWRlbnRpdHkvUGFnZXMvX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/Pages/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRXJyb3IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/Pages/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/Pages/Shared/_LoginPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19Mb2dpblBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/Pages/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/Pages/_Host.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX0hvc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/Pages/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/damian/git/AluSistemPage/EsbaBlazorAppAuth/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
