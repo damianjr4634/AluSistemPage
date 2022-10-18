@@ -1,0 +1,17 @@
+/home/damian/git/AluSistemPage/EsbaBlazorApp/obj/Debug/net5.0/EsbaBlazorApp.csproj.AssemblyReference.cache
+/home/damian/git/AluSistemPage/EsbaBlazorApp/obj/Debug/net5.0/EsbaBlazorApp.GeneratedMSBuildEditorConfig.editorconfig
+/home/damian/git/AluSistemPage/EsbaBlazorApp/obj/Debug/net5.0/EsbaBlazorApp.AssemblyInfoInputs.cache
+/home/damian/git/AluSistemPage/EsbaBlazorApp/obj/Debug/net5.0/EsbaBlazorApp.AssemblyInfo.cs
+/home/damian/git/AluSistemPage/EsbaBlazorApp/obj/Debug/net5.0/EsbaBlazorApp.csproj.CoreCompileInputs.cache
+/home/damian/git/AluSistemPage/EsbaBlazorApp/obj/Debug/net5.0/EsbaBlazorApp.MvcApplicationPartsAssemblyInfo.cache
+/home/damian/git/AluSistemPage/EsbaBlazorApp/obj/Debug/net5.0/EsbaBlazorApp.RazorComponent.input.cache
+/home/damian/git/AluSistemPage/EsbaBlazorApp/obj/Debug/net5.0/RazorDeclaration/App.razor.g.cs
+/home/damian/git/AluSistemPage/EsbaBlazorApp/obj/Debug/net5.0/RazorDeclaration/Pages/Alumno/FichaAlumno.razor.g.cs
+/home/damian/git/AluSistemPage/EsbaBlazorApp/obj/Debug/net5.0/RazorDeclaration/Pages/Alumno/Materias/InscripcionFinal.razor.g.cs
+/home/damian/git/AluSistemPage/EsbaBlazorApp/obj/Debug/net5.0/RazorDeclaration/Pages/Alumno/Materias/InscripcionMateria.razor.g.cs
+/home/damian/git/AluSistemPage/EsbaBlazorApp/obj/Debug/net5.0/RazorDeclaration/Pages/Alumno/Materias/MateriasCursadas.razor.g.cs
+/home/damian/git/AluSistemPage/EsbaBlazorApp/obj/Debug/net5.0/RazorDeclaration/Pages/Index.razor.g.cs
+/home/damian/git/AluSistemPage/EsbaBlazorApp/obj/Debug/net5.0/RazorDeclaration/_Imports.razor.g.cs
+/home/damian/git/AluSistemPage/EsbaBlazorApp/obj/Debug/net5.0/RazorDeclaration/Shared/MainLayout.razor.g.cs
+/home/damian/git/AluSistemPage/EsbaBlazorApp/obj/Debug/net5.0/RazorDeclaration/Shared/NavMenu.razor.g.cs
+/home/damian/git/AluSistemPage/EsbaBlazorApp/obj/Debug/net5.0/EsbaBlazorApp.RazorComponent.output.cache
