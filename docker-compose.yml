@@ -8,3 +8,6 @@ services:
       ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
     ports:
       - 5000:5000
+    build:
+      context: .
+      dockerfile: dockerfile
