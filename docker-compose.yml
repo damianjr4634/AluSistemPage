@@ -6,6 +6,9 @@ services:
       ASPNETCORE_URLS: "http://0.0.0.0:5000"
       ASPNETCORE_ENVIRONMENT: "Development"
       ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
+      MailConfiguracion__Smtp: "smtp.gmail.com"
+      MailConfiguracion__Port: 587
+      ConnectionStrings__DefaultConnection: "User=SYSDBA;Password=masterkey;Database=/pool/firebird/esba.gdb;DataSource=172.17.0.1;Port=3050;Dialect=3;Charset=ISO8859_1;Role=;Connection lifetime=15;Pooling=true;MinPoolSize=0;MaxPoolSize=50;Packet Size=8192;ServerType=0;"
     ports:
       - 5000:5000
     build:
