@@ -1,4 +1,5 @@
-EsbaBlazorAppAuth/bin/
-EsbaBlazorAppAuth/obj/
-EsbaBlazorAppAuth/.vs/
-EsbaBlazorAppAuth/*.db
+bin/
+obj/
+.vs/
+*.db
+.vscode/
