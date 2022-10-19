@@ -1,0 +1,10 @@
+version: '3.3'
+services:
+  app:
+    image: alusistempage
+    environment:
+      ASPNETCORE_URLS: "http://0.0.0.0:5000"
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
+    ports:
+      - 5000:5000
