@@ -13,12 +13,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using EsbaBlazorAppAuth.Areas.Identity;
 using EsbaBlazorAppAuth.Data;
 using Blazored.Toast;
 using EsbaBlazorAppAuth.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using EsbaBlazorAppAuth.Areas.Identity.Data;
+using System.Net;
 
 namespace EsbaBlazorAppAuth
 {
@@ -46,7 +48,11 @@ namespace EsbaBlazorAppAuth
                 .AddDefaultTokenProviders()
                 .AddSignInManager<AuthSignInManager<ApplicationUser>>();
 
-            
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.KnownProxies.Add(IPAddress.Parse("localhost"));
+            });
+
             services.AddRazorPages();
             services.AddServerSideBlazor()
             .AddHubOptions(o =>
@@ -76,6 +82,11 @@ namespace EsbaBlazorAppAuth
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
