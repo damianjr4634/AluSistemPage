@@ -51,6 +51,7 @@ namespace EsbaBlazorAppAuth
             services.Configure<ForwardedHeadersOptions>(options =>
             {
                 options.KnownProxies.Add(IPAddress.Parse("localhost"));
+                options.KnownProxies.Add(IPAddress.Parse("172.16.1.30"));
             });
 
             services.AddRazorPages();
