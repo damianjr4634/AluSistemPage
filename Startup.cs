@@ -40,6 +40,12 @@ namespace EsbaBlazorAppAuth
             /*services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseFirebird(
                     Configuration.GetConnectionString("DefaultConnection")));*/
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders =
+                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
+
             ApplicationDbContext.LoadConfig(Configuration);
             services.AddDbContext<ApplicationDbContext>(ServiceLifetime.Transient);        
 
@@ -48,19 +54,7 @@ namespace EsbaBlazorAppAuth
                 .AddDefaultTokenProviders()
                 .AddSignInManager<AuthSignInManager<ApplicationUser>>();
 
-            /*services.Configure<ForwardedHeadersOptions>(options =>
-            {
-                options.KnownProxies.Add(IPAddress.Parse("localhost"));
-                options.KnownProxies.Add(IPAddress.Parse("172.16.1.30"));
-            });*/
-
             services.AddRazorPages();
-
-            services.Configure<ForwardedHeadersOptions>(options =>
-            {
-                options.ForwardedHeaders =
-                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
-            });
 
             services.AddServerSideBlazor()
             .AddHubOptions(o =>
@@ -79,16 +73,18 @@ namespace EsbaBlazorAppAuth
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-             app.UseForwardedHeaders();    
+            //    
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseForwardedHeaders();
                 app.UseMigrationsEndPoint();               
             }
             else
             {
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseForwardedHeaders();
                 app.UseHsts();                
             }           
 
