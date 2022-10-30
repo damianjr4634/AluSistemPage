@@ -55,8 +55,7 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-
-}
+  }
 app.UseHttpsRedirection();
 
 app.UseForwardedHeaders(new ForwardedHeadersOptions
