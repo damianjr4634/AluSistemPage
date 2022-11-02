@@ -94,7 +94,7 @@ namespace EsbaBlazorAppAuth.Areas.Identity.Pages.Account
                         "/Account/ConfirmEmail",
                         pageHandler: null,
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
-                        protocol: Request.Scheme);
+                        protocol: "https" /*Request.Scheme*/);
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirmacion de mail",
                         $"Confirme el mail haciendo click <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>aqui</a>.");

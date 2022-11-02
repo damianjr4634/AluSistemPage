@@ -49,6 +49,18 @@ builder.Services.AddScoped<AppSession>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddBlazoredToast();
 
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    // Password settings.
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequiredLength = 6;
+    options.Password.RequiredUniqueChars = 1;
+});
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -67,11 +79,11 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 ApplicationDbContext.LoadConfig(app.Configuration);
 
 app.UseAuthentication();
-app.UseAuthorization();
 
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthorization();
 
 app.MapBlazorHub();
 app.MapControllers();
