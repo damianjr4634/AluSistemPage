@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 #nullable disable
@@ -26,17 +27,20 @@ namespace EsbaBlazorAppAuth.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IConfiguration _configuration;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _configuration =  configuration;
         }
 
         [BindProperty]
@@ -59,6 +63,21 @@ namespace EsbaBlazorAppAuth.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Apelido")]
+            public string LastName { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Nombre")]
+            public string Name { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Documento")]
+            public string Document { get; set; }
+
+            [Required]
             [StringLength(100, ErrorMessage = "El {0} debe tener como minimo {2} y como maximo {1} caracteres de largo", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
@@ -78,11 +97,19 @@ namespace EsbaBlazorAppAuth.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            string _type = "";
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, AccountType = Input.AccountType };
+                var user = new ApplicationUser { 
+                                UserName = Input.Email, 
+                                Email = Input.Email, 
+                                AccountType = Input.AccountType,
+                                LastName = Input.LastName,
+                                Name = Input.Name,
+                                Document = Input.Document
+                                };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
@@ -95,9 +122,28 @@ namespace EsbaBlazorAppAuth.Areas.Identity.Pages.Account
                         pageHandler: null,
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: "https" /*Request.Scheme*/);
+                    if (Input.AccountType == "A") 
+                    {
+                        _type = "Alumno";
+                    }
+                    else
+                    {
+                        _type = "Padre/Tutor";
+                    }
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirmacion de mail",
-                        $"Confirme el mail haciendo click <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>aqui</a>.");
+                    await _emailSender.SendEmailAsync(Input.Email, "ESBA Confirmacion de mail",
+                        $@"Bienvenido {Input.LastName} {Input.Name}. 
+                           Solicitaste acceso a la web del instituto como {_type}, por favor confirmá el mail haciendo click <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>aquí</a>. 
+                           Si después de confirmar el mail al ingresar al sitio te dice, El usuario no tiene carreras asignadas.
+                           Esperá un tiempo hasta que Secretaría de Alumnos verifique los datos y active el ingreso. Si tarda mas de 24hs comunicate con nosotros.
+                           ");
+
+                    /*if (!string.IsNullOrEmpty(_configuration.GetValue<string>("MailConfiguration:AdministrativeMail")))
+                    {
+                        await _emailSender.SendEmailAsync(_configuration.GetValue<string>("MailConfiguration:AdministrativeMail"), "ESBA-WEB Nueva registracion",
+                            $@"El persona {Input.LastName} {Input.Name} con documento {Input.Document} y mail {Input.Email} se registro a la web con tipo de acceso {Input.AccountType}
+                            ");
+                    }*/
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

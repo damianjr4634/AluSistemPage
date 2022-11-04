@@ -17,12 +17,14 @@ namespace EsbaBlazorAppAuth.Services
         private IConfiguration _configuration;
         private string _smtpServer;
         private int _smtpPort;
+        private string _administrativeMail;
 
         public SmtpEmailSender(IConfiguration configuration)
         {
             _configuration = configuration;
             _smtpServer = _configuration.GetValue<string>("MailConfiguracion:Smtp");
             _smtpPort = _configuration.GetValue<int>("MailConfiguracion:Port");
+            _administrativeMail = _configuration.GetValue<string>("MailConfiguracion:AdministrativeMail");
         }
 
         /*public async Task SendEmailAsync(string email, string subject, string htmlMessage)
@@ -69,7 +71,7 @@ namespace EsbaBlazorAppAuth.Services
 
                 };
                 mailMessage.To.Add(email);
-                mailMessage.Bcc.Add("nleon@esbabarrionorte.edu.ar");
+                mailMessage.Bcc.Add(_administrativeMail);
                 mailMessage.Subject = subject;
                 mailMessage.IsBodyHtml = true;
 

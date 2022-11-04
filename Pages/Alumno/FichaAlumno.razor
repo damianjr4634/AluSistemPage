@@ -30,14 +30,14 @@
             <div class="row m-2">
                 <div class="col-md-4 p-0">Apellido</div>
                 <div class="col-md-4 p-0">
-                    <RadzenTextBox @bind-Value=@_alumno.Apellido Style="width:300px"/>
+                    <RadzenTextBox @bind-Value=@_alumno.Apellido Style="width:300px" Disabled=@(!string.IsNullOrEmpty(_alumno.Apellido))/>
                     <small><ValidationMessage For="@(() => _alumno.Apellido)" /></small>
                 </div>
             </div>
             <div class="row m-2">
                 <div class="col-md-4 p-0">Nombre</div>
                 <div class="col-md-4 p-0">
-                    <RadzenTextBox Placeholder="" @bind-Value=@_alumno.Nombre Style="width:300px"/>
+                    <RadzenTextBox Placeholder="" @bind-Value=@_alumno.Nombre Style="width:300px"  Disabled=@(!string.IsNullOrEmpty(_alumno.Nombre))/>
                     <small><ValidationMessage For="@(() => _alumno.Nombre)" /></small>
                 </div>
 
@@ -45,7 +45,8 @@
             <div class="row m-2">
                 <div class="col-md-4 p-0">Sexo</div>
                 <div class="col-md-4 p-0">                    
-                    <RadzenDropDown @bind-Value=@_alumno.Sexo AllowClear="true" TValue="string" Style="width:200px"  Data=@_listSexo  TextProperty="descripcion" ValueProperty="id" />
+                    <RadzenDropDown @bind-Value=@_alumno.Sexo AllowClear="true" TValue="string" Style="width:200px"  
+                                    Data=@_listSexo  TextProperty="descripcion" ValueProperty="id" Disabled=@(!string.IsNullOrEmpty(_alumno.Sexo)) />
                     <small><ValidationMessage For="@(() => _alumno.Sexo)" /></small>
                 </div>
 
@@ -53,7 +54,7 @@
             <div class="row m-2">
                 <div class="col-md-4 p-0">Nacionalidad</div>
                 <div class="col-md-4 p-0">
-                    <RadzenTextBox Placeholder="" @bind-Value=@_alumno.Nacionalidad Style="width:300px"/>
+                    <RadzenTextBox Placeholder="" @bind-Value=@_alumno.Nacionalidad Style="width:300px" Disabled=@(!string.IsNullOrEmpty(_alumno.Nacionalidad))/>
                     <small><ValidationMessage For="@(() => _alumno.Nacionalidad)" /></small>
                 </div>
 
@@ -61,14 +62,15 @@
             <div class="row m-2">
                 <div class="col-md-4 p-0">Estado Civil</div>
                 <div class="col-md-4 p-0">                    
-                    <RadzenDropDown @bind-Value=@_alumno.EstadoCivil AllowClear="true" TValue="string" Style="width:200px"  Data=@_listEstadoCivil  TextProperty="descripcion" ValueProperty="id" />
+                    <RadzenDropDown @bind-Value=@_alumno.EstadoCivil AllowClear="true" TValue="string" Style="width:200px"  
+                                    Data=@_listEstadoCivil  TextProperty="descripcion" ValueProperty="id" Disabled=@(!string.IsNullOrEmpty(_alumno.EstadoCivil))/>
                     <small><ValidationMessage For="@(() => _alumno.EstadoCivil)" /></small>
                 </div>
             </div>
             <div class="row m-2">
                 <div class="col-md-4 p-0">Fecha Nacimiento</div>
                 <div class="col-md-4 p-0">
-                    <RadzenDatePicker @bind-Value=@_alumno.FechaNacimiento DateFormat="d" />
+                    <RadzenDatePicker @bind-Value=@_alumno.FechaNacimiento DateFormat="d" Disabled=@(_alumno.FechaNacimiento != null)/>
                     <small><ValidationMessage For="@(() => _alumno.FechaNacimiento)" /></small>
                 </div>
 
@@ -76,7 +78,7 @@
             <div class="row m-2">
                 <div class="col-md-4 p-0">Lugar de nacimiento</div>
                 <div class="col-md-4 p-0">
-                    <RadzenTextBox Placeholder="" @bind-Value=@_alumno.LugarNacimiento Style="width:300px"/>
+                    <RadzenTextBox Placeholder="" @bind-Value=@_alumno.LugarNacimiento Style="width:300px" Disabled=@(!string.IsNullOrEmpty(_alumno.LugarNacimiento))/>
                     <small><ValidationMessage For="@(() => _alumno.LugarNacimiento)" /></small>
                 </div>
 
@@ -84,7 +86,7 @@
             <div class="row m-2">
                 <div class="col-md-4 p-0">Provincia de Nacimiento</div>
                 <div class="col-md-4 p-0">
-                    <RadzenTextBox Placeholder="" @bind-Value=@_alumno.ProvinciaNacimiento />
+                    <RadzenTextBox Placeholder="" @bind-Value=@_alumno.ProvinciaNacimiento Disabled=@(!string.IsNullOrEmpty(_alumno.ProvinciaNacimiento))/>
                     <small><ValidationMessage For="@(() => _alumno.ProvinciaNacimiento)" /></small>
                 </div>
 
@@ -92,7 +94,7 @@
             <div class="row m-2">
                 <div class="col-md-4 p-0">Domicilio</div>
                 <div class="col-md-4 p-0">
-                    <RadzenTextBox Placeholder="" @bind-Value=@_alumno.Domicilio Style="width:300px"/>
+                    <RadzenTextBox Placeholder="" @bind-Value=@_alumno.Domicilio Style="width:300px" Disabled=@(!string.IsNullOrEmpty(_alumno.Domicilio))/>
                     <small><ValidationMessage For="@(() => _alumno.Domicilio)" /></small>
                 </div>
 
@@ -100,7 +102,7 @@
             <div class="row m-2">
                 <div class="col-md-4 p-0">Localidad</div>
                 <div class="col-md-4 p-0">
-                    <RadzenTextBox Placeholder="" @bind-Value=@_alumno.Localidad Style="width:300px"/>
+                    <RadzenTextBox Placeholder="" @bind-Value=@_alumno.Localidad Style="width:300px" Disabled=@(!string.IsNullOrEmpty(_alumno.Localidad))/>
                     <small><ValidationMessage For="@(() => _alumno.Localidad)" /></small>
                 </div>
 
@@ -108,7 +110,7 @@
             <div class="row m-2">
                 <div class="col-md-4 p-0">Codigo Postal</div>
                 <div class="col-md-4 p-0">
-                    <RadzenTextBox Placeholder="" @bind-Value=@_alumno.CodigoPostal Style="width:200px"/>
+                    <RadzenTextBox Placeholder="" @bind-Value=@_alumno.CodigoPostal Style="width:200px" Disabled=@(!string.IsNullOrEmpty(_alumno.CodigoPostal))/>
                     <small><ValidationMessage For="@(() => _alumno.CodigoPostal)" /></small>
                 </div>
 
@@ -116,7 +118,7 @@
             <div class="row m-2">
                 <div class="col-md-4 p-0">Telefono</div>
                 <div class="col-md-4 p-0">
-                    <RadzenTextBox Placeholder="" @bind-Value=@_alumno.Telefono Style="width:300px"/>
+                    <RadzenTextBox Placeholder="" @bind-Value=@_alumno.Telefono Style="width:300px" Disabled=@(!string.IsNullOrEmpty(_alumno.Telefono))/>
                     <small><ValidationMessage For="@(() => _alumno.Telefono)" /></small>
                 </div>
 
@@ -124,7 +126,7 @@
             <div class="row m-2">
                 <div class="col-md-4 p-0">Numero de Celular</div>
                 <div class="col-md-4 p-0">
-                    <RadzenTextBox Placeholder="" @bind-Value=@_alumno.Celular />
+                    <RadzenTextBox Placeholder="" @bind-Value=@_alumno.Celular Disabled=@(!string.IsNullOrEmpty(_alumno.Celular))/>
                     <small><ValidationMessage For="@(() => _alumno.Celular)" /></small>
                 </div>
 
@@ -132,7 +134,7 @@
             <div class="row m-2">
                 <div class="col-md-4 p-0">Mail</div>
                 <div class="col-md-4 p-0">
-                    <RadzenTextBox Placeholder="" @bind-Value=@_alumno.Mail Style="width:300px"/>
+                    <RadzenTextBox Placeholder="" @bind-Value=@_alumno.Mail Style="width:300px" Disabled=@(!string.IsNullOrEmpty(_alumno.Mail))/>
                     <small><ValidationMessage For="@(() => _alumno.Mail)" /></small>
                 </div>
 
@@ -142,7 +144,9 @@
             <div class="row m-2">
                 <div class="col-md-4 p-0">Foto</div>
                 <div class="col-md-4 p-0">            
-                    <RadzenUpload ChooseText="Subir Imagen" Url="upload/single" Style="background-color:null" Progress=@(args => OnProgress(args)) Error=@(args => OnError(args)) Disabled="@(_carrera.Baja == "S")"/>    
+                    <RadzenUpload ChooseText="Subir Imagen" Url="upload/single" Style="background-color:null" 
+                                  Progress=@(args => OnProgress(args)) Error=@(args => OnError(args)) Disabled="@(_carrera.Baja == "S")"
+                                  />    
                 </div>
             </div> 
             <div class="row m-2">

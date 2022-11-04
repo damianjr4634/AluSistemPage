@@ -82,10 +82,11 @@ namespace EsbaBlazorAppAuth.Pages.Alumno
                     _alumno = await dbContext.Alumnos.Where(r => r.Id == _carrera.IdAlumno).SingleOrDefaultAsync(); 
                     if (_alumno == null) {
                         _add = true;
-                        query = @$"select INDICE AS ID, NOM_APE AS NOMBRE, APELLIDO, COD_ALU AS CODIGOALUMNO, CARRE AS CARRERAID,
-                                            SEXO, NACIONAL AS NACIONALIDAD, EST_CIV AS ESTADOCIVIL, FEC_NAC AS FECHANACIMIENTO,
-                                            LUG_NAC AS LUGARNACIMIENTO, PCIA_NAC AS PROVINCIANACIMIENTO, DOMI AS DOMICILIO,
-                                            LOCALI AS LOCALIDAD, COD_POS AS CODIGOPOSTAL, TELE AS TELEFONO, MAIL, CELULAR,
+                        query = @$"select INDICE AS ID, NOM_APE AS NOMBRE, trim(APELLIDO) as APELLIDO, COD_ALU AS CODIGOALUMNO, CARRE AS CARRERAID,
+                                            TRIM(SEXO) AS SEXO, TRIM(NACIONAL) AS NACIONALIDAD, TRIM(EST_CIV) AS ESTADOCIVIL, FEC_NAC AS FECHANACIMIENTO,
+                                            TRIM(LUG_NAC) AS LUGARNACIMIENTO, TRIM(PCIA_NAC) AS PROVINCIANACIMIENTO, TRIM(DOMI) AS DOMICILIO,
+                                            TRIM(LOCALI) AS LOCALIDAD, TRIM(COD_POS) AS CODIGOPOSTAL, TRIM(TELE) AS TELEFONO, TRIM(MAIL) AS MAIL, 
+                                            TRIM(CELULAR) AS CELULAR,
                                             'S' AS CAMBIO, CURRENT_TIMESTAMP AS ULTIMAACTUALIZACION
                                     from ALUMNOS WA
                                     WHERE INDICE = {_carrera.IdAlumno}";
