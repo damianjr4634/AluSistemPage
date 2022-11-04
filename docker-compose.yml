@@ -1,7 +1,7 @@
 version: '3.3'
 services:
   app:
-    image: alusistempage3
+    image: alusistempage_1.1
     restart: always
     environment:
       ASPNETCORE_URLS: "http://0.0.0.0:5000"
@@ -9,7 +9,8 @@ services:
       ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
       MailConfiguracion__Smtp: "smtp.gmail.com"
       MailConfiguracion__Port: 587
-      ConnectionStrings__DefaultConnection: "User=SYSDBA;Password=masterkey;Database=/pool/firebird/esba.gdb;DataSource=172.17.0.1;Port=3050;Dialect=3;Charset=ISO8859_1;Role=;Connection lifetime=15;Pooling=true;MinPoolSize=0;MaxPoolSize=50;Packet Size=8192;ServerType=0;"
+      MailConfiguracion__AdministrativeMail: "fdg@esbabarrionorte.edu.ar,secretaria@esbabarrionorte.edu.ar,nleon@esbabarrionorte.edu.ar"
+      ConnectionStrings__DefaultConnection: "User=SYSDBA;Password=masterkey;Database=/pool/firebird/esba.gdb;DataSource=172.17.0.1;Port=3050;Dialect=3;Charset=ISO8859_1;Role=;Connection lifetime=15;Pooling=true;MinPoolSize=0;MaxPoolSize=50;Packet Size=8192;ServerType=0;"      
     ports:
       - 5000:5000
     build:
