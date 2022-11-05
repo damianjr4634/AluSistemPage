@@ -46,6 +46,8 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
             public bool permiso { set; get; }
             public bool inscripcion { set; get; }
             public bool tienepermiso { set; get; }
+            public string? errorinscripcion { set; get; }
+            public string? errorfinal { set; get; } 
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -97,7 +99,7 @@ namespace EsbaBlazorAppAuth.Pages.Alumno.Materias
 
                     _materiasCursadas = await dbContext.QueryAsync<MateriaCursadaDto>(@$"select cuatrim, codmat, descripci, condicion, cuaanio, 
                                                                                         nota, fecha, anual, cutuco, vencim, htmlcolor, htmlfontcolor,
-                                                                                        permiso, inscripcion, tienepermiso
+                                                                                        permiso, inscripcion, tienepermiso /*, errorinscripcion, errorfinal*/
                                                                                 from xxx_constancia_terciaria(@codalu,@carrera)",
                                                                                 new
                                                                                 {

@@ -15,6 +15,7 @@ namespace EsbaBlazorAppAuth.Data
         [Key]
         public int IdAlumno { get; set; }
         public string IdCarrera { get; set; } = default!;
+        public string TipoCarrera { get; set; } = default!;
         public string Adistancia { get; set; } = default!;
         public string NombreCarrera { get; set; } = default!;
         public string DocumentoAlumno { get; set; } = default!; 

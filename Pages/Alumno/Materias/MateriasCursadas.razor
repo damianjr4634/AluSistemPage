@@ -11,7 +11,7 @@
         <span style="font-size:12px"><b>@_carrera.NombreCarrera</b></span>
     </div>
     <div class="col text-right">
-        @if (_carrera.IdCarrera == "333" || _carrera.IdCarrera == "650")
+        @if (_carrera.TipoCarrera != "TER")
         {
             <button type="button" @onclick="@(() => {_viewFaltas=true; })" 
                                     class="btn btn-primary pt-1 pb-1 pl-2 pr-2" style="background-color: green">
@@ -35,6 +35,11 @@
                     </HeaderTemplate>
                 </RadzenDataGridColumn>
                 <RadzenDataGridColumn Width="80px" TItem="MateriaCursadaDto" Property="cuatrim" TextAlign="TextAlign.Center">
+                    <HeaderTemplate>
+                        <div class="grid-column-title" style="width: 50px;">
+                            <b>Info</b>
+                        </div>
+                    </HeaderTemplate>
                     <Template Context="data">
                         @if (data.condicion != "* ADEUDA *" && data.condicion != "EQUIVALENCIA" && data.condicion != "**INSCRIPTO**" )  
                         {  
@@ -114,7 +119,9 @@
                         </div>
                     </HeaderTemplate>
                     <Template Context="data">               
-                        <span style="font-size:15px">@data.descripci</span>                
+                        <div class="grid-column-data">
+                            @data.descripci                
+                        </div>
                     </Template>
                 </RadzenDataGridColumn>          
                 <RadzenDataGridColumn Width="170px" TItem="MateriaCursadaDto" Property="condicion" TextAlign="TextAlign.Center">  
@@ -123,8 +130,10 @@
                             <b>Estado</b>
                         </div>
                     </HeaderTemplate>
-                    <Template Context="data">               
-                        <span style="font-size:12px;color:@data.htmlfontcolor;"><b>@data.condicion</b></span>                
+                    <Template Context="data">
+                        <div class="grid-column-data">               
+                            <span style="color:@data.htmlfontcolor;"><b>@data.condicion</b></span>
+                        </div>                
                     </Template>
                 </RadzenDataGridColumn>
                 <RadzenDataGridColumn Width="100px" TItem="MateriaCursadaDto" Property="cuaanio" TextAlign="TextAlign.Center">
@@ -134,7 +143,9 @@
                         </div>
                     </HeaderTemplate>
                     <Template Context="data">               
-                        <span style="font-size:15px;">@data.cuaanio</span>                
+                        <div class="grid-column-data">
+                            @data.cuaanio
+                        </div>                
                     </Template>
                 </RadzenDataGridColumn>  
                 <RadzenDataGridColumn Width="80px" TItem="MateriaCursadaDto" Property="nota" TextAlign="TextAlign.Right" >
@@ -144,7 +155,9 @@
                         </div>                       
                     </HeaderTemplate>
                     <Template Context="data">               
-                        <span style="font-size:15px;"><b>@String.Format("{0:N2}",data.nota)</b></span>                
+                        <div class="grid-column-data">
+                            <b>@String.Format("{0:N2}",data.nota)</b>
+                        </div>                
                     </Template>
                 </RadzenDataGridColumn>  
                 <RadzenDataGridColumn Width="120px" TItem="MateriaCursadaDto" Property="fecha">
@@ -155,10 +168,27 @@
                     </HeaderTemplate>
                     <Template Context="data">             
                         @if (data.fecha != null)  {
-                            <span style="font-size:15px;"> @data.fecha.Value.ToString("dd/MM/yyyy")</span>
+                            <div class="grid-column-data">
+                                @data.fecha.Value.ToString("dd/MM/yyyy")
+                            </div>
                         }
                     </Template>
-                </RadzenDataGridColumn>            
+                </RadzenDataGridColumn> 
+                @if (_carrera.TipoCarrera == "TER")
+                {
+                    <RadzenDataGridColumn Width="120px" TItem="MateriaCursadaDto" Property="vencim">
+                        <HeaderTemplate>
+                            <div class="grid-column-title" style="width: 100px;">
+                                <b>Vencimiento<br>regularidad</b>
+                            </div>
+                        </HeaderTemplate>
+                        <Template Context="data">             
+                            <div class="grid-column-data">
+                                @data.vencim
+                            </div>                
+                        </Template>
+                    </RadzenDataGridColumn>
+                }                 
             </Columns>
         </RadzenDataGrid>
     </div>

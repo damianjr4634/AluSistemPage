@@ -65,5 +65,10 @@ a, .btn-link {
 .grid-column-title {
     text-align: center;  
     margin-left: 0px;
-    font-size:14pt;
+    font-size:12pt;
+}
+
+.grid-column-data {  
+    margin-left: 0px;
+    font-size:10pt;
 }

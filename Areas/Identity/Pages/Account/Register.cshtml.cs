@@ -130,12 +130,15 @@ namespace EsbaBlazorAppAuth.Areas.Identity.Pages.Account
                     {
                         _type = "Padre/Tutor";
                     }
-
+                    
                     await _emailSender.SendEmailAsync(Input.Email, "ESBA Confirmacion de mail",
-                        $@"Bienvenido {Input.LastName} {Input.Name}. 
-                           Solicitaste acceso a la web del instituto como {_type}, por favor confirmá el mail haciendo click <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>aquí</a>. 
-                           Si después de confirmar el mail al ingresar al sitio te dice, El usuario no tiene carreras asignadas.
-                           Esperá un tiempo hasta que Secretaría de Alumnos verifique los datos y active el ingreso. Si tarda mas de 24hs comunicate con nosotros.
+                        $@"<span style=""font-size:12pt"">
+                           Bienvenido <b>{Input.LastName} {Input.Name}</b>. <br> 
+                           Solicitaste acceso a la web del instituto como {_type}, por favor confirmá el mail haciendo click <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>aquí</a>. <br> 
+                           Dentro de las 48 hs hábiles verificaremos tus datos y activaremos el ingreso. <br> 
+                           Una vez transcurrido ese tiempo podrás acceder a la página web. </br>
+                           Ante cualquier consulta, comunicate con nosotros.
+                           </span>
                            ");
 
                     /*if (!string.IsNullOrEmpty(_configuration.GetValue<string>("MailConfiguration:AdministrativeMail")))

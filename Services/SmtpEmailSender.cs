@@ -71,7 +71,10 @@ namespace EsbaBlazorAppAuth.Services
 
                 };
                 mailMessage.To.Add(email);
-                mailMessage.Bcc.Add(_administrativeMail);
+                if (!string.IsNullOrEmpty(_administrativeMail))
+                {
+                    mailMessage.Bcc.Add(_administrativeMail);
+                }
                 mailMessage.Subject = subject;
                 mailMessage.IsBodyHtml = true;
 

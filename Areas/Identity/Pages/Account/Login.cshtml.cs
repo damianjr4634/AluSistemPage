@@ -106,7 +106,7 @@ namespace EsbaBlazorAppAuth.Areas.Identity.Pages.Account
                 }
                 if (result.IsNotAllowed)
                 {
-                    ModelState.AddModelError(string.Empty, "El usuario no tiene carreras asignadas. Avise al Instituto para terminar de habilitar el ingreso");
+                    ModelState.AddModelError(string.Empty, "Valide el mail con el link que se le envio. Si ya lo hizo espere a que el Instituto active su ingreso.");
                     return Page();
                 }
                 else
