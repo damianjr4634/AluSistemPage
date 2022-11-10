@@ -53,7 +53,8 @@ namespace EsbaBlazorAppAuth.Pages
                                                                                                 FAPTFIS as AptoFisico, FAPTFEC as FechaAptoFisico,
                                                                                                 FFOTO as foto ,FPARNAC as PartidaNacimiento, 
                                                                                                 NOMIPASE as FotocopiaNominaPase,DNI as Documento,
-                                                                                                CA as ConstanciaAnalitico
+                                                                                                iif(CA='*','S','N') as ConstanciaAnalitico,
+                                                                                                fech_ctt as FechaContanciaTituloTramite
                                                                                         from alumnos 
                                                                                         where indice=@indice",
                         new {
